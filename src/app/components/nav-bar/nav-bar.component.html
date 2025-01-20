@@ -1,0 +1,44 @@
+<div class="navbar">
+    <!-- Logo a la izquierda -->
+    <div class="navbar-left">
+        <img src="https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png" alt="Logo" class="logo">
+    </div>
+
+    <!-- Menú -->
+    <nz-icon
+        nzType="menu"
+        class="hamburger-icon"
+        (click)="toggleMenu()"
+    ></nz-icon>
+    <ul nz-menu [hidden]="isCollapsed" [class.collapsed]="isCollapsed" style="font-size: 18px;">
+        <ng-container *ngFor="let item of menuItems">
+            <li *ngIf="!item.children" nz-menu-item>
+                <nz-icon [nzType]="item.icon" style="font-size: 18px;"></nz-icon>
+                <a [routerLink]="item.route">{{ item.label }}</a>
+            </li>
+            <!-- <li *ngIf="item.children" nz-submenu [nzTitle]="item.label" [nzIcon]="item.icon">
+                <ul>
+                    <ng-container *ngFor="let child of item.children">
+                        <li *ngIf="!child.children" nz-menu-item>
+                            <a [routerLink]="child.route">{{ child.label }}</a>
+                        </li>
+                        <li *ngIf="child.children" nz-submenu [nzTitle]="child.label">
+                            <ul>
+                                <ng-container *ngFor="let subChild of child.children">
+                                    <li nz-menu-item>
+                                        <a [routerLink]="subChild.route">{{ subChild.label }}</a>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </li>
+                    </ng-container>
+                </ul>
+            </li> -->
+        </ng-container>
+    </ul>
+
+    <!-- Botón para cambiar idioma a la derecha -->
+    <div class="navbar-right">
+        <button class="language-button" (click)="changeLanguage()">ES/EN</button>
+    </div>
+</div>

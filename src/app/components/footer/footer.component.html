@@ -1,0 +1,47 @@
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Logo y descripción -->
+            <div class="col-md-4 mb-4 text-center text-md-start">
+                <img src="https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png" alt="Logo" class="mb-3 logo-footer">
+            </div>
+
+            <!-- Enlaces rápidos -->
+            <div class="col-md-4 mb-4 text-center">
+                <h5 class="mb-3">Enlaces rápidos</h5>
+                <ul class="list-unstyled">
+                    <li *ngFor="let ruta of rutas">
+                        <a [href]="ruta.route" class="text-link">
+                            {{ ruta.label }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="col-md-4 mb-4 text-center text-md-end">
+                <h5 class="mb-3">Síguenos</h5>
+                <div class="d-flex justify-content-center justify-content-md-end gap-3">
+                    <a href="https://www.tiktok.com" target="_blank" class="social-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.facebook.com" target="_blank" class="social-icon">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.x.com" target="_blank" class="social-icon">
+                        <img src="https://i.postimg.cc/DzSxCNJG/X.png" alt="X logo">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="border-light">
+        <div class="text-center">
+            <p class="mb-0">&copy; 2025 COOPSISA. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>

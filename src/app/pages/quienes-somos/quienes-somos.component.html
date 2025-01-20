@@ -1,0 +1,64 @@
+<div class="quienes-somos">
+    <nz-card nzTitle="Sobre COOPSISA" [nzBordered]="true" style="margin-bottom: 16px;">
+        <p>La COOPSISA es la primera cooperativa de servicios en Ecuador enfocada en la innovación y sostenibilidad,
+            promoviendo modelos asociativos que contribuyan con la productividad local y nacional. Nuestra labor se basa
+            en los principios de la Economía Social y Solidaria y en el estricto cumplimiento de los valores del
+            cooperativismo, promoviendo el desarrollo sostenible, derechos humanos y la justicia social en los
+            territorios donde trabajamos.</p>
+        <p>Somos 26 profesionales ecuatorianos y ecuatorianas que unimos nuestras capacidades para transformar
+            comunidades a lo largo del país. A través de la innovación social, tecnológica y pública, buscamos alcanzar
+            la sostenibilidad financiera y ambiental, fortaleciendo procesos socio-organizativos y contribuyendo en la
+            inclusión social y financiera para mejorar la calidad de vida de las personas en diversas localidades.</p>
+        <p>El compromiso colectivo y profesional de quienes integramos COOPSISA se centra en contribuir al desarrollo
+            sostenible de Ecuador mediante la consolidación de un modelo empresarial basado en reciprocidad,
+            responsabilidad y redistribución, valores fundamentales de la economía social y solidaria.</p>
+    </nz-card>
+
+
+    <nz-card nzTitle="Evolución de COOPSISA" [nzBordered]="true">
+        <div nz-flex [nzVertical]="isVertical" class="timeline-container">
+            <div *ngFor="let event of timelineEvents" class="timeline-item">
+                <div class="timeline-content">
+                    <strong>{{ event.year }}:</strong> {{ event.description }}
+                </div>
+            </div>
+        </div>
+    </nz-card>
+
+    <div class="equipo">
+        <h2>Nuestros Socios</h2>
+        <div nz-row [nzGutter]="16" nzJustify="center">
+            <div nz-col *ngFor="let miembro of equipo" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+                <nz-card class="equipo-card">
+                    <div class="foto-container">
+                        <img [src]="miembro.foto" alt="{{ miembro.nombre }}" class="foto-circular" />
+                    </div>
+                    <div class="info-container">
+                        <h3>{{ miembro.nombre }}</h3>
+                        <p>{{ miembro.cargo }}</p>
+                    </div>
+                </nz-card>
+            </div>
+        </div>
+    </div>
+
+    <div class="transparencia-resultados">
+        <nz-card nzTitle="Transparencia y Resultados" [nzBordered]="true">
+            <nz-list [nzBordered]="false" [nzSplit]="false">
+                <nz-list-item>
+                    <nz-list-item-meta nzTitle="Informes Anuales"
+                        nzDescription="Reportes financieros y de impacto organizados por proyecto o institución."></nz-list-item-meta>
+                </nz-list-item>
+                <nz-list-item>
+                    <nz-list-item-meta nzTitle="Certificaciones"
+                        nzDescription="Reconocimientos y estándares cumplidos (sostenibilidad, transparencia financiera)."></nz-list-item-meta>
+                </nz-list-item>
+                <nz-list-item>
+                    <nz-list-item-meta nzTitle="Indicadores Clave"
+                        nzDescription="KPI que reflejan el impacto medible."></nz-list-item-meta>
+                </nz-list-item>
+            </nz-list>
+        </nz-card>
+    </div>
+
+</div>

@@ -1,0 +1,109 @@
+<div class="container-fluid py-5">
+    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px; margin-top: 130px;">
+        <h1 class="display-7 mb-3">Laboratorios de Innovación</h1>
+        <p class="mb-3" style="font-size: 18px;">Diseñamos soluciones productivas y de servicios desde un enfoque
+            innovador y sostenible,
+            abordando desafíos sociales, ambientales y económicos.</p>
+    </div>
+
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" *ngFor="let lab of laboratorios">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <nz-icon [nzType]="lab.icono" nzTheme="outline"
+                            style="font-size: 40px; color: #C5BB63;"></nz-icon>
+                        <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
+                        <button class="btn btn-primary mt-3" (click)="openModal(lab)">Más información</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+        [nzFooter]="modalFooter">
+        <ng-container *nzModalContent>
+            <div style="
+            padding: 30px; 
+            font-size: 16px; 
+            line-height: 1.6; 
+            color: #333; 
+            background-color: #f9f9f9;
+            border-radius: 0 0 15px 15px;">
+                <p>{{ selectedLab?.descripcion }}</p>
+            </div>
+        </ng-container>
+    </nz-modal>
+
+    <ng-template #modalFooter>
+        <button nz-button style="background-color: #7969A8; color: white; margin-right: 8px; border-radius: 15px 15px;"
+            (click)="handleCancel()">
+            <span>Cerrar</span>
+        </button>
+        <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
+            (click)="handleOk()">
+            <span>OK</span>
+        </button>
+    </ng-template>
+</div>
+<div class="container-fluid py-5">
+    <nz-collapse>
+        <nz-collapse-panel nzHeader="Modalidades de asistencia" [nzActive]="true"
+            style="background-color: #f9f9f9; border-radius: 8px; border: 1px solid #d9d9d9; transition: background-color 0.3s;">
+            <div class="panel-content"
+                style="position: relative; padding: 20px; background-image: url('https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png'); background-size: cover; background-position: center; border-radius: 8px;">
+                <div class="panel-text"
+                    style="background-color: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 8px;">
+                    <p style="font-weight: bold;">Centro de negocios solidarios</p>
+                    <nz-list [nzBordered]="false">
+                        <nz-list-item style="padding: 8px 0; transition: background-color 0.3s;">
+                            <strong>Fortalecimiento Organizativo</strong>
+                            <p>Asesoramos y capacitamos a comunidades y organizaciones para que se conviertan en agentes
+                                de
+                                cambio efectivos y sostenibles, promoviendo la participación, la inclusión y el
+                                desarrollo
+                                colectivo.</p>
+                        </nz-list-item>
+                        <nz-list-item style="padding: 8px 0; transition: background-color 0.3s;">
+                            <strong>Asistencia técnica para las finanzas sostenibles</strong>
+                            <p>Apoyamos la creación de espacios de microfinanzas basados en la confianza, desarrollando
+                                soluciones éticas, social y ambientalmente responsables.</p>
+                        </nz-list-item>
+                        <nz-list-item style="padding: 8px 0; transition: background-color 0.3s;">
+                            <strong>Espacios de comercialización</strong>
+                            <p>Asesoramos en la creación y fortalecimiento de espacios comerciales físicos y virtuales,
+                                basados
+                                en procesos de intercambio respetuosos y justos.</p>
+                        </nz-list-item>
+                    </nz-list>
+                </div>
+            </div>
+        </nz-collapse-panel>
+
+        <nz-collapse-panel nzHeader="Escuela de formación y comercio justo" [nzActive]="false"
+            style="background-color: #f9f9f9; border-radius: 8px; border: 1px solid #d9d9d9; transition: background-color 0.3s;">
+            <div class="panel-content"
+                style="position: relative; padding: 20px; background-image: url('https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png'); background-size: cover; background-position: center; border-radius: 8px;">
+                <div class="panel-text"
+                    style="background-color: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 8px;">
+                    <nz-list [nzBordered]="false">
+                        <nz-list-item style="padding: 8px 0; transition: background-color 0.3s;">
+                            <strong>Fortalecimiento de capacidades</strong>
+                            <p>Ofrecemos capacitaciones y asistencia técnica para empoderar a individuos, grupos y
+                                organizaciones con herramientas necesarias para generar impacto positivo en sus
+                                comunidades.</p>
+                        </nz-list-item>
+                        <nz-list-item style="padding: 8px 0; transition: background-color 0.3s;">
+                            <strong>Importación y exportación sostenible</strong>
+                            <p>Facilitamos procesos de comercio internacional con prácticas económicas, sociales y
+                                ambientales
+                                responsables, garantizando la sostenibilidad para futuras generaciones.</p>
+                        </nz-list-item>
+                    </nz-list>
+                </div>
+            </div>
+        </nz-collapse-panel>
+    </nz-collapse>
+</div>

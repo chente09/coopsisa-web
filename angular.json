@@ -24,12 +24,22 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              },
+              "src/icon.ico",
+              "src/icon.png"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.min.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {
@@ -85,6 +95,7 @@
               }
             ],
             "styles": [
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -92,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "b7899f74-2e49-446a-a0a3-992c50605568"
   }
 }

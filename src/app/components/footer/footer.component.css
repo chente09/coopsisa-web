@@ -1,0 +1,87 @@
+.footer {
+    background-color: #333333; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    padding: 40px 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.footer .logo-footer {
+    max-width: 150px;
+    height: auto;
+}
+
+.footer h5 {
+    color: #EF625F; /* Color principal para títulos */
+    font-weight: bold;
+}
+
+.footer a { /* Color principal para enlaces */
+    transition: color 0.3s ease;
+}
+
+.footer hr {
+    border-color: rgba(255, 255, 255, 0.2); /* Línea divisoria tenue */
+}
+
+.footer .text-center p {
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .footer .text-md-start {
+        text-align: center !important;
+    }
+
+    .footer .text-md-end {
+        text-align: center !important;
+    }
+}
+
+.text-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 4px 15px;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.text-link:hover {
+    color: #F49E59; /* Cambia el color en hover */
+    transform: scale(1.2); /* Agranda y rota ligeramente el elemento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para dar un efecto de elevación */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    letter-spacing: 1px; /* Aumenta el espaciado entre letras */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Añade sombra al texto */
+}
+
+.footer .social-icon {
+    color: white;
+    font-size: 24px; /* Tamaño del ícono */
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    padding: 4px 10px;
+}
+
+.footer .social-icon:hover {
+    color: #F49E59; /* Cambia el color en hover */
+    transform: scale(1.2); /* Agranda y rota ligeramente el elemento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para dar un efecto de elevación */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    letter-spacing: 1px; /* Aumenta el espaciado entre letras */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Añade sombra al texto */
+}
+
+.footer .social-icon img {
+    transition: transform 0.3s ease;
+    width: 18px;
+    height: 18px;
+}
+
+.footer .social-icon img:hover {
+    transform: scale(1.2); /* Agranda el ícono de la imagen ligeramente */
+}

@@ -1,0 +1,247 @@
+/* Contenedor general para el componente */
+.quienes-somos {
+    padding: 130px 20px 40px;
+    /* Espacio suficiente para evitar superposición con el navbar */
+    background-color: #f7f7f7;
+    /* Fondo claro para un buen contraste */
+}
+
+/* Estilos para las tarjetas */
+.nz-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil para profundidad */
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Títulos de las tarjetas */
+.nz-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Párrafos dentro de las tarjetas */
+.nz-card-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 16px;
+}
+
+/* Contenedor general de la línea de tiempo */
+.timeline-container {
+    overflow-x: scroll;
+    /* Habilitar scroll horizontal */
+    white-space: nowrap;
+    /* Asegurar que los elementos no se rompan a la siguiente línea */
+    padding: 20px 0;
+    display: flex;
+    /* Usar flex para permitir alineación horizontal */
+    scrollbar-width: none;
+}
+
+
+/* Elementos de la línea de tiempo */
+.timeline-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    width: 200px;
+    /* Fijar un ancho consistente */
+    white-space: normal;
+    /* Permitir que el texto haga wrap */
+    margin-right: 50px;
+    /* Espacio entre elementos */
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    /* Línea horizontal */
+    width: 100%;
+    background-color: #F49E59;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+}
+
+.timeline-item:last-child::after {
+    display: none;
+    /* Ocultar la línea en el último ítem */
+}
+
+/* Contenido de los ítems de la línea de tiempo */
+.timeline-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    width: 200px;
+    /* Fijar un ancho para el contenido */
+    height: 200px;
+    /* Fijar una altura para el contenido */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+/* Estilo de los años y descripción */
+.timeline-item strong {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #F49E59;
+}
+
+/* Efecto hover para el contenido de la línea de tiempo */
+.timeline-content:hover {
+    transform: scale(1.05);
+    /* Ligero aumento para resaltar */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #F49E59;
+    background-color: #333;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    .quienes-somos {
+        padding: 130px 15px 30px;
+        /* Menor padding en dispositivos móviles */
+    }
+
+    .nz-card-title {
+        font-size: 20px;
+        /* Título más pequeño en pantallas pequeñas */
+    }
+
+    .timeline-content {
+        width: 180px;
+        /* Reducir ancho en pantallas pequeñas */
+        height: 180px;
+        /* Reducir altura en pantallas pequeñas */
+        font-size: 14px;
+        /* Texto más pequeño para ajustar en pantallas pequeñas */
+    }
+}
+
+/******* Equipo  ********/
+
+.equipo {
+    padding: 20px 25px;
+    background-color: #f5f5f5;
+    /* Fondo claro */
+    text-align: center;
+}
+
+.equipo-card {
+    margin-bottom: 10px;
+    height: 350px;
+}
+
+.foto-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 16px;
+    padding: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(197, 187, 99, 0.607);
+}
+
+.foto-circular {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.foto-circular:hover {
+    transform: scale(1.1);
+    /* Agrandar ligeramente la imagen */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    /* Sombra más pronunciada */
+}
+
+.info-container {
+    transition: color 0.3s ease;
+    padding-bottom: 5px;
+    background-color: rgba(197, 187, 99, 0.607);
+}
+
+.info-container h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.info-container p {
+    font-size: 14px;
+    color: #666;
+}
+
+.info-container:hover h3,
+.info-container:hover p {
+    color: white;
+    /* Cambiar color del texto en hover */
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    .foto-circular {
+        width: 80px;
+        height: 80px;
+    }
+
+    .info-container h3 {
+        font-size: 16px;
+    }
+
+    .info-container p {
+        font-size: 12px;
+    }
+}
+
+/* ******* Transparencia y Resultados  ******** */
+.transparencia-resultados {
+    padding: 20px;
+    background-color: #f9f9f9;
+    /* Fondo claro */
+}
+
+.nz-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    border-radius: 8px;
+}
+
+.nz-list-item-meta-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.nz-list-item-meta-description {
+    font-size: 14px;
+    color: #666;
+}
+
+.nz-list-item:hover {
+    background-color: #f0f0f0;
+    /* Fondo al pasar el ratón */
+    transition: background-color 0.3s ease;
+}

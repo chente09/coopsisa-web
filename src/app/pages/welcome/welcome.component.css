@@ -1,0 +1,183 @@
+/* Estilo general del carrusel */
+.carousel-item img {
+    max-height: 500px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.1s ease-in-out;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.05);
+    /* Efecto de zoom suave al pasar el mouse */
+}
+
+/* Fondo degradado para la leyenda */
+.carousel-caption {
+    background: linear-gradient(to bottom, rgba(239, 98, 95, 1), rgba(0, 0, 0, 0.3));
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    max-width: 80%;
+    margin: auto;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Transición para el texto */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo del texto */
+.carousel-caption h5 {
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1rem;
+}
+
+/* Botones modernos */
+.carousel-caption .btn {
+    background-color: #EF625F;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-caption .btn:hover {
+    background-color: #EF625F;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Adaptabilidad */
+@media (max-width: 768px) {
+    .carousel-caption {
+        padding: 1rem;
+    }
+
+    .carousel-caption h5 {
+        font-size: 1.5rem;
+    }
+
+    .carousel-caption .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/******** Estilo de las tarjetas ********/
+
+.container-fluid .d-flex {
+    gap: 15px;
+    /* Espaciado entre tarjetas */
+}
+
+.container-fluid .overflow-auto {
+    white-space: nowrap;
+    /* Asegura que los elementos se mantengan en una fila */
+    overflow-x: scroll;
+    /* Habilita el desplazamiento horizontal */
+    -ms-overflow-style: none;
+    /* Para Internet Explorer 10+ */
+    scrollbar-width: none;
+}
+
+.container-fluid .overflow-auto::-webkit-scrollbar {
+    display: none;
+    /* Oculta la barra de desplazamiento en Webkit (Chrome, Safari) */
+}
+
+.container-fluid .me-3 {
+    display: inline-block;
+    /* Asegura que cada tarjeta esté alineada horizontalmente */
+}
+
+/******** Estilo de las tarjetas *********/
+.service-item {
+    height: 100%;
+    width: 100%; /* Ocupa todo el ancho de su contenedor */
+    max-width: 100%; /* Tamaño máximo de la tarjeta */
+    margin: auto; /* Centrar la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Oculta el contenido desbordado */
+}
+
+.bg-img {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 100%;
+    display: flex; /* Flexbox para centrar */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    position: relative;
+}
+
+.service-text {
+    position: relative; /* Fondo oscuro semi-transparente */
+    color: white;
+    padding: 20px;
+    text-align: center; /* Texto centrado */
+    border-radius: 8px; /* Bordes redondeados */
+    z-index: 2; /* Asegurar que el texto esté sobre cualquier elemento */
+    transition: background 0.3s ease; /* Transición suave para el hover */
+}
+
+.service-text:hover {
+    background: rgba(0, 0, 0, 0.7); /* Fondo más oscuro al hacer hover */
+}
+
+.saber-mas-btn {
+    margin-top: 10px;
+    display: inline-block;
+    position: relative;
+    z-index: 3; /* Asegurar que el botón esté sobre el fondo */
+    background-color: white; /* Fondo blanco para el botón */
+    color: black; /* Texto negro para contraste */
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.saber-mas-btn:hover {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente al hacer hover */
+    color: black; /* Asegurar que el texto permanezca visible */
+}
+
+.service-img-bg {
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.bg-img::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2); /* Fondo oscuro inicial */
+    z-index: 1; /* Asegurar que el fondo esté detrás del texto */
+}
+
+.bg-img:hover::before {
+    background: rgba(0, 0, 0, 0.5); /* Fondo más oscuro al hacer hover */
+}

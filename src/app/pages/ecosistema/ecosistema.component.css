@@ -1,0 +1,77 @@
+.container-fluid .d-flex {
+    gap: 15px;
+    /* Espaciado entre tarjetas */
+}
+
+.container-fluid .overflow-auto {
+    white-space: nowrap;
+    /* Asegura que los elementos se mantengan en una fila */
+    overflow-x: scroll;
+    /* Habilita el desplazamiento horizontal */
+    -ms-overflow-style: none;
+    /* Para Internet Explorer 10+ */
+    scrollbar-width: none;
+}
+
+.container-fluid .overflow-auto::-webkit-scrollbar {
+    display: none;
+    /* Oculta la barra de desplazamiento en Webkit (Chrome, Safari) */
+}
+
+.container-fluid .me-3 {
+    display: inline-block;
+    /* Asegura que cada tarjeta esté alineada horizontalmente */
+}
+
+/* ****** Descagas ****** */
+.download-card {
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 16px;
+    margin-bottom: 16px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.download-card nz-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.download-card nz-card-meta {
+    text-align: center;
+}
+
+.download-card nz-card-meta-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.download-card nz-card-meta-description {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.card-actions {
+    text-align: center;
+}
+
+.download-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.download-card:hover nz-card {
+    background-color: rgba(255, 255, 255, 1);
+}

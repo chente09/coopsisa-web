@@ -1,0 +1,118 @@
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #EF625F;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.maps-section {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.maps-section h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.social-section {
+    text-align: center;
+}
+
+.social-section h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.social-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.social-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilo para los enlaces de las redes sociales */
+.social-icon {
+    color: white;
+    font-size: 24px; /* Tamaño del ícono */
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    padding: 4px 10px;
+}
+
+.social-icon:hover {
+    color: #F49E59; /* Cambia el color en hover */
+    transform: scale(1.2); /* Agranda y rota ligeramente el elemento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para dar un efecto de elevación */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    letter-spacing: 1px; /* Aumenta el espaciado entre letras */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Añade sombra al texto */
+}
+
+/* Estilos para los íconos de Font Awesome */
+.social-icon i {
+    font-size: 2rem; /* Tamaño de los íconos de Font Awesome */
+    transition: transform 0.3s ease;
+}
+
+/* Estilos para las imágenes de los íconos (como el logo de 'X') */
+.social-icon img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.social-icon img:hover {
+    transform: scale(1.2); /* Agranda el ícono de la imagen ligeramente */
+}
+
+.form-section {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.nz-form-item {
+    margin-bottom: 1rem;
+}
+
+button[nz-button] {
+    display: block;
+    margin: 1rem auto 0;
+    width: 100%;
+    max-width: 200px;
+}
+
+#map {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}

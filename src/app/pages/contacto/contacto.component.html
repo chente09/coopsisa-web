@@ -1,0 +1,55 @@
+<div class="contact-container">
+    <!-- Ubicación en Google Maps -->
+    <div id="map" style="height: 400px; width: 100%;">
+        <div class="maps-section">
+            <h2>Ubicación</h2>
+            <google-map height="300px" width="100%" [center]="center" [zoom]="15">
+            </google-map>
+        </div>
+    </div>
+
+    <!-- Redes sociales -->
+    <div class="social-section">
+        <h2>Redes Sociales</h2>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com" target="_blank" class="social-icon">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" class="social-icon">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.x.com" target="_blank" class="social-icon">
+                <img src="https://i.postimg.cc/DzSxCNJG/X.png" alt="X logo">
+            </a>
+        </div>
+    </div>
+    <!-- Formulario de consultas -->
+    <div class="form-section">
+        <h2>Déjanos tu consulta</h2>
+        <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                    <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                    <input nz-input formControlName="email" id="email" placeholder="Ingresa tu correo" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                    <textarea nz-input formControlName="message" id="message"
+                        placeholder="Escribe tu mensaje"></textarea>
+                </nz-form-control>
+            </nz-form-item>
+            <button nz-button nzType="primary" [disabled]="contactForm.invalid">Enviar</button>
+        </form>
+    </div>
+</div>
