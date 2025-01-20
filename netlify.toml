@@ -1,6 +1,6 @@
 [build]
+  publish = "dist/coopsisa-web/browser"
   command = "ng build --configuration=production"
-  publish = "dist/coopsisa-web"
 
 [[redirects]]
   from = "/*"
