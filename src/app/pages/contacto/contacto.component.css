@@ -53,24 +53,32 @@
 /* Estilo para los enlaces de las redes sociales */
 .social-icon {
     color: white;
-    font-size: 24px; /* Tamaño del ícono */
+    font-size: 24px;
+    /* Tamaño del ícono */
     transition: transform 0.3s ease, color 0.3s ease;
     display: inline-block;
     padding: 4px 10px;
 }
 
 .social-icon:hover {
-    color: #F49E59; /* Cambia el color en hover */
-    transform: scale(1.2); /* Agranda y rota ligeramente el elemento */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para dar un efecto de elevación */
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
-    letter-spacing: 1px; /* Aumenta el espaciado entre letras */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Añade sombra al texto */
+    color: #F49E59;
+    /* Cambia el color en hover */
+    transform: scale(1.2);
+    /* Agranda y rota ligeramente el elemento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Añade sombra para dar un efecto de elevación */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Fondo semi-transparente */
+    letter-spacing: 1px;
+    /* Aumenta el espaciado entre letras */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    /* Añade sombra al texto */
 }
 
 /* Estilos para los íconos de Font Awesome */
 .social-icon i {
-    font-size: 2rem; /* Tamaño de los íconos de Font Awesome */
+    font-size: 2rem;
+    /* Tamaño de los íconos de Font Awesome */
     transition: transform 0.3s ease;
 }
 
@@ -82,37 +90,63 @@
 }
 
 .social-icon img:hover {
-    transform: scale(1.2); /* Agranda el ícono de la imagen ligeramente */
+    transform: scale(1.2);
+    /* Agranda el ícono de la imagen ligeramente */
 }
 
+/******* Fromulario ******/
+
 .form-section {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.form-section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .form-section h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 1rem;
-    color: #333;
+    margin-bottom: 1.5rem;
+    color: #A63A8D;
     text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.cover-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    /* Asegúrate de que el contenedor tenga una altura significativa */
+}
+
+.cover-image {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
 }
 
 .nz-form-item {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 button[nz-button] {
     display: block;
-    margin: 1rem auto 0;
+    margin: 1.5rem auto 0;
     width: 100%;
-    max-width: 200px;
+    max-width: 220px;
+    background-color: #EF625F;
+    border-color: #EF625F;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-#map {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
+button[nz-button]:hover {
+    background-color: #3994C7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

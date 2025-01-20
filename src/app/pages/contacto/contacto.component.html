@@ -1,4 +1,4 @@
-<div class="contact-container">
+<div class="contact-container" style="margin-top: 130px;">
     <!-- Ubicación en Google Maps -->
     <div id="map" style="height: 400px; width: 100%;">
         <div class="maps-section">
@@ -28,28 +28,49 @@
     </div>
     <!-- Formulario de consultas -->
     <div class="form-section">
-        <h2>Déjanos tu consulta</h2>
-        <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-            <nz-form-item>
-                <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
-                <nz-form-control [nzSpan]="18">
-                    <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre" />
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
-                <nz-form-control [nzSpan]="18">
-                    <input nz-input formControlName="email" id="email" placeholder="Ingresa tu correo" />
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
-                <nz-form-control [nzSpan]="18">
-                    <textarea nz-input formControlName="message" id="message"
-                        placeholder="Escribe tu mensaje"></textarea>
-                </nz-form-control>
-            </nz-form-item>
-            <button nz-button nzType="primary" [disabled]="contactForm.invalid">Enviar</button>
-        </form>
+        <nz-card [nzBordered]="false" [nzCover]="coverTemplate">
+            <ng-template #coverTemplate>
+                <div class="cover-container">
+                    <img alt="cover image" src="https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png" class="cover-image" />
+                </div>
+            </ng-template>
+            <h2>Déjanos tu consulta</h2>
+            <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
+                    <nz-form-control [nzSpan]="18" [nzErrorTip]="nameErrorTpl">
+                        <nz-input-group [nzPrefixIcon]="'user'">
+                            <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre" />
+                        </nz-input-group>
+                    </nz-form-control>
+                    <ng-template #nameErrorTpl>
+                        <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
+                            <p>El nombre es obligatorio.</p>
+                        </div>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
+                    <nz-form-control [nzSpan]="18" [nzErrorTip]="emailErrorTpl">
+                        <nz-input-group [nzPrefixIcon]="'mail'">
+                            <input nz-input formControlName="email" id="email" placeholder="Ingresa tu correo" />
+                        </nz-input-group>
+                    </nz-form-control>
+                    <ng-template #emailErrorTpl>
+                        <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
+                            <p>El email es obligatorio.</p>
+                        </div>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
+                    <nz-form-control [nzSpan]="18">
+                        <textarea nz-input formControlName="message" id="message"
+                            placeholder="Escribe tu mensaje"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+                <button nz-button nzType="primary" [disabled]="contactForm.invalid">Enviar</button>
+            </form>
+        </nz-card>
     </div>
 </div>
