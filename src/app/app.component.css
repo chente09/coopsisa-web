@@ -1,0 +1,12 @@
+.content {
+    background-image: url('https://i.postimg.cc/8cJL1TP1/pixelcut-export.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: calc(100vh - 200px);
+    /* Ajusta la altura para excluir navbar y footer */
+    width: 100%;
+    margin-top: 125px;
+    flex: 1;
+}
+

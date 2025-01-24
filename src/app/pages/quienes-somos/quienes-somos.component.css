@@ -1,9 +1,10 @@
 /* Contenedor general para el componente */
 .quienes-somos {
-    padding: 130px 20px 40px;
+    padding: 20px 40px;
     /* Espacio suficiente para evitar superposición con el navbar */
     background-color: #f7f7f7;
     /* Fondo claro para un buen contraste */
+    
 }
 
 /* Estilos para las tarjetas */
@@ -158,7 +159,6 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
-    background-color: rgba(197, 187, 99, 0.607);
 }
 
 .foto-circular {
@@ -180,7 +180,6 @@
 .info-container {
     transition: color 0.3s ease;
     padding-bottom: 5px;
-    background-color: rgba(197, 187, 99, 0.607);
 }
 
 .info-container h3 {

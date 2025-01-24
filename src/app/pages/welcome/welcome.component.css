@@ -65,19 +65,21 @@
 /* Adaptabilidad */
 @media (max-width: 768px) {
     .carousel-caption {
-        padding: 1rem;
+        background: rgba(0, 0, 0, 0.6); /* Fondo más oscuro para mejor legibilidad */
+        padding: 0.75rem;
+        max-width: 90%; /* Reduce el ancho máximo del caption */
     }
 
     .carousel-caption h5 {
-        font-size: 1.5rem;
+        font-size: 1.25rem; /* Reduce el tamaño del texto */
+        line-height: 1.4; /* Mejora el espaciado */
     }
 
     .carousel-caption .btn {
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 1rem; /* Botón más compacto */
         font-size: 0.875rem;
     }
 }
-
 /******** Estilo de las tarjetas ********/
 
 .container-fluid .d-flex {
@@ -106,78 +108,184 @@
 }
 
 /******** Estilo de las tarjetas *********/
-.service-item {
-    height: 100%;
-    width: 100%; /* Ocupa todo el ancho de su contenedor */
-    max-width: 100%; /* Tamaño máximo de la tarjeta */
-    margin: auto; /* Centrar la tarjeta */
-    border-radius: 8px; /* Bordes redondeados */
-    overflow: hidden; /* Oculta el contenido desbordado */
+.row {
+    margin: 0 auto;
+    justify-content: center;
 }
 
-.bg-img {
+.service-item {
+    height: auto;
+    max-width: 90%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.bg-img, .service-img-bg {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 400px;
-    width: 100%;
-    display: flex; /* Flexbox para centrar */
-    align-items: center; /* Centrado vertical */
-    justify-content: center; /* Centrado horizontal */
     position: relative;
 }
 
+.bg-img {
+    height: 260px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-img::before {
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    position: relative;
+}
+
+.bg-img:hover::before {
+    background: rgba(0, 0, 0, 0.5);
+}
+
 .service-text {
-    position: relative; /* Fondo oscuro semi-transparente */
     color: white;
-    padding: 20px;
-    text-align: center; /* Texto centrado */
-    border-radius: 8px; /* Bordes redondeados */
-    z-index: 2; /* Asegurar que el texto esté sobre cualquier elemento */
-    transition: background 0.3s ease; /* Transición suave para el hover */
+    padding: 18px;
+    text-align: center;
+    z-index: 2;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 .service-text:hover {
-    background: rgba(0, 0, 0, 0.7); /* Fondo más oscuro al hacer hover */
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .saber-mas-btn {
     margin-top: 10px;
     display: inline-block;
-    position: relative;
-    z-index: 3; /* Asegurar que el botón esté sobre el fondo */
-    background-color: white; /* Fondo blanco para el botón */
-    color: black; /* Texto negro para contraste */
-    padding: 10px 20px;
-    border-radius: 4px;
+    z-index: 3;
+    background-color: white;
+    color: black;
+    padding: 8px 16px;
     text-decoration: none;
-    transition: background 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .saber-mas-btn:hover {
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente al hacer hover */
-    color: black; /* Asegurar que el texto permanezca visible */
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
 }
 
-.service-img-bg {
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+/* Grid en pantallas pequeñas y grandes */
+@media (min-width: 576px) {
+    .row .col-md-6 {
+        max-width: 48%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .row .col-lg-4 {
+        max-width: 24%;
+    }
+}
+
+/******* Tarjetas 2 ******/
+.card {
+    border: none;
+    border-radius: 0;
+    align-items: center;
+    justify-content: center;
+}
+.lab-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none; /* Se elimina la sombra para un diseño más limpio */
+    margin: 0; /* Elimina márgenes internos */
+}
+
+/* Elimina el borde redondeado */
+.card-image {
+    width: 100%;
+    height: 300px; /* Ajusta la altura para hacerlo más compacto */
     background-size: cover;
     background-position: center;
-    position: relative;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    border: none;
 }
 
-.bg-img::before {
-    content: "";
+/* Elimina el espacio entre tarjetas */
+.row.g-0 {
+    margin: 0;
+}
+
+/* Contenido superpuesto */
+.card-overlay {
     position: absolute;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.2); /* Fondo oscuro inicial */
-    z-index: 1; /* Asegurar que el fondo esté detrás del texto */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo más oscuro para mayor contraste */
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.5s ease;
+    transform: translateY(20px); /* Inicia ligeramente desplazado hacia abajo */
+    text-align: center; /* Centra el texto horizontalmente */
+    padding: 20px; /* Agrega algo de espacio alrededor del texto */
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
 }
 
-.bg-img:hover::before {
-    background: rgba(0, 0, 0, 0.5); /* Fondo más oscuro al hacer hover */
+.lab-card:hover .card-overlay {
+    opacity: 1;
+    transform: translateY(0); /* Se mueve a su posición original al hacer hover */
+}
+
+/* Mejora de estilo para el texto */
+.card-title {
+    font-size: 20px; /* Texto más grande para mayor legibilidad */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); /* Sombra para destacar el texto */
+    margin-bottom: 12px;
+    transition: transform 2s ease, color 1s ease; /* Suaviza cambios en hover */
+    line-height: 1.4; /* Mejora el espaciado */
+}
+
+.card-overlay .btn {
+    background-color: #A63A8D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+    transition: background-color 2s ease, transform 1s ease, box-shadow 0.3s ease;
+}
+
+.card-overlay .btn:hover {
+    background-color: #2d82aa;
+    transform: scale(1.1); /* Amplía ligeramente el botón */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .card-image {
+        height: 150px; /* Reduce la altura de las tarjetas en pantallas pequeñas */
+    }
 }

@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background: #ffffff;
+    background-color : #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     padding: 8px 16px;
@@ -47,6 +47,7 @@
 }
 
 ul[nz-menu] {
+    background-color: rgba(240, 248, 255, 0);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -91,15 +92,16 @@ a:hover {
 
     ul[nz-menu] {
         position: absolute;
-        top: 50px; /* Ajusta la posición del menú debajo de la barra */
+        top: 114px; /* Ajusta la posición del menú debajo de la barra */
         left: 0;
-        background: #ffffff;
+        background-color: #ffffffe9;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         flex-direction: column;
         width: 100%;
         z-index: 1000;
         max-height: calc(100vh - 50px);
         overflow-y: auto;
+        border-radius: 2px;
     }
 
     .hamburger-icon {

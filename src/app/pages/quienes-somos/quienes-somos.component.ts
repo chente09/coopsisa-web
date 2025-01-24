@@ -7,6 +7,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzSizeDSType } from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'app-quienes-somos',
@@ -18,8 +19,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     NzFlexModule, 
     NzRadioModule,
     NzGridModule,
-    NzListModule
-  ],
+    NzListModule],
   templateUrl: './quienes-somos.component.html',
   styleUrl: './quienes-somos.component.css'
 })

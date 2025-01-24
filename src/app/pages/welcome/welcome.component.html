@@ -1,5 +1,5 @@
 <!-- carrusel pricipal -->
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="padding-top: 130px;">
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <!-- Indicadores -->
     <div class="carousel-indicators">
         <button *ngFor="let slide of slides; let i = index" type="button" data-bs-target="#carouselExampleIndicators"
@@ -12,7 +12,7 @@
     <div class="carousel-inner">
         <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
             <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
-            <div class="carousel-caption d-none d-md-block">
+            <div class="carousel-caption d-block d-md-block">
                 <h5>{{ slide.text }}</h5>
                 <a [routerLink]="slide.route" class="btn btn-primary">{{ slide.buttonText }}</a>
             </div>
@@ -52,14 +52,13 @@
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
         <h1 class="display-5 mb-5">Nuestro Ecosistema</h1>
     </div>
-    <div class="service-img-bg" style="background-image: url('https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png');">
+    <div class="service-img-bg">
         <div class="container-xxl py-5">
             <div class="container">
-                <div class="row g-4">
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" *ngFor="let tarjeta of tarjetas" data-wow-delay="0.3s" 
-                        style="visibility: visible; animation-name: fadeInUp; animation-delay: 0.3s; height: 400px;"
-                        >
-                        <div class="service-item rounded d-flex h-100" [class]="tarjeta.imagen ? 'bg-img' : ''"
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch" *ngFor="let tarjeta of tarjetas"
+                        data-wow-delay="0.3s">
+                        <div class="service-item rounded" [class]="tarjeta.imagen ? 'bg-img' : ''"
                             [style.backgroundImage]="'url(' + tarjeta.imagen + ')'">
                             <div class="service-text rounded p-4">
                                 <h4 class="mb-3">{{ tarjeta.titulo }}</h4>
@@ -74,3 +73,54 @@
         </div>
     </div>
 </div>
+
+<!-- Tarjetas 2 -->
+
+<div class="container-fluid py-5">
+    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+        <h1 class="display-5 mb-5">Laboratorios de Innovación</h1>
+    </div>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-0"> <!-- Configuración de filas y columnas -->
+            <div class="col" *ngFor="let lab of laboratorios">
+                <div class="card h-100 lab-card">
+                    <div class="card-image" [style.backgroundImage]="'url(' + lab.image + ')'"></div>
+                    <div class="card-overlay">
+                        <h5 class="card-title">{{ lab.titulo }}</h5>
+                        <button class="btn btn-primary" (click)="openModal(lab)">Más información</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+        [nzFooter]="modalFooter">
+        <ng-container *nzModalContent>
+            <div style="
+            padding: 30px; 
+            font-size: 16px; 
+            line-height: 1.6; 
+            color: #333; 
+            background-color: #f9f9f9;
+            border-radius: 0 0 15px 15px;">
+                <p>{{ selectedLab?.descripcion }}</p>
+            </div>
+        </ng-container>
+    </nz-modal>
+
+    <ng-template #modalFooter>
+        <button nz-button style="background-color: #7969A8; color: white; margin-right: 8px; border-radius: 15px 15px;"
+            (click)="handleCancel()">
+            <span>Cerrar</span>
+        </button>
+        <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
+            (click)="handleOk()">
+            <span>OK</span>
+        </button>
+    </ng-template>
+</div>
+
+
