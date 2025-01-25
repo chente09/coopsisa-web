@@ -10,7 +10,7 @@
         class="hamburger-icon"
         (click)="toggleMenu()"
     ></nz-icon>
-    <ul nz-menu [hidden]="isCollapsed" [class.collapsed]="isCollapsed" style="font-size: 24px;">
+    <ul nz-menu [hidden]="isCollapsed" [class.collapsed]="isCollapsed" style="font-size: 20px;">
         <ng-container *ngFor="let item of menuItems">
             <li *ngIf="!item.children" nz-menu-item>
                 <nz-icon [nzType]="item.icon" style="font-size: 18px;"></nz-icon>

@@ -5,13 +5,64 @@
     text-align: center;
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Asegura que la tarjeta ocupe todo el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* Centrar todo el contenido dentro de las columnas */
+.row {
+    justify-content: center; /* Centra las tarjetas en el grid */
 }
 
+.col-lg-4,
+.col-md-6 {
+    display: flex;
+    align-items: stretch; /* Estira las tarjetas para mantener una altura uniforme */
+}
+
+.card {
+    margin: auto; /* Centra las tarjetas dentro de sus columnas */
+    width: 100%; /* Asegura que las tarjetas ocupen el espacio disponible */
+}
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    background-color: #333;
+    background-color: inherit;
 }
+
+.card-0:hover {
+    background-color: #F49E59;
+}
+
+.card-1:hover {
+    background-color: #E9336F;
+}
+
+.card-2:hover {
+    background-color: #A63A8D;
+}
+
+.card-3:hover {
+    background-color: #7969A8;
+}
+
+.card-4:hover {
+    background-color: #3994C7;
+}
+
+.card-5:hover {
+    background-color: #62B4B2;
+}
+
+.card-6:hover {
+    background-color: #C5BB63;
+}
+
+.card-7:hover {
+    background-color: #EF625F;
+}
+
 
 .card h5 {
     font-size: 18px;
@@ -21,7 +72,7 @@
 }
 
 .card:hover h5 {
-    color: #C5BB63;
+    color: #fff;
 }
 
 .card button {
@@ -30,13 +81,24 @@
     padding: 10px 20px;
     color: white;
     border-radius: 4px;
+    margin-top: auto;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .card button:hover {
-    background-color: #b3a451;
+    background-color: white;
     transform: scale(1.05);
 }
+.custom-modal-content {
+    padding: 30px; 
+    font-size: 16px; 
+    line-height: 1.6; 
+    color: #333; 
+    background-color: #f9f9f9;
+    border-radius: 0 0 15px 15px;
+    text-align: justify important; /* Asegura la justificación */
+}
+
 
 /****** Colapsed  *******/
 nz-collapse-panel {
@@ -72,8 +134,8 @@ p {
     font-size: 16px;
     line-height: 1.6;
     color: #555;
-    text-align: left;
     margin: 0;
+    text-align: justify;
 }
 
 nz-list-item:hover {

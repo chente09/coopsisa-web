@@ -11,7 +11,7 @@
                 <h5 class="mb-3">Enlaces rápidos</h5>
                 <ul class="list-unstyled">
                     <li *ngFor="let ruta of rutas">
-                        <a [href]="ruta.route" class="text-link">
+                        <a [routerLink]="ruta.route" class="text-link">
                             {{ ruta.label }}
                         </a>
                     </li>

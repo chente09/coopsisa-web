@@ -21,23 +21,77 @@
 .container-fluid .me-3 {
     display: inline-block;
     /* Asegura que cada tarjeta esté alineada horizontalmente */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.container-fluid .me-3:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* ****** Descagas ****** */
+/* Modal */
+.ant-modal-header {
+    background-color:#a63a8dc4;
+    color: #ffffff;
+    border-radius: 8px 8px 0 0;
+    padding: 16px;
+    text-align: center;
+}
+
+.ant-modal-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.ant-modal-content {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.ant-modal-body {
+    padding: 24px;
+    background-color: #f49f594f;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.ant-modal-footer {
+    display: none; /* Oculta el footer si nzFooter es null */
+}
+
+/* ****** Descargas ****** */
+.scrollable-container {
+    max-height: 400px; /* Altura máxima ajustada para mostrar hasta 6 tarjetas */
+    overflow-y: auto; /* Scroll vertical si hay más tarjetas */
+    padding-right: 8px; /* Espacio para el scroll */
+    scrollbar-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Espaciado entre tarjetas */
+    justify-content: center;
+}
+
 .download-card {
     background-size: cover;
     background-position: center;
     border-radius: 8px;
     overflow: hidden;
     padding: 16px;
-    margin-bottom: 16px;
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100% !important; /* Asegura que el contenido de la tarjeta sea consistente */
 }
 
 .download-card nz-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 16px;
     border-radius: 8px;
@@ -63,8 +117,24 @@
     margin-bottom: 16px;
 }
 
+div.ant-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+nz-card.ant-card.ant-card-hoverable {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .card-actions {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
 }
 
 .download-card:hover {
@@ -74,4 +144,89 @@
 
 .download-card:hover nz-card {
     background-color: rgba(255, 255, 255, 1);
+}
+
+/* Estilo general para el botón */
+button[nz-button] {
+    background-color: #E9336F; /* Usa el color secundario */
+    border: none;
+    color: #ffffff; /* Texto blanco */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    padding: 10px 20px; /* Tamaño del botón */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 50px; /* Forma redondeada */
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+/* Hover para el botón */
+button[nz-button]:hover {
+    background-color: #A63A8D; /* Cambia a color terciario al pasar el cursor */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más prominente */
+    transform: translateY(-2px); /* Efecto de elevación */
+    color: #ffffff; 
+}
+
+/* Activo */
+button[nz-button]:active {
+    background-color: #C5BB63; /* Resalta al hacer clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce la sombra */
+    transform: translateY(0); /* Vuelve a su posición original */
+}
+
+/* Botón deshabilitado */
+button[nz-button][disabled] {
+    background-color: #EF625F; /* Color de alerta si está deshabilitado */
+    color: #ffffff; /* Asegura que el texto sea visible */
+    cursor: not-allowed; /* Cambia el cursor */
+    opacity: 0.6; /* Reduce la opacidad */
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 992px) {
+    .scrollable-container {
+        max-height: 300px;
+        flex-wrap: wrap; /* Asegura que las tarjetas se ajusten */
+    }
+
+    .download-card {
+        width: 100%; /* Ocupa el 100% del ancho disponible */
+        max-width: 100%;
+    }
+
+    nz-card {
+        width: 100%; /* Ajusta el ancho del card */
+    }
+}
+
+@media (max-width: 576px) {
+    .scrollable-container {
+        max-height: 250px;
+        flex-wrap: wrap;
+    }
+
+    .download-card {
+        width: 100%;
+        max-width: 100%; /* Una tarjeta por fila */
+        margin-bottom: 16px; /* Espaciado inferior */
+    }
+
+    nz-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    nz-col {
+        flex: 0 0 100%;
+        max-width: 100%; /* Fuerza una tarjeta por fila */
+    }
+
+    nz-card {
+        width: 100%;
+    }
 }

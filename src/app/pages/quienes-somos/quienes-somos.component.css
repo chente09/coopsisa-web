@@ -1,12 +1,3 @@
-/* Contenedor general para el componente */
-.quienes-somos {
-    padding: 20px 40px;
-    /* Espacio suficiente para evitar superposición con el navbar */
-    background-color: #f7f7f7;
-    /* Fondo claro para un buen contraste */
-    
-}
-
 /* Estilos para las tarjetas */
 .nz-card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -15,12 +6,7 @@
     margin-bottom: 20px;
 }
 
-/* Títulos de las tarjetas */
-.nz-card-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
+
 
 /* Párrafos dentro de las tarjetas */
 .nz-card-content p {
@@ -65,10 +51,27 @@
     height: 2px;
     /* Línea horizontal */
     width: 100%;
-    background-color: #F49E59;
+    background: linear-gradient(
+        90deg,
+        rgba(166, 58, 141, 1) 0%,   /* Púrpura */
+        rgba(166, 58, 141, 0.8) 25%,
+        rgba(57, 148, 199, 1) 50%, /* Azul */
+        rgba(57, 148, 199, 0.8) 75%,
+        rgba(98, 180, 178, 1) 100% /* Verde */
+    );
     top: 50%;
     left: 100%;
     transform: translateY(-50%);
+    animation: gradient-move 5s linear infinite; /* Agrega una animación opcional */
+}
+
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
 }
 
 .timeline-item:last-child::after {
@@ -111,15 +114,58 @@
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: #F49E59;
-    background-color: #333;
 }
+
+/* Alternar colores de hover para cada tarjeta usando nth-of-type */
+.timeline-item:nth-of-type(1):hover .timeline-content {
+    background-color: #F49E59; /* Color primary */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(2):hover .timeline-content {
+    background-color: #E9336F; /* Color secondary */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(3):hover .timeline-content {
+    background-color: #A63A8D; /* Color tertiary */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(4):hover .timeline-content {
+    background-color: #7969A8; /* Color quaternary */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(5):hover .timeline-content {
+    background-color: #3994C7; /* Color primary-light */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(6):hover .timeline-content {
+    background-color: #62B4B2; /* Color accent */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(7):hover .timeline-content {
+    background-color: #C5BB63; /* Color highlight */
+    color: #fff;
+}
+
+.timeline-item:nth-of-type(8):hover .timeline-content {
+    background-color: #EF625F; /* Color alert */
+    color: #fff;
+}
+
+/* Si hay más de 8 elementos, repetir el patrón */
+.timeline-item:nth-of-type(9):hover .timeline-content {
+    background-color: #F49E59;
+    color: #fff;
+}
+
 
 /* Responsive para pantallas pequeñas */
 @media (max-width: 768px) {
-    .quienes-somos {
-        padding: 130px 15px 30px;
-        /* Menor padding en dispositivos móviles */
-    }
 
     .nz-card-title {
         font-size: 20px;
@@ -129,7 +175,7 @@
     .timeline-content {
         width: 180px;
         /* Reducir ancho en pantallas pequeñas */
-        height: 180px;
+        height: 240px;
         /* Reducir altura en pantallas pequeñas */
         font-size: 14px;
         /* Texto más pequeño para ajustar en pantallas pequeñas */
@@ -139,22 +185,27 @@
 /******* Equipo  ********/
 
 .equipo {
-    padding: 20px 25px;
-    background-color: #f5f5f5;
-    /* Fondo claro */
+    padding: 10px 25px;
     text-align: center;
+    max-height: 280px;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 .equipo-card {
-    margin-bottom: 10px;
-    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto; /* Permite que el contenido determine la altura */
+    background: none; /* Sin fondo */
+    box-shadow: none; /* Sin sombra */
+    border: none;
 }
 
 .foto-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 16px;
     padding: 16px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
@@ -162,8 +213,8 @@
 }
 
 .foto-circular {
-    width: 200px;
-    height: 200px;
+    width: 190px;
+    height: 190px;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -179,31 +230,46 @@
 
 .info-container {
     transition: color 0.3s ease;
-    padding-bottom: 5px;
 }
 
 .info-container h3 {
     font-size: 18px;
     font-weight: bold;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 .info-container p {
     font-size: 14px;
     color: #666;
+    margin: 0;
+    padding: 0;
 }
 
-.info-container:hover h3,
-.info-container:hover p {
-    color: white;
-    /* Cambiar color del texto en hover */
+.info-container p:hover, .info-container h3:hover {
+    color: white
+}
+
+.info-container:hover {
+    transition: color 0.3s ease;
+    background: #3993c79a;
+    padding: auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
 }
 
 /* Responsive para pantallas pequeñas */
 @media (max-width: 768px) {
+    .equipo {
+        padding: 10px 1px;
+        text-align: center;
+        max-height: 400px;
+        overflow-y: auto;
+    }
     .foto-circular {
-        width: 80px;
-        height: 80px;
+        width: 150px;
+        height: 150px;
     }
 
     .info-container h3 {
@@ -212,6 +278,10 @@
 
     .info-container p {
         font-size: 12px;
+    }
+
+    .foto-container {
+        padding: 5px;
     }
 }
 

@@ -3,7 +3,7 @@
         <h1 class="display-5 mb-5">Nuestros Colaboradores</h1>
     </div>
     <div class="d-flex flex-row overflow-auto">
-        <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;">
+        <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;" (click)="openModal(item)">
             <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
                 <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
             </nz-card>
@@ -13,24 +13,26 @@
         </div>
     </div>
 </div>
+
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
         <h1 class="display-5 mb-5">Publicaciones</h1>
         <p>Aquí encuentras las publicaciones disponibles para descargar</p>
     </div>
-
-    <nz-row [nzGutter]="16">
-        <nz-col *ngFor="let item of downloadItems" [nzSpan]="8">
-            <div class="download-card" [style.backgroundImage]="'url(' + item.image + ')'">
-                <nz-card [nzBordered]="false" [nzHoverable]="true">
-                    <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
-                    <div class="card-actions">
-                        <button nz-button nzType="primary" (click)="downloadFile(item.file)">
-                            Descargar
-                        </button>
-                    </div>
-                </nz-card>
-            </div>
-        </nz-col>
-    </nz-row>
+    <div class="scrollable-container">
+        <nz-row [nzGutter]="16">
+            <nz-col *ngFor="let item of downloadItems" [nzSpan]="24" [nzXs]="24" [nzSm]="24" [nzMd]="8">
+                <div class="download-card" [style.backgroundImage]="'url(' + item.image + ')'">
+                    <nz-card [nzBordered]="false" [nzHoverable]="true">
+                        <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
+                        <div class="card-actions">
+                            <button nz-button (click)="downloadFile(item.file)">
+                                Descargar
+                            </button>
+                        </div>
+                    </nz-card>
+                </div>
+            </nz-col>
+        </nz-row>
+    </div>
 </div>

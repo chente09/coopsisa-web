@@ -51,9 +51,7 @@
 
 /* Estilo para los enlaces de las redes sociales */
 .social-icon {
-    color: white;
-    font-size: 24px;
-    /* Tamaño del ícono */
+    color: #7969A8;
     transition: transform 0.3s ease, color 0.3s ease;
     display: inline-block;
     padding: 4px 10px;
@@ -72,35 +70,44 @@
     /* Aumenta el espaciado entre letras */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     /* Añade sombra al texto */
+    border-radius: 8px;
+    /* Borde redondeado para el ícon*/
 }
 
 /* Estilos para los íconos de Font Awesome */
 .social-icon i {
-    font-size: 2rem;
+    font-size: 3rem;
     /* Tamaño de los íconos de Font Awesome */
     transition: transform 0.3s ease;
 }
 
-/* Estilos para las imágenes de los íconos (como el logo de 'X') */
-.social-icon img {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease;
-}
-
-.social-icon img:hover {
-    transform: scale(1.2);
-    /* Agranda el ícono de la imagen ligeramente */
-}
 
 /******* Fromulario ******/
+.form-selection {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
 
 .form-section {
-    background-color: #ffffff;
+    max-width: 850px; /* Define un ancho máximo para que no sea demasiado grande */
+    width: 90%; /* Ajusta al 90% del ancho de la pantalla para pantallas pequeñas */
+    margin: auto;
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-form {
+    max-width: 550px; /* Define un ancho máximo para que no sea demasiado grande */
+    width: 90%;
+    margin: auto;
+    border: #000;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-section:hover {
@@ -108,7 +115,8 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.form-section h2 {
+.form-section h2,
+.social-section h2 {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
@@ -126,8 +134,8 @@
 }
 
 .cover-image {
-    width: 80%;
-    height: 80%;
+    width: 60%;
+    height: auto;
     object-fit: cover;
 }
 
@@ -139,13 +147,110 @@ button[nz-button] {
     display: block;
     margin: 1.5rem auto 0;
     width: 100%;
-    max-width: 220px;
     background-color: #EF625F;
-    border-color: #EF625F;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button[nz-button]:hover {
-    background-color: #3994C7;
+    background-color: #C5BB63;
+    border: #C5BB63;
+    color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.close-button i {
+    font-size: 20px;
+    color: #888;
+    /* Ajusta el color del ícono */
+}
+
+.close-button:hover i {
+    color: #000;
+    /* Cambia el color al pasar el cursor */
+}
+
+.submit-button {
+    display: block;
+    margin: 1.5rem auto 0;
+    width: auto;
+    background-color: #EF625F;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #C5BB63;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para pantallas medianas (tablets y similares) */
+@media (max-width: 768px) {
+    .form-selection {
+        flex-direction: column; /* Cambia a columna para mejor ajuste */
+        gap: 0.5rem; /* Reduce el espacio entre elementos */
+    }
+
+    .form-section,
+    .contact-form {
+        width: 95%; /* Ocupa casi todo el ancho disponible */
+        padding: 1.5rem; /* Reduce el padding para mejor ajuste */
+    }
+
+    .cover-image {
+        width: 80%; /* Reduce el tamaño de la imagen para adaptarse */
+    }
+
+    .form-section h2,
+    .social-section h2 {
+        font-size: 1.75rem; /* Reduce ligeramente el tamaño de las cabeceras */
+    }
+}
+
+/* Estilos para pantallas pequeñas (móviles y similares) */
+@media (max-width: 480px) {
+    .form-selection {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-section,
+    .contact-form {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        padding: 1rem; /* Ajusta el padding */
+        box-shadow: none; /* Opcional: Elimina la sombra para un diseño más simple */
+    }
+
+    .cover-container {
+        flex-direction: column; /* Ajusta el contenedor a una sola columna */
+    }
+
+    .cover-image {
+        width: 100%; /* La imagen ocupa todo el ancho disponible */
+    }
+
+    .form-section h2,
+    .social-section h2 {
+        font-size: 1.5rem; /* Ajusta el tamaño del texto aún más */
+    }
+
+    button[nz-button],
+    .submit-button {
+        width: 100%; /* Botones ocupan todo el ancho */
+        font-size: 0.9rem; /* Ajusta el tamaño del texto del botón */
+    }
+
+    .close-button i {
+        font-size: 16px; /* Reduce el tamaño del ícono de cerrar */
+    }
 }

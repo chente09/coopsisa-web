@@ -65,7 +65,7 @@
 /* Adaptabilidad */
 @media (max-width: 768px) {
     .carousel-caption {
-        background: rgba(0, 0, 0, 0.6); /* Fondo más oscuro para mejor legibilidad */
+        background: linear-gradient(to bottom, rgba(239, 98, 95, 1), rgba(0, 0, 0, 0.3)); /* Fondo más oscuro para mejor legibilidad */
         padding: 0.75rem;
         max-width: 90%; /* Reduce el ancho máximo del caption */
     }
@@ -210,7 +210,7 @@
 .lab-card {
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 1s ease, box-shadow 1s ease;
     box-shadow: none; /* Se elimina la sombra para un diseño más limpio */
     margin: 0; /* Elimina márgenes internos */
 }
@@ -244,7 +244,7 @@
     background-color: rgba(0, 0, 0, 0.8); /* Fondo más oscuro para mayor contraste */
     color: white;
     opacity: 0;
-    transition: opacity 0.3s ease, transform 0.5s ease;
+    transition: opacity 1s ease, transform 1s ease;
     transform: translateY(20px); /* Inicia ligeramente desplazado hacia abajo */
     text-align: center; /* Centra el texto horizontalmente */
     padding: 20px; /* Agrega algo de espacio alrededor del texto */

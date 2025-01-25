@@ -12,65 +12,135 @@
     <div class="social-section">
         <h2>Redes Sociales</h2>
         <div class="social-icons">
-            <a href="https://www.tiktok.com" target="_blank" class="social-icon">
-                <i class="fab fa-tiktok"></i>
-            </a>
-            <a href="https://www.facebook.com" target="_blank" class="social-icon">
+            <a href="https://www.facebook.com/share/1574P8K1FG/?mibextid=wwXIfr" target="_blank" class="social-icon">
                 <i class="fab fa-facebook"></i>
             </a>
-            <a href="https://www.instagram.com" target="_blank" class="social-icon">
+            <a href="https://www.instagram.com/coop.sisa?igsh=MWpsZzUwN3YyaHNmYg==" target="_blank" class="social-icon">
                 <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.x.com" target="_blank" class="social-icon">
-                <img src="https://i.postimg.cc/DzSxCNJG/X.png" alt="X logo">
             </a>
         </div>
     </div>
-    <!-- Formulario de consultas -->
     <div class="form-section">
         <nz-card [nzBordered]="false" [nzCover]="coverTemplate">
             <ng-template #coverTemplate>
                 <div class="cover-container">
-                    <img alt="cover image" src="https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png" class="cover-image" />
+                    <img alt="cover image" src="https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png"
+                        class="cover-image" />
                 </div>
             </ng-template>
-            <h2>Déjanos tu consulta</h2>
-            <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
-                    <nz-form-control [nzSpan]="18" [nzErrorTip]="nameErrorTpl">
-                        <nz-input-group [nzPrefixIcon]="'user'">
-                            <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre" />
-                        </nz-input-group>
-                    </nz-form-control>
-                    <ng-template #nameErrorTpl>
-                        <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
-                            <p>El nombre es obligatorio.</p>
-                        </div>
-                    </ng-template>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
-                    <nz-form-control [nzSpan]="18" [nzErrorTip]="emailErrorTpl">
-                        <nz-input-group [nzPrefixIcon]="'mail'">
-                            <input nz-input formControlName="email" id="email" placeholder="Ingresa tu correo" />
-                        </nz-input-group>
-                    </nz-form-control>
-                    <ng-template #emailErrorTpl>
-                        <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
-                            <p>El email es obligatorio.</p>
-                        </div>
-                    </ng-template>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
-                    <nz-form-control [nzSpan]="18">
-                        <textarea nz-input formControlName="message" id="message"
-                            placeholder="Escribe tu mensaje"></textarea>
-                    </nz-form-control>
-                </nz-form-item>
-                <button nz-button nzType="primary" [disabled]="contactForm.invalid">Enviar</button>
-            </form>
+
+            <!-- Selección de formulario -->
+            <div *ngIf="!selectedForm" class="form-selection">
+                <button nz-button  (click)="selectForm('consulta')" [nzSize]="'large'">¿Tienes una
+                    Consulta?</button>
+                <button nz-button  (click)="selectForm('colaborador')" [nzSize]="'large'">¿Quieres
+                    Colaborar con Nosotros?</button>
+            </div>
+
+            <!-- Formulario de consulta -->
+            <div *ngIf="selectedForm === 'consulta'" class="form-container">
+                <nz-card [nzBordered]="false" class="contact-form">
+                    <button nzType="text" class="close-button" (click)="closeForm()"
+                        aria-label="Cerrar formulario">
+                        <i nz-icon nzType="close" nzTheme="outline"></i>
+                    </button>
+                    <h2>Déjanos tu consulta</h2>
+                    <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
+                            <nz-form-control [nzSpan]="18" [nzErrorTip]="nameErrorTpl">
+                                <nz-input-group [nzPrefixIcon]="'user'">
+                                    <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre" />
+                                </nz-input-group>
+                            </nz-form-control>
+                            <ng-template #nameErrorTpl>
+                                <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
+                                    <p>El nombre es obligatorio (mínimo 3 caracteres).</p>
+                                </div>
+                            </ng-template>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
+                            <nz-form-control [nzSpan]="18" [nzErrorTip]="emailErrorTpl">
+                                <nz-input-group [nzPrefixIcon]="'mail'">
+                                    <input nz-input formControlName="email" id="email"
+                                        placeholder="Ingresa tu correo" />
+                                </nz-input-group>
+                            </nz-form-control>
+                            <ng-template #emailErrorTpl>
+                                <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
+                                    <p>El correo es obligatorio y debe ser válido.</p>
+                                </div>
+                            </ng-template>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
+                            <nz-form-control [nzSpan]="18">
+                                <textarea nz-input formControlName="message" id="message"
+                                    placeholder="Escribe tu mensaje"></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <button class="submit-button" [disabled]="collaboratorForm.invalid">Enviar</button>
+                    </form>
+                </nz-card>
+            </div>
+
+            <!-- Formulario para colaboradores -->
+            <div *ngIf="selectedForm === 'colaborador'" class="form-container">
+                <nz-card [nzBordered]="false" class="contact-form">
+                    <button nzType="text" class="close-button" (click)="closeForm()"
+                        aria-label="Cerrar formulario">
+                        <i nz-icon nzType="close" nzTheme="outline"></i>
+                    </button>
+                    <h2>Colabora con Nosotros</h2>
+                    <form nz-form [formGroup]="collaboratorForm" (ngSubmit)="onCollaboratorSubmit()">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
+                            <nz-form-control [nzSpan]="18">
+                                <nz-input-group [nzPrefixIcon]="'user'">
+                                    <input nz-input formControlName="name" id="name"
+                                        placeholder="Ingresa tu nombre completo" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
+                            <nz-form-control [nzSpan]="18">
+                                <nz-input-group [nzPrefixIcon]="'mail'">
+                                    <input nz-input formControlName="email" id="email"
+                                        placeholder="Ingresa tu correo" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="phone">Teléfono</nz-form-label>
+                            <nz-form-control [nzSpan]="18">
+                                <nz-input-group [nzPrefixIcon]="'phone'">
+                                    <input nz-input formControlName="phone" id="phone"
+                                        placeholder="Ingresa tu número de teléfono" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="skills">Habilidades</nz-form-label>
+                            <nz-form-control [nzSpan]="18">
+                                <textarea nz-input formControlName="skills" id="skills"
+                                    placeholder="Describe tus habilidades"></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <button class="submit-button" [disabled]="collaboratorForm.invalid">Enviar</button>
+                    </form>
+                </nz-card>
+            </div>
         </nz-card>
     </div>
+
+
 </div>

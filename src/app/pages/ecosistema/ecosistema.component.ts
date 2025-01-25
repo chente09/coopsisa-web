@@ -1,19 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 @Component({
   selector: 'app-ecosistema',
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     RouterModule,
     NzCardModule,
     NzAvatarModule,
-    NzGridModule
+    NzGridModule,
+    NzModalModule,
+    NzButtonModule
   ],
   templateUrl: './ecosistema.component.html',
   styleUrl: './ecosistema.component.css'
@@ -52,6 +57,20 @@ export class EcosistemaComponent {
     },
     // Agrega más objetos si es necesario
   ];
+
+  constructor(private modal: NzModalService) {}
+  openModal(item: { title: string; description: string; }): void {
+    this.modal.create({
+      nzTitle: item.title,
+      nzContent: `
+        <div>
+          <p>${item.description}</p>
+        </div>
+      `,
+      nzFooter: null,
+      nzWidth: 500
+    });
+  }
 
   downloadItems = [
     {
