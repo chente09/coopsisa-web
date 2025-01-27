@@ -1,12 +1,15 @@
 <div class="contact-container">
     <!-- Ubicación en Google Maps -->
-    <div id="map" style="height: 400px; width: 100%;">
-        <div class="maps-section">
-            <h2>Ubicación</h2>
-            <google-map height="300px" width="100%" [center]="center" [zoom]="15">
-            </google-map>
+    <div class="maps-section">
+        <h2>Encuentra nuestra ubicación</h2>
+        <div id="map">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.792416104027!2d-78.48374772522935!3d-0.2064651353987612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59bd01d61ddeb%3A0x93e05ba26475e57a!2scoop%20SISA!5e0!3m2!1ses-419!2sec!4v1737955146211!5m2!1ses-419!2sec"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
         </div>
     </div>
+
 
     <!-- Redes sociales -->
     <div class="social-section">
@@ -31,17 +34,16 @@
 
             <!-- Selección de formulario -->
             <div *ngIf="!selectedForm" class="form-selection">
-                <button nz-button  (click)="selectForm('consulta')" [nzSize]="'large'">¿Tienes una
+                <button nz-button (click)="selectForm('consulta')" [nzSize]="'large'">¿Tienes una
                     Consulta?</button>
-                <button nz-button  (click)="selectForm('colaborador')" [nzSize]="'large'">¿Quieres
+                <button nz-button (click)="selectForm('colaborador')" [nzSize]="'large'">¿Quieres
                     Colaborar con Nosotros?</button>
             </div>
 
             <!-- Formulario de consulta -->
             <div *ngIf="selectedForm === 'consulta'" class="form-container">
                 <nz-card [nzBordered]="false" class="contact-form">
-                    <button nzType="text" class="close-button" (click)="closeForm()"
-                        aria-label="Cerrar formulario">
+                    <button nzType="text" class="close-button" (click)="closeForm()" aria-label="Cerrar formulario">
                         <i nz-icon nzType="close" nzTheme="outline"></i>
                     </button>
                     <h2>Déjanos tu consulta</h2>
@@ -91,8 +93,7 @@
             <!-- Formulario para colaboradores -->
             <div *ngIf="selectedForm === 'colaborador'" class="form-container">
                 <nz-card [nzBordered]="false" class="contact-form">
-                    <button nzType="text" class="close-button" (click)="closeForm()"
-                        aria-label="Cerrar formulario">
+                    <button nzType="text" class="close-button" (click)="closeForm()" aria-label="Cerrar formulario">
                         <i nz-icon nzType="close" nzTheme="outline"></i>
                     </button>
                     <h2>Colabora con Nosotros</h2>

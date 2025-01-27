@@ -1,11 +1,13 @@
-/* Estilos para las tarjetas */
-.nz-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Sombra sutil para profundidad */
-    border-radius: 8px;
-    margin-bottom: 20px;
+.quienes-somos {
+    padding: 20px;
 }
 
+/* Estilos para las tarjetas */
+.card-texto {
+    margin-bottom: 16px;
+    font-size: 20px;
+    border-radius: 8px;
+}
 
 
 /* Párrafos dentro de las tarjetas */
@@ -51,24 +53,28 @@
     height: 2px;
     /* Línea horizontal */
     width: 100%;
-    background: linear-gradient(
-        90deg,
-        rgba(166, 58, 141, 1) 0%,   /* Púrpura */
-        rgba(166, 58, 141, 0.8) 25%,
-        rgba(57, 148, 199, 1) 50%, /* Azul */
-        rgba(57, 148, 199, 0.8) 75%,
-        rgba(98, 180, 178, 1) 100% /* Verde */
-    );
+    background: linear-gradient(90deg,
+            rgba(166, 58, 141, 1) 0%,
+            /* Púrpura */
+            rgba(166, 58, 141, 0.8) 25%,
+            rgba(57, 148, 199, 1) 50%,
+            /* Azul */
+            rgba(57, 148, 199, 0.8) 75%,
+            rgba(98, 180, 178, 1) 100%
+            /* Verde */
+        );
     top: 50%;
     left: 100%;
     transform: translateY(-50%);
-    animation: gradient-move 5s linear infinite; /* Agrega una animación opcional */
+    animation: gradient-move 5s linear infinite;
+    /* Agrega una animación opcional */
 }
 
 @keyframes gradient-move {
     0% {
         background-position: 0% 50%;
     }
+
     100% {
         background-position: 100% 50%;
     }
@@ -118,42 +124,50 @@
 
 /* Alternar colores de hover para cada tarjeta usando nth-of-type */
 .timeline-item:nth-of-type(1):hover .timeline-content {
-    background-color: #F49E59; /* Color primary */
+    background-color: #F49E59;
+    /* Color primary */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(2):hover .timeline-content {
-    background-color: #E9336F; /* Color secondary */
+    background-color: #E9336F;
+    /* Color secondary */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(3):hover .timeline-content {
-    background-color: #A63A8D; /* Color tertiary */
+    background-color: #A63A8D;
+    /* Color tertiary */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(4):hover .timeline-content {
-    background-color: #7969A8; /* Color quaternary */
+    background-color: #7969A8;
+    /* Color quaternary */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(5):hover .timeline-content {
-    background-color: #3994C7; /* Color primary-light */
+    background-color: #3994C7;
+    /* Color primary-light */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(6):hover .timeline-content {
-    background-color: #62B4B2; /* Color accent */
+    background-color: #62B4B2;
+    /* Color accent */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(7):hover .timeline-content {
-    background-color: #C5BB63; /* Color highlight */
+    background-color: #C5BB63;
+    /* Color highlight */
     color: #fff;
 }
 
 .timeline-item:nth-of-type(8):hover .timeline-content {
-    background-color: #EF625F; /* Color alert */
+    background-color: #EF625F;
+    /* Color alert */
     color: #fff;
 }
 
@@ -182,6 +196,172 @@
     }
 }
 
+/* ************* Organización  ************* */
+
+.directory-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card {
+    display: flex;
+    width: 240px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+    text-align: justify;
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between; /* Espacia el texto y el ícono */
+    align-items: center; /* Alinea verticalmente al centro */
+    padding: 8px;
+}
+
+.text {
+    margin: 0; /* Elimina márgenes extra del texto */
+    flex: 1; /* Asegura que el texto ocupe el espacio restante */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.icon {
+    margin-left: 8px; /* Opcional: Espaciado entre el texto y el ícono */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card .icon i {
+    font-size: 40px;
+    color: #7969A8;
+    /* Cambia este color según el diseño */
+}
+.card .icon i:hover {
+    color: white !important;
+}
+
+.center {
+    text-align: center;
+}
+.logo {
+    width: 100%; /* Asegura que la imagen ocupe el 100% del contenedor */
+    max-width: 400px; /* Limita el tamaño máximo de la imagen */
+    margin-bottom: 1rem;
+}
+
+/* Media Queries para pantallas pequeñas */
+@media (max-width: 768px) {
+    .directory-container {
+        flex-direction: column;
+        gap: 1rem; /* Reduce el espacio entre las tarjetas y la imagen */
+        padding: 1rem;
+    }
+
+    .column {
+        align-items: center; /* Centra las tarjetas en pantallas pequeñas */
+    }
+
+    .card {
+        width: 90%; /* Reduce el ancho de las tarjetas */
+        margin: 0 auto; /* Centra las tarjetas */
+    }
+
+    .logo {
+        width: 80%; /* Ajusta el tamaño de la imagen */
+        max-width: 150px; /* Limita el tamaño máximo */
+    }
+}
+
+/* Media Queries para pantallas muy pequeñas (por ejemplo, móviles) */
+@media (max-width: 480px) {
+    .directory-container {
+        gap: 0.5rem; /* Reduce aún más el espacio entre los elementos */
+    }
+
+    .card {
+        width: 100%; /* Las tarjetas ocupan todo el ancho disponible */
+    }
+
+    .logo {
+        width: 70%; /* Ajusta aún más el tamaño de la imagen */
+        max-width: 120px; /* Limita el tamaño máximo */
+    }
+}
+
+/* Estilo de la columna central */
+.center {
+    position: relative;
+    z-index: 1; /* Asegura que la imagen esté encima de la línea */
+}
+
+/* Estilo hover para las tarjetas usando nth-of-type */
+.card:nth-of-type(1):hover {
+    background-color: #F49E59; /* Color primary */
+    color: #fff;
+}
+
+.card:nth-of-type(2):hover {
+    background-color: #E9336F; /* Color secondary */
+    color: #fff;
+}
+
+.card:nth-of-type(3):hover {
+    background-color: #A63A8D; /* Color tertiary */
+    color: #fff;
+}
+
+.card:nth-of-type(4):hover {
+    background-color: #7969A8; /* Color quaternary */
+    color: #fff;
+}
+
+.card:nth-of-type(5):hover {
+    background-color: #3994C7; /* Color primary-light */
+    color: #fff;
+}
+
+.card:nth-of-type(6):hover {
+    background-color: #62B4B2; /* Color accent */
+    color: #fff;
+}
+
+.card:nth-of-type(7):hover {
+    background-color: #C5BB63; /* Color highlight */
+    color: #fff;
+}
+
+.card:nth-of-type(8):hover {
+    background-color: #EF625F; /* Color alert */
+    color: #fff;
+}
+
+/* Si hay más de 8 elementos, repetir el patrón */
+.card:nth-of-type(9):hover {
+    background-color: #F49E59;
+    color: #fff;
+}
+
+
+
 /******* Equipo  ********/
 
 .equipo {
@@ -196,9 +376,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: auto; /* Permite que el contenido determine la altura */
-    background: none; /* Sin fondo */
-    box-shadow: none; /* Sin sombra */
+    height: auto;
+    /* Permite que el contenido determine la altura */
+    background: none;
+    /* Sin fondo */
+    box-shadow: none;
+    /* Sin sombra */
     border: none;
 }
 
@@ -247,7 +430,8 @@
     padding: 0;
 }
 
-.info-container p:hover, .info-container h3:hover {
+.info-container p:hover,
+.info-container h3:hover {
     color: white
 }
 
@@ -267,6 +451,7 @@
         max-height: 400px;
         overflow-y: auto;
     }
+
     .foto-circular {
         width: 150px;
         height: 150px;
@@ -288,6 +473,7 @@
 /* ******* Transparencia y Resultados  ******** */
 .transparencia-resultados {
     padding: 20px;
+    font-size: 24px;
     background-color: #f9f9f9;
     /* Fondo claro */
 }
@@ -298,14 +484,8 @@
     border-radius: 8px;
 }
 
-.nz-list-item-meta-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
-
 .nz-list-item-meta-description {
-    font-size: 14px;
+    font-size: 24px;
     color: #666;
 }
 

@@ -2,13 +2,25 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background-color : #ffffff;
+    background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     padding: 8px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 4px solid transparent; /* Define el grosor del borde */
+    background-clip: padding-box; /* Evita que el fondo afecte al borde */
+    border-image: linear-gradient(to right, 
+        #A63A8D 25%,  /* Púrpura hasta el 25% */
+        #3994C7 25%, #3994C7 50%,  /* Azul del 25% al 50% */
+        #62B4B2 50% /* Verde del 50% al 100% */
+    ) 1;
+}
+
+.active-link {
+    font-weight: bold;
+    border-radius: 5px;
 }
 
 /* Logo a la izquierda */
@@ -73,6 +85,9 @@ a {
 
 a:hover {
     color: #EF625F;
+    transition: color 0.3s ease;
+    transition: text-decoration 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 /* Estilos responsivos */

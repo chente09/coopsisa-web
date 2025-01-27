@@ -1,0 +1,49 @@
+@keyframes whatsapp-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.whatsapp-button {
+    position: fixed;
+    bottom: 20px; /* Ajusta la posición desde la parte inferior */
+    right: 20px; /* Ajusta la posición desde la parte derecha */
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+    width: 80px;
+    height: 140px;
+}
+
+.whatsapp-btn {
+    background-color: #25d366; /* Color verde característico de WhatsApp */
+    border: none;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: all 0.3s ease-in-out; /* Transiciones suaves */
+    width: 60px;
+    height: 60px;
+    animation: whatsapp-pulse 2s infinite; /* Aplica la animación de latencia */
+}
+
+.whatsapp-btn:hover {
+    background-color: #1ebe57; /* Color más oscuro al hacer hover */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Incrementa la sombra */
+    transform: scale(1.1); /* Agranda el botón ligeramente */
+    animation: none;
+}
+
+.whatsapp-icon {
+    font-size: 40px; /* Tamaño del ícono */
+    color: white; /* Color del ícono */
+}
+
+.whatsapp-btn:hover .whatsapp-icon {
+    color: #f5f5f5; /* Color del ícono al hacer hover */
+}

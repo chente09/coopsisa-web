@@ -80,7 +80,7 @@
         font-size: 0.875rem;
     }
 }
-/******** Estilo de las tarjetas ********/
+/******** Estilo de las tarjetas Servicios ********/
 
 .container-fluid .d-flex {
     gap: 15px;
@@ -106,8 +106,44 @@
     display: inline-block;
     /* Asegura que cada tarjeta esté alineada horizontalmente */
 }
+/******** Video *********/
+.video-section {
+    text-align: center;
+    padding: 3rem 0;
+}
 
-/******** Estilo de las tarjetas *********/
+.video-container {
+    max-width: 1400px;
+    margin: auto;
+    position: relative;
+}
+
+.embed-responsive-item {
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.video-overlay {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.video-overlay h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.video-overlay p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+/******** Estilo de las tarjetas Ecosistema *********/
 .row {
     margin: 0 auto;
     justify-content: center;

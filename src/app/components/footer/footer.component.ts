@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 export class FooterComponent {
   rutas = [
     { label: 'Inicio', icon: 'home', route: 'welcome' },
-    { label: 'Quiénes Somos', icon: 'team', route: '/quienes-somos' },
+    { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
     { label: 'Servicios', icon: 'appstore', route: '/servicios' },
     { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
     { label: 'Contacto', icon: 'phone', route: '/contacto' }

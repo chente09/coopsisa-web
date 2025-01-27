@@ -1,21 +1,31 @@
 <div class="quienes-somos">
-    <nz-card  nzTitle="Sobre COOPSISA" [nzBordered]="true" style="margin-bottom: 16px; font-size: 20px;">
-        <p >La COOPSISA es la primera cooperativa de servicios en Ecuador enfocada en la innovación y sostenibilidad,
-            promoviendo modelos asociativos que contribuyan con la productividad local y nacional. Nuestra labor se basa
-            en los principios de la Economía Social y Solidaria y en el estricto cumplimiento de los valores del
-            cooperativismo, promoviendo el desarrollo sostenible, derechos humanos y la justicia social en los
-            territorios donde trabajamos.</p>
-        <p>Somos 26 profesionales ecuatorianos y ecuatorianas que unimos nuestras capacidades para transformar
-            comunidades a lo largo del país. A través de la innovación social, tecnológica y pública, buscamos alcanzar
-            la sostenibilidad financiera y ambiental, fortaleciendo procesos socio-organizativos y contribuyendo en la
-            inclusión social y financiera para mejorar la calidad de vida de las personas en diversas localidades.</p>
-        <p>El compromiso colectivo y profesional de quienes integramos COOPSISA se centra en contribuir al desarrollo
-            sostenible de Ecuador mediante la consolidación de un modelo empresarial basado en reciprocidad,
-            responsabilidad y redistribución, valores fundamentales de la economía social y solidaria.</p>
+    <nz-card class="card-texto" nzTitle="¿Quiénes somos?" [nzBordered]="true">
+        <p>Somos la primera cooperativa de servicios en Ecuador enfocada en la innovación y sostenibilidad, promoviendo
+            modelos asociativos que contribuyan con la productividad local y nacional. </p>
     </nz-card>
-
-    <nz-card nzTitle="Evolución de COOPSISA" [nzBordered]="true">
-        <div nz-flex [nzVertical]="isVertical" class="timeline-container">
+    <nz-card class="card-texto" nzTitle="Nuestros Principios" [nzBordered]="true">
+        <p>Nuestro trabajo está basado en los principios de la Economía Social y Solidaria y los valores del
+            Cooperativismo, que nos permiten promover el desarrollo sostenible, derechos humanos y la justicia social en
+            los territorios donde trabajamos.</p>
+    </nz-card>
+    <nz-card class="card-texto" nzTitle="Nuestro Equipo" [nzBordered]="true">
+        <p>Somos 26 profesionales ecuatorianos y ecuatorianas que unimos nuestras capacidades para transformar
+            comunidades a lo largo del Ecuador, a través de la innovación social, tecnológica y pública, buscamos
+            alcanzar la sostenibilidad financiera y ambiental, fortaleciendo procesos socio-organizativos y
+            contribuyendo en la inclusión social y financiera para mejorar la calidad de vida de las personas en
+            diversas localidades.</p>
+    </nz-card>
+    <nz-card class="card-texto" nzTitle="Nuestro Compromiso" [nzBordered]="true">
+        <p>Nosotros contribuimos al desarrollo sostenible de Ecuador mediante la consolidación de un modelo empresarial
+            basado en los valores fundamentales de la Economía Social y Solidaria:</p>
+        <ul>
+            <li>Reciprocidad</li>
+            <li>Responsabilidad</li>
+            <li>Redistribución</li>
+        </ul>
+    </nz-card>
+    <nz-card nzTitle="Nuestra evolución como COOPSISA " [nzBordered]="true" style="margin-bottom: 16px; ">
+        <div nz-flex class="timeline-container">
             <div *ngFor="let event of timelineEvents" class="timeline-item">
                 <div class="timeline-content">
                     <strong>{{ event.year }}:</strong> {{ event.description }}
@@ -24,43 +34,85 @@
         </div>
     </nz-card>
 
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-        <h1 class="display-5 mb-3">Nuestros Socios</h1>
-    </div>
+    <nz-card class="card-texto" nzTitle="Nuestro trabajo fomenta" [nzBordered]="true">
+        <ul>
+            <li>Comercio Justo</li>
+            <li>Igualdad de Género</li>
+            <li>Conciencia sobre el Cambio climático</li>
+            <li>Innovación</li>
+            <li>Sostenibilidad</li>
+        </ul>
+    </nz-card>
 
-    <div class="equipo">
-        <div nz-row [nzGutter]="16" nzJustify="center" class="tarjetas-scroll">
-            <div nz-col *ngFor="let miembro of equipo" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
-                <div class="equipo-card">
-                    <div class="foto-container">
-                        <img [src]="miembro.foto" alt="{{ miembro.nombre }}" class="foto-circular" />
+    <nz-card class="card-texto" nzTitle="Así nos organizamos" [nzBordered]="true">
+        <div class="directory-container">
+            <div class="column left">
+                <div class="card" *ngFor="let member of membersLeft">
+                    <div class="icon">
+                        <i nz-icon [nzType]="member.icon" [nzTheme]="'outline'"></i>
                     </div>
-                    <div class="info-container">
-                        <h3>{{ miembro.nombre }}</h3>
-                        <p>{{ miembro.cargo }}</p>
+                    <p>{{ member.role }}</p>
+                </div>
+            </div>
+            <div class="center">
+                <!-- <h2>Directorio</h2> -->
+                <img src="https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png" alt="Logo Coopsisa"
+                    class="logo" />
+            </div>
+
+            <div class="column right">
+                <div class="card" *ngFor="let member of membersRight">
+                    <div class="card-content">
+                        <p class="text">{{ member.role }}</p>
+                        <div class="icon">
+                            <i nz-icon [nzType]="member.icon" [nzTheme]="'outline'"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </nz-card>
+</div>
 
-    <div class="transparencia-resultados">
-        <nz-card nzTitle="Transparencia y Resultados" [nzBordered]="true">
-            <nz-list [nzBordered]="false" [nzSplit]="false">
-                <nz-list-item>
-                    <nz-list-item-meta nzTitle="Reciprocidad"
-                        nzDescription="Reportes financieros y de impacto organizados por proyecto o institución."></nz-list-item-meta>
-                </nz-list-item>
-                <nz-list-item>
-                    <nz-list-item-meta nzTitle="Redistribución"
-                        nzDescription="Reconocimientos y estándares cumplidos (sostenibilidad, transparencia financiera)."></nz-list-item-meta>
-                </nz-list-item>
-                <nz-list-item>
-                    <nz-list-item-meta nzTitle="Responsabilidad"
-                        nzDescription="KPI que reflejan el impacto medible."></nz-list-item-meta>
-                </nz-list-item>
-            </nz-list>
-        </nz-card>
+
+<div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+    <h1 class="display-5 mb-3">Nuestros Socios</h1>
+</div>
+
+<div class="equipo">
+    <div nz-row [nzGutter]="16" nzJustify="center" class="tarjetas-scroll">
+        <div nz-col *ngFor="let miembro of equipo" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+            <div class="equipo-card">
+                <div class="foto-container">
+                    <img [src]="miembro.foto" alt="{{ miembro.nombre }}" class="foto-circular" />
+                </div>
+                <div class="info-container">
+                    <h3>{{ miembro.nombre }}</h3>
+                    <p>{{ miembro.cargo }}</p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
+<div class="transparencia-resultados">
+    <nz-card nzTitle="Transparencia y Resultados" [nzBordered]="true">
+        <nz-list [nzBordered]="false" [nzSplit]="false">
+            <nz-list-item>
+                <nz-list-item-meta nzTitle="Reciprocidad"
+                    nzDescription="Reportes financieros y de impacto organizados por proyecto o institución."></nz-list-item-meta>
+            </nz-list-item>
+            <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                src="https://heyzine.com/flip-book/b0c3dffbc9.html"
+                style="border: 1px solid lightgray; width: 100%; height: 600px;"></iframe>
+            <nz-list-item>
+                <nz-list-item-meta nzTitle="Redistribución"
+                    nzDescription="Reconocimientos y estándares cumplidos (sostenibilidad, transparencia financiera)."></nz-list-item-meta>
+            </nz-list-item>
+            <nz-list-item>
+                <nz-list-item-meta nzTitle="Responsabilidad"
+                    nzDescription="KPI que reflejan el impacto medible."></nz-list-item-meta>
+            </nz-list-item>
+        </nz-list>
+    </nz-card>
 </div>

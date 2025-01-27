@@ -117,7 +117,7 @@
     margin-bottom: 16px;
 }
 
-div.ant-card-body {
+/* div.ant-card-body {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -129,7 +129,7 @@ nz-card.ant-card.ant-card-hoverable {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
+} */
 
 .card-actions {
     display: flex;
@@ -148,17 +148,17 @@ nz-card.ant-card.ant-card-hoverable {
 
 /* Estilo general para el botón */
 button[nz-button] {
-    background-color: #E9336F; /* Usa el color secundario */
+    background-color: #E9336F;
     border: none;
-    color: #ffffff; /* Texto blanco */
+    color: #ffffff;
     font-weight: bold;
     display: flex;
     align-items: center;
     font-size: 1rem;
-    padding: 10px 20px; /* Tamaño del botón */
+    padding: 10px 10px 10px 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    border-radius: 50px; /* Forma redondeada */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
     cursor: pointer;
     margin-top: 16px;
 }

@@ -5,7 +5,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 @Component({
@@ -17,8 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzCardModule,
     NzAvatarModule,
     NzGridModule,
-    NzModalModule,
-    NzButtonModule
+    NzModalModule
   ],
   templateUrl: './ecosistema.component.html',
   styleUrl: './ecosistema.component.css'

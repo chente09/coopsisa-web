@@ -14,7 +14,13 @@
         <ng-container *ngFor="let item of menuItems">
             <li *ngIf="!item.children" nz-menu-item>
                 <nz-icon [nzType]="item.icon" style="font-size: 18px;"></nz-icon>
-                <a [routerLink]="item.route">{{ item.label }}</a>
+                <a 
+                    [routerLink]="item.route" 
+                    routerLinkActive="active-link" 
+                    [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    {{ item.label }}
+                </a>
             </li>
         </ng-container>
     </ul>

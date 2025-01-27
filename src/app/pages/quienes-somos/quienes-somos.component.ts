@@ -7,7 +7,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
-import { NzSizeDSType } from 'ng-zorro-antd/core/types';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-quienes-somos',
@@ -19,14 +19,15 @@ import { NzSizeDSType } from 'ng-zorro-antd/core/types';
     NzFlexModule, 
     NzRadioModule,
     NzGridModule,
-    NzListModule],
+    NzListModule,
+    NzIconModule
+  ],
   templateUrl: './quienes-somos.component.html',
   styleUrl: './quienes-somos.component.css'
 })
 export class QuienesSomosComponent {
 
-  isVertical: boolean = false; // Por defecto, mostrar en horizontal
-
+  
   timelineEvents = [
     { year: '2018', description: 'Se promueve la idea de una asociación orientada a la capacitación en Economía Social y Solidaria.' },
     { year: '2019', description: 'Se contribuye al cuidado de las personas vinculadas a procesos asociativos durante la pandemia.' },
@@ -48,5 +49,18 @@ export class QuienesSomosComponent {
     { nombre: 'Carlos Méndez', cargo: 'COO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
     { nombre: 'María García', cargo: 'CFO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' }
   ];
+
+  membersLeft = [
+    { role: 'Presidenta', icon: 'gold' }, // Representa liderazgo.
+    { role: 'Secretaría', icon: 'file-text' }, // Representa documentos y registros.
+    { role: 'Tesorera', icon: 'wallet' } // Representa manejo financiero.
+  ];
+  
+  membersRight = [
+    { role: 'Gerente General', icon: 'solution' }, // Representa gestión y soluciones.
+    { role: 'Consejo de Vigilancia', icon: 'eye' }, // Representa supervisión y vigilancia.
+    { role: 'Consejo de Administración', icon: 'team' } // Representa un grupo administrativo.
+  ];
+  
 
 }

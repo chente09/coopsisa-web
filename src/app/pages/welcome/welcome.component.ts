@@ -7,14 +7,15 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
   imports: [
-    CommonModule, 
-    RouterModule, 
-    NzCardModule, 
+    CommonModule,
+    RouterModule,
+    NzCardModule,
     NzIconModule,
     NzModalModule,
     NzButtonModule,
@@ -27,6 +28,17 @@ import { NzListModule } from 'ng-zorro-antd/list';
 export class WelcomeComponent {
   isModalVisible = false;
   selectedLab: any = null;
+  videoUrl: string = 'https://www.youtube.com/embed/2Gg6Seob5Mg?si=TUx5yvYdYCIJXyHE';
+  noticia = {
+    titulo: 'Gran avance en tecnología',
+    descripcion: 'Descubre cómo esta innovación está cambiando el mundo.',
+    link: '/noticia-detalle'
+  };
+  constructor(private sanitizer: DomSanitizer) { }
+
+  safeVideoUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   slides = [
     {
@@ -120,7 +132,7 @@ export class WelcomeComponent {
       link: 'recetas.html'
     }
   ];
-  
+
   laboratorios = [
     {
       titulo: 'Laboratorio Innovación Textil Sostenible',
