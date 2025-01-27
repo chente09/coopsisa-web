@@ -1,34 +1,38 @@
 <div class="container-fluid py-5">
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-        <h1 class="display-7 mb-3">Laboratorios de Innovación</h1>
-        <p class="mb-3" style="font-size: 18px;">Diseñamos soluciones productivas y de servicios desde un enfoque
-            innovador y sostenible,
-            abordando desafíos sociales, ambientales y económicos.</p>
+    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
+        <h1 class="display-4 mb-4">Laboratorios de Innovación</h1>
+        <nz-card [nzBordered]="false" class="dynamic-card">
+            <p nz-typography nzType="secondary" class="dynamic-text">
+                Diseñamos soluciones productivas y de servicios desde un enfoque innovador y sostenible,
+                abordando desafíos sociales, ambientales y económicos.
+            </p>
+        </nz-card>
     </div>
-
     <div class="container">
         <div class="row g-4 justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex align-items-stretch" *ngFor="let lab of laboratorios; let i = index">
                 <div class="card h-100 card-{{ i % 8 }}">
                     <div class="card-body text-center">
-                        <nz-icon [nzType]="lab.icono" nzTheme="outline" style="font-size: 40px; color: #C5BB63;"></nz-icon>
+                        <nz-icon [nzType]="lab.icono" nzTheme="outline"
+                            style="font-size: 40px; color: #C5BB63;"></nz-icon>
                         <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
                         <button class="btn btn-primary mt-3" (click)="openModal(lab)">Más información</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 
     <!-- Modal -->
-    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal" [nzFooter]="modalFooter">
+    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+        [nzFooter]="modalFooter">
         <ng-container *nzModalContent>
             <div class="custom-modal-content">
                 <p>{{ selectedLab?.descripcion }}</p>
             </div>
         </ng-container>
     </nz-modal>
-    
+
 
     <ng-template #modalFooter>
         <button nz-button style="background-color: #7969A8; color: white; margin-right: 8px; border-radius: 15px 15px;"

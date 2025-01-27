@@ -1,3 +1,50 @@
+.dynamic-card {
+    max-width: 900px;
+    /* Limita el ancho del contenido */
+    margin: auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Sombra elegante */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Transiciones suaves */
+    margin-bottom: 20px;
+}
+
+.dynamic-card:hover {
+    transform: translateY(-5px);
+    /* Efecto de elevación */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dynamic-text {
+    font-size: 1.2rem;
+    /* Ajusta el tamaño del texto */
+    line-height: 1.6;
+    /* Mejora la legibilidad */
+    color: #555;
+    /* Un color suave para el texto */
+    text-align: center;
+    /* Centra el texto */
+    margin: 0 auto;
+    animation: fadeIn 1s ease;
+    /* Añade una animación */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ******* Tarjetas Lab ******* */
+
 .card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -5,26 +52,33 @@
     text-align: center;
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%; /* Asegura que la tarjeta ocupe todo el espacio disponible */
+    height: 100%;
+    /* Asegura que la tarjeta ocupe todo el espacio disponible */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
 /* Centrar todo el contenido dentro de las columnas */
 .row {
-    justify-content: center; /* Centra las tarjetas en el grid */
+    justify-content: center;
+    /* Centra las tarjetas en el grid */
 }
 
 .col-lg-4,
 .col-md-6 {
     display: flex;
-    align-items: stretch; /* Estira las tarjetas para mantener una altura uniforme */
+    align-items: stretch;
+    /* Estira las tarjetas para mantener una altura uniforme */
 }
 
 .card {
-    margin: auto; /* Centra las tarjetas dentro de sus columnas */
-    width: 100%; /* Asegura que las tarjetas ocupen el espacio disponible */
+    margin: auto;
+    /* Centra las tarjetas dentro de sus columnas */
+    width: 100%;
+    /* Asegura que las tarjetas ocupen el espacio disponible */
 }
+
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -87,16 +141,19 @@
 
 .card button:hover {
     background-color: white;
+    color: black;
     transform: scale(1.05);
 }
+
 .custom-modal-content {
-    padding: 30px; 
-    font-size: 16px; 
-    line-height: 1.6; 
-    color: #333; 
+    padding: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
     background-color: #f9f9f9;
     border-radius: 0 0 15px 15px;
-    text-align: justify important; /* Asegura la justificación */
+    text-align: justify important;
+    /* Asegura la justificación */
 }
 
 

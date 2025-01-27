@@ -5,6 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import {CommonModule} from '@angular/common';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-servicios',
@@ -14,7 +15,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
     CommonModule, 
     NzButtonModule, 
     NzCollapseModule,
-    NzListModule
+    NzListModule,
+    NzCardModule
   ],
   templateUrl: './servicios.component.html',
   styleUrl: './servicios.component.css'
