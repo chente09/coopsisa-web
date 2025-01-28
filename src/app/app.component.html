@@ -1,6 +1,6 @@
 <main class="main">
   <app-nav-bar *ngIf="showLayout"></app-nav-bar>
-  <div class="content">
+  <div class="content" [ngClass]="{ 'no-margin-top': !showLayout }">
     <router-outlet></router-outlet>
   </div>
   <app-wpp *ngIf="showLayout"></app-wpp>

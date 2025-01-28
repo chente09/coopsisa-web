@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -9,6 +9,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WppComponent } from "./components/wpp/wpp.component";
 import { UsersService } from './pages/services/users/users.service';
+import { filter } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -22,21 +24,39 @@ import { UsersService } from './pages/services/users/users.service';
     NavBarComponent,
     GoogleMapsModule,
     ReactiveFormsModule,
-    WppComponent
+    WppComponent,
+    CommonModule
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  isCollapsed = false;
   showLayout = true; // Controla si se muestra el layout completo (navbar y footer)
 
-  constructor(private userService: UsersService) {}
+  constructor(private router: Router, private userService: UsersService) {}
 
   ngOnInit(): void {
-    const user = this.userService.getCurrentUser();
-    if (user && user.email === 'admin-coopsisa@coopsisa.com') {
-      this.showLayout = false; // Oculta navbar y footer para el admin
-    }
+    // Escucha cambios en la navegación para ocultar el layout en rutas específicas
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // Oculta el layout si la ruta actual es '/cpanel' o alguna de sus subrutas
+        this.showLayout = !event.url.startsWith('/cpanel');
+      });
+  }
+
+  isLogged(): boolean {
+    return this.userService.getCurrentUser() !== null;
+  }
+
+  logout(): void {
+    // Limpiar la sesión en el servicio
+    this.userService.logout();
+  
+    // Redirigir al usuario a la página de inicio o de login
+    this.router.navigate(['/cpanel-login']).then(() => {
+      // Forzar la recarga de la página
+      window.location.reload();
+    });
   }
 }

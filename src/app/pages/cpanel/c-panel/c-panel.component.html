@@ -30,7 +30,13 @@
                     [nzLoading]="selectedKey === '6'">
                     Nav-Bar y Footer
                 </button>
+
+                <!-- Botón de cerrar sesión -->
+                <button nz-button nzBlock nzType="primary" nzDanger (click)="logout()">
+                    Cerrar Sesión
+                </button>
             </div>
+
         </nz-sider>
 
         <!-- Contenido principal -->
