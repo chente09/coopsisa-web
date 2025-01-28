@@ -1,0 +1,85 @@
+.login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+}  
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #7969A8;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.nz-form-item {
+    margin-bottom: 15px;
+}
+
+input[nz-input] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[nz-input]:focus {
+    border-color: #7969A8;
+    box-shadow: 0 0 4px rgba(102, 126, 234, 0.5);
+}
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.login-options a {
+    color: #7969A8;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-options a:hover {
+    color: #4a63d6;
+}
+
+.login-form-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #7969A8;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 5px 10px;
+}
+
+.login-form-button:hover {
+    color: #F49E59;
+    transform: translateY(-2px);
+}

@@ -1,8 +1,8 @@
 <main class="main">
-  <app-nav-bar></app-nav-bar>
+  <app-nav-bar *ngIf="showLayout"></app-nav-bar>
   <div class="content">
     <router-outlet></router-outlet>
   </div>
-  <app-wpp></app-wpp>
-  <app-footer></app-footer>
+  <app-wpp *ngIf="showLayout"></app-wpp>
+  <app-footer *ngIf="showLayout"></app-footer>
 </main>

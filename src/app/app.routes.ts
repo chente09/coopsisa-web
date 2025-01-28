@@ -3,6 +3,8 @@ import { ContactoComponent } from './pages/contacto/contacto.component';
 import { EcosistemaComponent } from './pages/ecosistema/ecosistema.component';
 import { QuienesSomosComponent } from './pages/quienes-somos/quienes-somos.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
+import { CpanelLoginComponent } from './pages/cpanel/cpanel-login/cpanel-login.component';
+import { CPanelComponent } from './pages/cpanel/c-panel/c-panel.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/welcome' },
@@ -11,4 +13,6 @@ export const routes: Routes = [
   { path: 'ecosistema', component: EcosistemaComponent },
   { path: 'quienes-somos', component: QuienesSomosComponent },
   { path: 'servicios', component: ServiciosComponent },
+  { path: 'cpanel-login', component: CpanelLoginComponent },
+  { path: 'cpanel', component: CPanelComponent },
 ];

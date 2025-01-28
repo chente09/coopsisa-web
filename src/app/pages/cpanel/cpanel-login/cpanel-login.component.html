@@ -1,0 +1,30 @@
+<div class="login-container d-flex justify-content-center">
+    <div class="login-card shadow">
+        <h2 class="text-center mb-4">Bienvenido</h2>
+        <form nz-form [formGroup]="form" class="login-form">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Por favor ingrese su email.">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="email" placeholder="Correo Electrónico" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Por favor ingrese su contraseña.">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Contraseña" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <div nz-row class="login-options">
+                <label nz-checkbox>
+                    <span>Recordar sesión</span>
+                </label>
+                <a class="login-form-forgot">¿Olvidaste tu contraseña?</a>
+            </div>
+            <button nz-button class="login-form-button" [nzType]="'primary'" type="button" (click)="onLogin()">
+                Ingresar
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="admin-panel">
+    <nz-layout>
+        <!-- Menú lateral -->
+        <nz-sider [nzCollapsible]="true" [nzWidth]="250" class="sider">
+            <div class="logo">
+                <h2 style="color: aliceblue;">Admin Panel</h2>
+            </div>
+            <div class="menu-buttons">
+                <button nz-button nzBlock nzType="default" (click)="selectSection('1')"
+                    [nzLoading]="selectedKey === '1'">
+                    Inicio
+                </button>
+                <button nz-button nzBlock nzType="default" (click)="selectSection('2')"
+                    [nzLoading]="selectedKey === '2'">
+                    Sobre CoopSisa
+                </button>
+                <button nz-button nzBlock nzType="default" (click)="selectSection('3')"
+                    [nzLoading]="selectedKey === '3'">
+                    Servicios
+                </button>
+                <button nz-button nzBlock nzType="default" (click)="selectSection('4')"
+                    [nzLoading]="selectedKey === '4'">
+                    Ecosistema
+                </button>
+                <button nz-button nzBlock nzType="default" (click)="selectSection('5')"
+                    [nzLoading]="selectedKey === '5'">
+                    Contacto
+                </button>
+                <button nz-button nzBlock nzType="default" (click)="selectSection('6')"
+                    [nzLoading]="selectedKey === '6'">
+                    Nav-Bar y Footer
+                </button>
+            </div>
+        </nz-sider>
+
+        <!-- Contenido principal -->
+        <nz-layout>
+            <nz-header class="header">
+                <h3>Opciones de configuración</h3>
+            </nz-header>
+            <nz-content class="content">
+                <div *ngIf="selectedKey === '1'">
+                    <h4>Configuración 1</h4>
+                    <!-- Aquí colocas el contenido de la Configuración 1 -->
+                </div>
+                <div *ngIf="selectedKey === '2'">
+                    <h4>Configuración 2</h4>
+                    <!-- Aquí colocas el contenido de la Configuración 2 -->
+                </div>
+                <div *ngIf="selectedKey === '3'">
+                    <h4>Configuración 3</h4>
+                    <!-- Aquí colocas el contenido de la Configuración 3 -->
+                </div>
+                <div *ngIf="selectedKey === '4'">
+                    <h4>Configuración 4</h4>
+                    <!-- Aquí colocas el contenido de la Configuración 4 -->
+                </div>
+                <div *ngIf="selectedKey === '5'">
+                    <h4>Configuración 5</h4>
+                    <!-- Aquí colocas el contenido de la Configuración 5 -->
+                </div>
+                <div *ngIf="selectedKey === '6'">
+                    <h4>Configuración 6</h4>
+                    <!-- Aquí colocas el contenido de la Configuración 5 -->
+                </div>
+            </nz-content>
+        </nz-layout>
+    </nz-layout>
+</div>
