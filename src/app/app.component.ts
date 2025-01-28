@@ -44,19 +44,4 @@ export class AppComponent implements OnInit {
         this.showLayout = !event.url.startsWith('/cpanel');
       });
   }
-
-  isLogged(): boolean {
-    return this.userService.getCurrentUser() !== null;
-  }
-
-  logout(): void {
-    // Limpiar la sesión en el servicio
-    this.userService.logout();
-  
-    // Redirigir al usuario a la página de inicio o de login
-    this.router.navigate(['/cpanel-login']).then(() => {
-      // Forzar la recarga de la página
-      window.location.reload();
-    });
-  }
 }
