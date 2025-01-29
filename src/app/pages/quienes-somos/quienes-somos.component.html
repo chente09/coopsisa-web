@@ -1,29 +1,20 @@
 <div class="quienes-somos">
-    <nz-card class="card-texto" nzTitle="¿Quiénes somos?" [nzBordered]="true">
-        <p>Somos la primera cooperativa de servicios en Ecuador enfocada en la innovación y sostenibilidad, promoviendo
-            modelos asociativos que contribuyan con la productividad local y nacional. </p>
-    </nz-card>
-    <nz-card class="card-texto" nzTitle="Nuestros Principios" [nzBordered]="true">
-        <p>Nuestro trabajo está basado en los principios de la Economía Social y Solidaria y los valores del
-            Cooperativismo, que nos permiten promover el desarrollo sostenible, derechos humanos y la justicia social en
-            los territorios donde trabajamos.</p>
-    </nz-card>
-    <nz-card class="card-texto" nzTitle="Nuestro Equipo" [nzBordered]="true">
-        <p>Somos 26 profesionales ecuatorianos y ecuatorianas que unimos nuestras capacidades para transformar
-            comunidades a lo largo del Ecuador, a través de la innovación social, tecnológica y pública, buscamos
-            alcanzar la sostenibilidad financiera y ambiental, fortaleciendo procesos socio-organizativos y
-            contribuyendo en la inclusión social y financiera para mejorar la calidad de vida de las personas en
-            diversas localidades.</p>
-    </nz-card>
-    <nz-card class="card-texto" nzTitle="Nuestro Compromiso" [nzBordered]="true">
-        <p>Nosotros contribuimos al desarrollo sostenible de Ecuador mediante la consolidación de un modelo empresarial
-            basado en los valores fundamentales de la Economía Social y Solidaria:</p>
-        <ul>
-            <li>Reciprocidad</li>
-            <li>Responsabilidad</li>
-            <li>Redistribución</li>
-        </ul>
-    </nz-card>
+    <div *ngFor="let card of cards; let i = index" class="card-container card-item"
+        [ngClass]="{ 'reverse': i % 2 !== 0 }">
+        <nz-card class="card-texto tarjetas1-content" >
+            <h2 class="custom-title">{{ card.title }}</h2>
+            <hr>
+            <p>{{ card.text }}</p>
+            <ul *ngIf="card.subItems && card.subItems.length > 0">
+                <li *ngFor="let item of card.subItems">{{ item }}</li>
+            </ul>
+        </nz-card>
+
+        <div class="card-image">
+            <img [src]="card.image" alt="{{ card.title }}">
+        </div>
+    </div>
+
     <nz-card nzTitle="Nuestra evolución como COOPSISA " [nzBordered]="true" style="margin-bottom: 16px; ">
         <div nz-flex class="timeline-container">
             <div *ngFor="let event of timelineEvents" class="timeline-item">
@@ -104,7 +95,12 @@
             </nz-list-item>
             <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
                 src="https://heyzine.com/flip-book/b0c3dffbc9.html"
-                style="border: 1px solid lightgray; width: 100%; height: 600px;"></iframe>
+                style="border: 1px solid lightgray; width: 200px; height: 200px;">
+            </iframe>
+            <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                src="https://heyzine.com/flip-book/b0c3dffbc9.html"
+                style="border: 1px solid lightgray; width: 200px; height: 200px;">
+            </iframe>
             <nz-list-item>
                 <nz-list-item-meta nzTitle="Redistribución"
                     nzDescription="Reconocimientos y estándares cumplidos (sostenibilidad, transparencia financiera)."></nz-list-item-meta>

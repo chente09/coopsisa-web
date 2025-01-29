@@ -27,7 +27,30 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 })
 export class QuienesSomosComponent {
 
-  
+  cards = [
+    { 
+      title: '¿Quiénes somos?', 
+      text: 'Somos la primera cooperativa de servicios en Ecuador enfocada en la innovación y sostenibilidad, promoviendo modelos asociativos que contribuyan con la productividad local y nacional.',
+      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' 
+    },
+    { 
+      title: 'Nuestros Principios', 
+      text: 'Nuestro trabajo está basado en los principios de la Economía Social y Solidaria y los valores del Cooperativismo, que nos permiten promover el desarrollo sostenible, derechos humanos y la justicia social en los territorios donde trabajamos.',
+      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' 
+    },
+    { 
+      title: 'Nuestro Equipo', 
+      text: 'Somos 26 profesionales ecuatorianos y ecuatorianas que unimos nuestras capacidades para transformar comunidades a lo largo del Ecuador, a través de la innovación social, tecnológica y pública, buscamos alcanzar la sostenibilidad financiera y ambiental, fortaleciendo procesos socio-organizativos y ontribuyendo en la inclusión social y financiera para mejorar la calidad de vida de las personas en diversas localidades.',
+      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' 
+    },
+    { 
+      title: 'Nuestro Compromiso', 
+      text: 'Nosotros contribuimos al desarrollo sostenible de Ecuador mediante la consolidación de un modelo empresarial basado en los valores fundamentales de la Economía Social y Solidaria:',
+      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
+      subItems: ['Reciprocidad', 'Responsabilidad', 'Redistribución'] // Subniveles en forma de lista
+    }
+  ];
+
   timelineEvents = [
     { year: '2018', description: 'Se promueve la idea de una asociación orientada a la capacitación en Economía Social y Solidaria.' },
     { year: '2019', description: 'Se contribuye al cuidado de las personas vinculadas a procesos asociativos durante la pandemia.' },

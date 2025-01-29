@@ -13,7 +13,7 @@
 
     <!-- Redes sociales -->
     <div class="social-section">
-        <h2>Redes Sociales</h2>
+        <h2>Síguenos</h2>
         <div class="social-icons">
             <a href="https://www.facebook.com/share/1574P8K1FG/?mibextid=wwXIfr" target="_blank" class="social-icon">
                 <i class="fab fa-facebook"></i>
@@ -35,9 +35,9 @@
             <!-- Selección de formulario -->
             <div *ngIf="!selectedForm" class="form-selection">
                 <button nz-button (click)="selectForm('consulta')" [nzSize]="'large'">¿Tienes una
-                    Consulta?</button>
-                <button nz-button (click)="selectForm('colaborador')" [nzSize]="'large'">¿Quieres
-                    Colaborar con Nosotros?</button>
+                    consulta?</button>
+                <button nz-button (click)="selectForm('colaborador')" [nzSize]="'large'">
+                    Colabora con nosotros</button>
             </div>
 
             <!-- Formulario de consulta -->
@@ -46,7 +46,7 @@
                     <button nzType="text" class="close-button" (click)="closeForm()" aria-label="Cerrar formulario">
                         <i nz-icon nzType="close" nzTheme="outline"></i>
                     </button>
-                    <h2>Déjanos tu consulta</h2>
+                    <h2>¿Cómo podemos ayudarte?</h2>
                     <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
                         <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
@@ -58,6 +58,21 @@
                             <ng-template #nameErrorTpl>
                                 <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
                                     <p>El nombre es obligatorio (mínimo 3 caracteres).</p>
+                                </div>
+                            </ng-template>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>    
+                            <nz-form-control [nzSpan]="18" [nzErrorTip]="lastNameErrorTpl">
+                                <nz-input-group [nzPrefixIcon]="'user'">
+                                    <input nz-input formControlName="lastName" id="lastName"
+                                        placeholder="Ingresa tu apellido" />
+                                </nz-input-group>
+                            </nz-form-control>
+                            <ng-template #lastNameErrorTpl>
+                                <div *ngIf="contactForm.get('lastName')?.touched && contactForm.get('lastName')?.invalid">
+                                    <p>El apellido es obligatorio (mínimo 3 caracteres).</p>
                                 </div>
                             </ng-template>
                         </nz-form-item>
@@ -78,7 +93,7 @@
                         </nz-form-item>
 
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="message">Asunto</nz-form-label>
                             <nz-form-control [nzSpan]="18">
                                 <textarea nz-input formControlName="message" id="message"
                                     placeholder="Escribe tu mensaje"></textarea>
@@ -109,6 +124,16 @@
                         </nz-form-item>
 
                         <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>
+                            <nz-form-control [nzSpan]="18">
+                                <nz-input-group [nzPrefixIcon]="'user'">
+                                    <input nz-input formControlName="lastName" id="lastName"
+                                        placeholder="Ingresa tu apellido" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
                             <nz-form-control [nzSpan]="18">
                                 <nz-input-group [nzPrefixIcon]="'mail'">
@@ -129,7 +154,7 @@
                         </nz-form-item>
 
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="skills">Habilidades</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="skills">Motivo</nz-form-label>
                             <nz-form-control [nzSpan]="18">
                                 <textarea nz-input formControlName="skills" id="skills"
                                     placeholder="Describe tus habilidades"></textarea>

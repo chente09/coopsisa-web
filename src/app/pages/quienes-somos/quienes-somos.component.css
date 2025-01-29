@@ -3,19 +3,142 @@
 }
 
 /* Estilos para las tarjetas */
-.card-texto {
+.card-container {
+    display: flex;
+    align-items: center;
     margin-bottom: 16px;
-    font-size: 20px;
-    border-radius: 8px;
+    gap: 20px;
 }
 
+.card-container.reverse {
+    flex-direction: row-reverse;
+}
 
-/* Párrafos dentro de las tarjetas */
-.nz-card-content p {
+/* Ajustes para el texto */
+.card-texto {
+    flex: 1;
+    padding: 5px;
+    /* Más espacio en el contenido */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, font-size 0.3s ease;
     font-size: 16px;
-    line-height: 1.6;
-    color: #444;
-    margin-bottom: 16px;
+}
+
+/* Ajustes para la imagen */
+.card-image {
+    flex: 1.2;
+    /* La imagen ocupa más espacio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-image img:hover {
+    transform: scale(1.1); /* Hace la imagen un 10% más grande */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+/* Títulos personalizados */
+.custom-title {
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #EF625F;
+    font-weight: bolder;
+}
+
+/* Aplicar colores de hover alternando en cada tarjeta */
+.card-item:nth-of-type(1):hover .tarjetas1-content {
+    background-color: #f49f599c;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(2):hover .tarjetas1-content {
+    background-color: #e93370a7;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(3):hover .tarjetas1-content {
+    background-color: #a63a8d94;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(4):hover .tarjetas1-content {
+    background-color: #7969a894;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(5):hover .tarjetas1-content {
+    background-color: #3993c781;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(6):hover .tarjetas1-content {
+    background-color: #62b4b395;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(7):hover .tarjetas1-content {
+    background-color: #c5bb6397;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(8):hover .tarjetas1-content {
+    background-color: #ef615f98;
+    font-size: 18px;
+}
+
+/* Si hay más de 8 elementos, repetir el patrón */
+.card-item:nth-of-type(9):hover .tarjetas1-content {
+    background-color: #f49f599c;
+    font-size: 18px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card-item:nth-of-type(1) .tarjetas1-content {
+        width: 100%;
+    }
+    .card-item:nth-of-type(2) .tarjetas1-content {
+        width: 100%;
+    }
+    .card-item:nth-of-type(3) .tarjetas1-content {
+        width: 100%;
+    }
+
+    .card-item:nth-of-type(4) .tarjetas1-content {
+        width: 100%;
+    }
+
+    .card-container.reverse {
+        flex-direction: column;
+    }
+
+    .card-texto {
+        width: 100%; /* Ocupar todo el ancho */
+        padding: 20px;
+    }
+
+    .card-image {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card-image img {
+        max-width: 100%; /* Imagen ocupa todo el ancho disponible */
+        width: 100%;
+    }
 }
 
 /* Contenedor general de la línea de tiempo */
@@ -52,7 +175,7 @@
     position: absolute;
     height: 2px;
     /* Línea horizontal */
-    width: 100%;
+    width: 25%;
     background: linear-gradient(90deg,
             rgba(166, 58, 141, 1) 0%,
             /* Púrpura */
@@ -108,8 +231,10 @@
 .timeline-item strong {
     font-size: 18px;
     margin-bottom: 5px;
-    color: #F49E59;
+    color: #EF625F;
+    font-weight: bolder;
 }
+
 
 /* Efecto hover para el contenido de la línea de tiempo */
 .timeline-content:hover {
@@ -119,62 +244,61 @@
     z-index: 2;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #F49E59;
 }
 
 /* Alternar colores de hover para cada tarjeta usando nth-of-type */
 .timeline-item:nth-of-type(1):hover .timeline-content {
-    background-color: #F49E59;
+    background-color: #f49f599c;
     /* Color primary */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(2):hover .timeline-content {
-    background-color: #E9336F;
+    background-color: #e93370a7;
     /* Color secondary */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(3):hover .timeline-content {
-    background-color: #A63A8D;
+    background-color: #a63a8d94;
     /* Color tertiary */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(4):hover .timeline-content {
-    background-color: #7969A8;
+    background-color: #7969a894;
     /* Color quaternary */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(5):hover .timeline-content {
-    background-color: #3994C7;
+    background-color: #3993c781;
     /* Color primary-light */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(6):hover .timeline-content {
-    background-color: #62B4B2;
+    background-color: #62b4b395;
     /* Color accent */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(7):hover .timeline-content {
-    background-color: #C5BB63;
+    background-color: #c5bb6397;
     /* Color highlight */
-    color: #fff;
+    font-size: 15px;
 }
 
 .timeline-item:nth-of-type(8):hover .timeline-content {
-    background-color: #EF625F;
+    background-color: #ef615f98;
     /* Color alert */
-    color: #fff;
+    font-size: 15px;
 }
 
 /* Si hay más de 8 elementos, repetir el patrón */
 .timeline-item:nth-of-type(9):hover .timeline-content {
-    background-color: #F49E59;
-    color: #fff;
+    background-color: #f49f599c;
+    color: black;
 }
 
 
@@ -194,6 +318,7 @@
         font-size: 14px;
         /* Texto más pequeño para ajustar en pantallas pequeñas */
     }
+
 }
 
 /* ************* Organización  ************* */
@@ -231,19 +356,25 @@
 
 .card-content {
     display: flex;
-    justify-content: space-between; /* Espacia el texto y el ícono */
-    align-items: center; /* Alinea verticalmente al centro */
+    justify-content: space-between;
+    /* Espacia el texto y el ícono */
+    align-items: center;
+    /* Alinea verticalmente al centro */
     padding: 8px;
 }
 
 .text {
-    margin: 0; /* Elimina márgenes extra del texto */
-    flex: 1; /* Asegura que el texto ocupe el espacio restante */
-    text-align: left; /* Alinea el texto a la izquierda */
+    margin: 0;
+    /* Elimina márgenes extra del texto */
+    flex: 1;
+    /* Asegura que el texto ocupe el espacio restante */
+    text-align: left;
+    /* Alinea el texto a la izquierda */
 }
 
 .icon {
-    margin-left: 8px; /* Opcional: Espaciado entre el texto y el ícono */
+    margin-left: 8px;
+    /* Opcional: Espaciado entre el texto y el ícono */
 }
 
 .card:hover {
@@ -255,6 +386,7 @@
     color: #7969A8;
     /* Cambia este color según el diseño */
 }
+
 .card .icon i:hover {
     color: white !important;
 }
@@ -262,9 +394,12 @@
 .center {
     text-align: center;
 }
+
 .logo {
-    width: 100%; /* Asegura que la imagen ocupe el 100% del contenedor */
-    max-width: 400px; /* Limita el tamaño máximo de la imagen */
+    width: 100%;
+    /* Asegura que la imagen ocupe el 100% del contenedor */
+    max-width: 400px;
+    /* Limita el tamaño máximo de la imagen */
     margin-bottom: 1rem;
 }
 
@@ -272,91 +407,110 @@
 @media (max-width: 768px) {
     .directory-container {
         flex-direction: column;
-        gap: 1rem; /* Reduce el espacio entre las tarjetas y la imagen */
+        gap: 1rem;
+        /* Reduce el espacio entre las tarjetas y la imagen */
         padding: 1rem;
     }
 
     .column {
-        align-items: center; /* Centra las tarjetas en pantallas pequeñas */
+        align-items: center;
+        /* Centra las tarjetas en pantallas pequeñas */
     }
 
     .card {
-        width: 90%; /* Reduce el ancho de las tarjetas */
-        margin: 0 auto; /* Centra las tarjetas */
+        width: 90%;
+        /* Reduce el ancho de las tarjetas */
+        margin: 0 auto;
+        /* Centra las tarjetas */
     }
 
     .logo {
-        width: 80%; /* Ajusta el tamaño de la imagen */
-        max-width: 150px; /* Limita el tamaño máximo */
+        width: 80%;
+        /* Ajusta el tamaño de la imagen */
+        max-width: 150px;
+        /* Limita el tamaño máximo */
     }
 }
 
 /* Media Queries para pantallas muy pequeñas (por ejemplo, móviles) */
 @media (max-width: 480px) {
     .directory-container {
-        gap: 0.5rem; /* Reduce aún más el espacio entre los elementos */
+        gap: 0.5rem;
+        /* Reduce aún más el espacio entre los elementos */
     }
 
     .card {
-        width: 100%; /* Las tarjetas ocupan todo el ancho disponible */
+        width: 100%;
+        /* Las tarjetas ocupan todo el ancho disponible */
     }
 
     .logo {
-        width: 70%; /* Ajusta aún más el tamaño de la imagen */
-        max-width: 120px; /* Limita el tamaño máximo */
+        width: 70%;
+        /* Ajusta aún más el tamaño de la imagen */
+        max-width: 120px;
+        /* Limita el tamaño máximo */
     }
 }
 
 /* Estilo de la columna central */
 .center {
     position: relative;
-    z-index: 1; /* Asegura que la imagen esté encima de la línea */
+    z-index: 1;
+    /* Asegura que la imagen esté encima de la línea */
 }
 
 /* Estilo hover para las tarjetas usando nth-of-type */
 .card:nth-of-type(1):hover {
-    background-color: #F49E59; /* Color primary */
-    color: #fff;
+    background-color: #f49f599c;
+    /* Color primary */
+    color: black;
 }
 
 .card:nth-of-type(2):hover {
-    background-color: #E9336F; /* Color secondary */
-    color: #fff;
+    background-color: #e93370a7;
+    /* Color secondary */
+    color: black;
 }
 
 .card:nth-of-type(3):hover {
-    background-color: #A63A8D; /* Color tertiary */
+    background-color: #a63a8d94;
+    /* Color tertiary */
     color: #fff;
 }
 
 .card:nth-of-type(4):hover {
-    background-color: #7969A8; /* Color quaternary */
-    color: #fff;
+    background-color: #7969a894;
+    /* Color quaternary */
+    color: black;
 }
 
 .card:nth-of-type(5):hover {
-    background-color: #3994C7; /* Color primary-light */
+    background-color: #3993c781;
+    /* Color primary-light */
     color: #fff;
 }
 
 .card:nth-of-type(6):hover {
-    background-color: #62B4B2; /* Color accent */
+    background-color: #62b4b395;
+    /* Color accent */
     color: #fff;
 }
 
 .card:nth-of-type(7):hover {
-    background-color: #C5BB63; /* Color highlight */
+    background-color: #c5bb6397;
+    /* Color highlight */
     color: #fff;
 }
 
 .card:nth-of-type(8):hover {
-    background-color: #EF625F; /* Color alert */
+    background-color: #ef615f98;
+    /* Color alert */
     color: #fff;
 }
 
 /* Si hay más de 8 elementos, repetir el patrón */
 .card:nth-of-type(9):hover {
-    background-color: #F49E59;
+    background-color: #f49f599c;
     color: #fff;
 }
 

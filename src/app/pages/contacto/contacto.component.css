@@ -168,13 +168,15 @@ button[nz-button] {
     display: block;
     margin: 1.5rem auto 0;
     width: 100%;
-    background-color: #EF625F;
+    background-color: #7969A8;
     transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 5px;
+    color: white;
 }
 
 button[nz-button]:hover {
-    background-color: #C5BB63;
-    border: #C5BB63;
+    background-color: #F49E59;
+    border: #F49E59;
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
