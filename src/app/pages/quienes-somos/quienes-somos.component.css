@@ -21,7 +21,8 @@
     /* Más espacio en el contenido */
     border-radius: 8px;
     transition: background-color 0.3s ease, font-size 0.3s ease;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: lighter;
 }
 
 /* Ajustes para la imagen */
@@ -41,16 +42,22 @@
 }
 
 .card-image img:hover {
-    transform: scale(1.1); /* Hace la imagen un 10% más grande */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    transform: scale(1.1);
+    /* Hace la imagen un 10% más grande */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* Sombra sutil */
 }
 
 /* Títulos personalizados */
 .custom-title {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 5px;
     color: #EF625F;
-    font-weight: bolder;
+    font-weight: lighter;
+}
+
+.card-item:hover .custom-title {
+    color: black;
 }
 
 /* Aplicar colores de hover alternando en cada tarjeta */
@@ -110,9 +117,11 @@
     .card-item:nth-of-type(1) .tarjetas1-content {
         width: 100%;
     }
+
     .card-item:nth-of-type(2) .tarjetas1-content {
         width: 100%;
     }
+
     .card-item:nth-of-type(3) .tarjetas1-content {
         width: 100%;
     }
@@ -126,7 +135,8 @@
     }
 
     .card-texto {
-        width: 100%; /* Ocupar todo el ancho */
+        width: 100%;
+        /* Ocupar todo el ancho */
         padding: 20px;
     }
 
@@ -136,7 +146,8 @@
     }
 
     .card-image img {
-        max-width: 100%; /* Imagen ocupa todo el ancho disponible */
+        max-width: 100%;
+        /* Imagen ocupa todo el ancho disponible */
         width: 100%;
     }
 }
@@ -218,7 +229,7 @@
     z-index: 1;
     width: 200px;
     /* Fijar un ancho para el contenido */
-    height: 200px;
+    height: 240px;
     /* Fijar una altura para el contenido */
     display: flex;
     flex-direction: column;
@@ -235,6 +246,9 @@
     font-weight: bolder;
 }
 
+.timeline-item:hover strong {
+    color: black;
+}
 
 /* Efecto hover para el contenido de la línea de tiempo */
 .timeline-content:hover {
@@ -320,6 +334,108 @@
     }
 
 }
+
+/******* Estilo general del carrusel ******/
+.carousel-item img {
+    max-height: 350px;
+    /* Reducimos el tamaño del slider */
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease-in-out;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.03);
+    /* Zoom más sutil */
+}
+
+/* Fondo degradado más oscuro para mejor legibilidad */
+.carousel-caption {
+    background: linear-gradient(to bottom, rgba(121, 105, 168, 0.957), rgba(0, 0, 0, 0.3));
+    padding: 1.5rem;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    max-width: 70%;
+    margin: auto;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.carousel-caption h5 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+    margin-bottom: 1.5rem;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Texto del caption más grande y llamativo */
+/* Personalización de los indicadores */
+.carousel-indicators {
+    position: absolute;
+    bottom: -25px;
+    /* Bajamos un poco los indicadores */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* Espaciado entre los indicadores */
+}
+
+/* Estilo de cada botón indicador */
+.carousel-indicators button {
+    width: 40px;
+    /* Hacemos los indicadores más alargados */
+    height: 8px;
+    /* Grosor de los indicadores */
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Color semi-transparente */
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Cuando el indicador está activo */
+.carousel-indicators .active {
+    background-color: #7969A8;
+    /* Color destacado */
+    width: 50px;
+    /* Indicador activo más grande */
+    height: 10px;
+    box-shadow: 0px 0px 10px rgba(121, 105, 168, 0.957);
+}
+
+/* Efecto hover */
+.carousel-indicators button:hover {
+    background-color: #fff;
+    transform: scale(1.2);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .carousel-indicators button {
+        width: 30px;
+        height: 6px;
+    }
+
+    .carousel-indicators .active {
+        width: 35px;
+        height: 8px;
+    }
+}
+
 
 /* ************* Organización  ************* */
 
@@ -627,24 +743,105 @@
 /* ******* Transparencia y Resultados  ******** */
 .transparencia-resultados {
     padding: 20px;
-    font-size: 24px;
-    background-color: #f9f9f9;
-    /* Fondo claro */
 }
 
-.nz-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Sombra suave */
-    border-radius: 8px;
+.ant-checkbox-group,
+.ant-collapse {
+    font-size: 18px;
 }
 
-.nz-list-item-meta-description {
-    font-size: 24px;
+.custom-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección individual */
+.section-container {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+/* Títulos de cada sección */
+.section-title {
+    font-size: 22px;
+    color: #444;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+/* Descripción */
+.section-description {
+    font-size: 16px;
     color: #666;
+    margin-bottom: 10px;
+    padding: 20px;
 }
 
-.nz-list-item:hover {
-    background-color: #f0f0f0;
-    /* Fondo al pasar el ratón */
+/* Panel de colapso con efectos */
+.custom-collapse-panel {
+    border-radius: 8px;
+    border: 1px solid #d9d9d9;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px;
+}
+
+.custom-collapse-panel:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Iframe de los reportes */
+.fp-iframe {
+    width: 100%;
+    height: 550px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+}
+
+.fp-iframe:hover {
+    transform: scale(1.02);
+}
+
+/* Hover personalizado para cada colapso */
+.hover-effect {
+    border-radius: 8px;
     transition: background-color 0.3s ease;
+}
+
+.hover-1:hover {
+    background-color: #f49f599c;
+}
+
+.hover-2:hover {
+    background-color: #e93370a7;
+}
+
+.hover-3:hover {
+    background-color: #a63a8d94;
+}
+
+.hover-4:hover {
+    background-color: #7969a894;
+}
+
+.hover-5:hover {
+    background-color: #3993c781;
+}
+
+.hover-6:hover {
+    background-color: #62b4b395;
+}
+
+.hover-7:hover {
+    background-color: #c5bb6397;
+}
+
+.hover-8:hover {
+    background-color: #ef615f98;
+}
+
+/* Si hay más de 8 elementos, repetir el patrón */
+.hover-9:hover {
+    background-color: #f49f599c;
 }

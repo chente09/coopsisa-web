@@ -24,7 +24,12 @@
     </div>
 
     <!-- Modal -->
-    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+    <nz-modal 
+        [(nzVisible)]="isModalVisible" 
+        nzTitle="{{ selectedLab?.titulo }}" 
+        nzClassName="custom-modal"
+        [nzClosable]="true"
+        (nzOnCancel)="handleCancel()" 
         [nzFooter]="modalFooter">
         <ng-container *nzModalContent>
             <div class="custom-modal-content">
@@ -32,16 +37,10 @@
             </div>
         </ng-container>
     </nz-modal>
-
-
     <ng-template #modalFooter>
-        <button nz-button style="background-color: #7969A8; color: white; margin-right: 8px; border-radius: 15px 15px;"
-            (click)="handleCancel()">
-            <span>Cerrar</span>
-        </button>
         <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
             (click)="handleOk()">
-            <span>OK</span>
+            <span>Mas información</span>
         </button>
     </ng-template>
 </div>
@@ -103,4 +102,20 @@
             </div>
         </nz-collapse-panel>
     </nz-collapse>
+</div>
+<div class="container-fluid py-5">
+    <div id="tarjetasSection">
+        <div *ngFor="let card of laboratorios; let i = index" class="card-container card-item"
+            [ngClass]="{ 'reverse': i % 2 !== 0 }">
+            <nz-card class="card-texto tarjetas1-content">
+                <h2 class="custom-title">{{ card.titulo }}</h2>
+                <hr>
+                <p>{{ card.descripcion }}</p>
+            </nz-card>
+    
+            <div class="card-image">
+                <img [src]="card.image" alt="{{ card.titulo }}">
+            </div>
+        </div>
+    </div>
 </div>

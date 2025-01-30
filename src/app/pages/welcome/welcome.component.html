@@ -113,8 +113,14 @@
     </div>
 
     <!-- Modal -->
-    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
-        [nzFooter]="modalFooter">
+    <nz-modal 
+        [(nzVisible)]="isModalVisible" 
+        nzTitle="{{ selectedLab?.titulo }}" 
+        nzClassName="custom-modal"
+        [nzFooter]="modalFooter"
+        [nzClosable]="true"
+        (nzOnCancel)="handleCancel()" 
+        >
         <ng-container *nzModalContent>
             <div style="
             padding: 30px; 

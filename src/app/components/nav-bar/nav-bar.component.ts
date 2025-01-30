@@ -60,7 +60,10 @@ export class NavBarComponent {
     if (window.innerWidth <= 768) { // Solo permitir el colapso en pantallas pequeñas
       this.isCollapsed = !this.isCollapsed;
     }
+    
   }
+
+  
 
   private updateMenuState() {
     if (window.innerWidth > 768) {

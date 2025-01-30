@@ -86,7 +86,7 @@
 }
 
 .card-0:hover {
-    background-color: #F49E59;
+    background-color: #f49f59ea;
 }
 
 .card-1:hover {
@@ -155,7 +155,6 @@
     text-align: justify important;
     /* Asegura la justificación */
 }
-
 
 /****** Colapsed  *******/
 nz-collapse-panel {
@@ -235,4 +234,156 @@ nz-collapse-panel:hover {
     margin-bottom: 12px;
     font-size: 18px;
     color: #2c3e50;
+}
+
+.ant-checkbox-group,
+.ant-collapse {
+    font-size: 18px;
+}
+
+/* Estilos para las tarjetas */
+.card-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 20px;
+}
+
+.card-container.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Ajustes para el texto */
+.card-texto {
+    flex: 1;
+    padding: 5px;
+    /* Más espacio en el contenido */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, font-size 0.3s ease;
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+/* Ajustes para la imagen */
+.card-image {
+    flex: 1.2;
+    /* La imagen ocupa más espacio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-image img:hover {
+    transform: scale(1.1);
+    /* Hace la imagen un 10% más grande */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* Sombra sutil */
+}
+
+/* Títulos personalizados */
+.custom-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: black;
+    font-weight: lighter;
+}
+
+
+/* Aplicar colores de hover alternando en cada tarjeta */
+.card-item:nth-of-type(1):hover .tarjetas1-content {
+    background-color: hsla(27, 88%, 65%, 0.555);
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(2):hover .tarjetas1-content {
+    background-color: #e93370a7;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(3):hover .tarjetas1-content {
+    background-color: #a63a8d94;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(4):hover .tarjetas1-content {
+    background-color: #7969a894;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(5):hover .tarjetas1-content {
+    background-color: #3993c781;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(6):hover .tarjetas1-content {
+    background-color: #62b4b395;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(7):hover .tarjetas1-content {
+    background-color: #c5bb6397;
+    font-size: 18px;
+}
+
+.card-item:nth-of-type(8):hover .tarjetas1-content {
+    background-color: #ef615f98;
+    font-size: 18px;
+}
+
+/* Si hay más de 8 elementos, repetir el patrón */
+.card-item:nth-of-type(9):hover .tarjetas1-content {
+    background-color: #f49f599c;
+    font-size: 18px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card-item:nth-of-type(1) .tarjetas1-content {
+        width: 100%;
+    }
+
+    .card-item:nth-of-type(2) .tarjetas1-content {
+        width: 100%;
+    }
+
+    .card-item:nth-of-type(3) .tarjetas1-content {
+        width: 100%;
+    }
+
+    .card-item:nth-of-type(4) .tarjetas1-content {
+        width: 100%;
+    }
+
+    .card-container.reverse {
+        flex-direction: column;
+    }
+
+    .card-texto {
+        width: 100%;
+        /* Ocupar todo el ancho */
+        padding: 20px;
+    }
+
+    .card-image {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card-image img {
+        max-width: 100%;
+        /* Imagen ocupa todo el ancho disponible */
+        width: 100%;
+    }
 }

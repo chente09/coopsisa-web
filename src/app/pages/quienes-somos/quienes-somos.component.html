@@ -1,7 +1,7 @@
 <div class="quienes-somos">
     <div *ngFor="let card of cards; let i = index" class="card-container card-item"
         [ngClass]="{ 'reverse': i % 2 !== 0 }">
-        <nz-card class="card-texto tarjetas1-content" >
+        <nz-card class="card-texto tarjetas1-content">
             <h2 class="custom-title">{{ card.title }}</h2>
             <hr>
             <p>{{ card.text }}</p>
@@ -15,7 +15,9 @@
         </div>
     </div>
 
-    <nz-card nzTitle="Nuestra evolución como COOPSISA " [nzBordered]="true" style="margin-bottom: 16px; ">
+    <nz-card [nzBordered]="true" style="margin-bottom: 16px; ">
+        <h2 class="custom-title">Nuestra evolución como COOPSISA </h2>
+        <hr>
         <div nz-flex class="timeline-container">
             <div *ngFor="let event of timelineEvents" class="timeline-item">
                 <div class="timeline-content">
@@ -25,17 +27,43 @@
         </div>
     </nz-card>
 
-    <nz-card class="card-texto" nzTitle="Nuestro trabajo fomenta" [nzBordered]="true">
-        <ul>
-            <li>Comercio Justo</li>
-            <li>Igualdad de Género</li>
-            <li>Conciencia sobre el Cambio climático</li>
-            <li>Innovación</li>
-            <li>Sostenibilidad</li>
-        </ul>
+    <nz-card class="card-texto">
+        <h2 class="custom-title">Nuestro trabajo fomenta</h2>
+        <hr>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+                <button *ngFor="let slide of slides; let i = index" type="button"
+                    data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                    aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
+                </button>
+            </div>
+            <!-- Slides -->
+            <div class="carousel-inner">
+                <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                    <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
+                    <div class="carousel-caption d-block d-md-block">
+                        <h5>{{ slide.text }}</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Controles -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
     </nz-card>
 
-    <nz-card class="card-texto" nzTitle="Así nos organizamos" [nzBordered]="true">
+    <nz-card class="card-texto" [nzBordered]="true">
+        <h2 class="custom-title">Así nos organizamos </h2>
+        <hr>
         <div class="directory-container">
             <div class="column left">
                 <div class="card" *ngFor="let member of membersLeft">
@@ -46,7 +74,6 @@
                 </div>
             </div>
             <div class="center">
-                <!-- <h2>Directorio</h2> -->
                 <img src="https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png" alt="Logo Coopsisa"
                     class="logo" />
             </div>
@@ -87,28 +114,40 @@
 </div>
 
 <div class="transparencia-resultados">
-    <nz-card nzTitle="Transparencia y Resultados" [nzBordered]="true">
-        <nz-list [nzBordered]="false" [nzSplit]="false">
-            <nz-list-item>
-                <nz-list-item-meta nzTitle="Reciprocidad"
-                    nzDescription="Reportes financieros y de impacto organizados por proyecto o institución."></nz-list-item-meta>
-            </nz-list-item>
-            <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
-                src="https://heyzine.com/flip-book/b0c3dffbc9.html"
-                style="border: 1px solid lightgray; width: 200px; height: 200px;">
-            </iframe>
-            <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
-                src="https://heyzine.com/flip-book/b0c3dffbc9.html"
-                style="border: 1px solid lightgray; width: 200px; height: 200px;">
-            </iframe>
-            <nz-list-item>
-                <nz-list-item-meta nzTitle="Redistribución"
-                    nzDescription="Reconocimientos y estándares cumplidos (sostenibilidad, transparencia financiera)."></nz-list-item-meta>
-            </nz-list-item>
-            <nz-list-item>
-                <nz-list-item-meta nzTitle="Responsabilidad"
-                    nzDescription="KPI que reflejan el impacto medible."></nz-list-item-meta>
-            </nz-list-item>
-        </nz-list>
+    <nz-card [nzBordered]="true">
+        <h2 class="custom-title">Transparencia y Resultados</h2>
+        <hr>
+        <nz-collapse class="hover-effect hover-1">
+            <h4 class="section-title">Reciprocidad</h4>
+            <p class="section-description">Reportes financieros y de impacto organizados por proyecto o institución.</p>
+            <nz-collapse-panel nzHeader="Reporte financiero 2024" [nzActive]="false" class="custom-collapse-panel">
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                    src="https://heyzine.com/flip-book/b0c3dffbc9.html"
+                    style="border: 1px solid lightgray; width: 100%; height: 550px;">
+                </iframe>
+            </nz-collapse-panel>
+        </nz-collapse>
+        <br>
+        <nz-collapse class="hover-effect hover-2"> 
+            <h4 class="section-title">Redistribución</h4>
+            <p class="section-description">Reconocimientos y estándares cumplidos (sostenibilidad, transparencia financiera).</p>
+            <nz-collapse-panel nzHeader="Reporte financiero 2024" [nzActive]="false" class="custom-collapse-panel">
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                    src="https://heyzine.com/flip-book/b0c3dffbc9.html"
+                    style="border: 1px solid lightgray; width: 100%; height: 550px;">
+                </iframe>
+            </nz-collapse-panel>
+        </nz-collapse>
+        <br>
+        <nz-collapse class="hover-effect hover-3">
+            <h4 class="section-title">Responsabilidad</h4>
+            <p class="section-description">KPI que reflejan el impacto medible.</p>
+            <nz-collapse-panel nzHeader="Reporte financiero 2024" [nzActive]="false" class="custom-collapse-panel">
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                    src="https://heyzine.com/flip-book/b0c3dffbc9.html"
+                    style="border: 1px solid lightgray; width: 100%; height: 550px;">
+                </iframe>
+            </nz-collapse-panel>
+        </nz-collapse>
     </nz-card>
 </div>
