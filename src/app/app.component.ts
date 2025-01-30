@@ -5,7 +5,6 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { FooterComponent } from "./components/footer/footer.component";
-import { GoogleMapsModule } from '@angular/google-maps';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WppComponent } from "./components/wpp/wpp.component";
 import { UsersService } from './pages/services/users/users.service';
@@ -22,7 +21,6 @@ import { CommonModule } from '@angular/common';
     NzMenuModule,
     FooterComponent,
     NavBarComponent,
-    GoogleMapsModule,
     ReactiveFormsModule,
     WppComponent,
     CommonModule

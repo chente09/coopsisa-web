@@ -24,7 +24,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   
 })
 export class ContactoComponent  {
-  center: google.maps.LatLngLiteral = { lat: -0.2045, lng: -78.4856 };
   zoom = 15;
   contactForm: FormGroup;
   collaboratorForm: FormGroup;
