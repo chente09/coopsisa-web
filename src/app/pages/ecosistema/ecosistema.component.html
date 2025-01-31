@@ -1,6 +1,6 @@
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" >
-        <h1 class="display-5 mb-5">Nuestros Colaboradores</h1>
+        <h1 class="display-5 mb-5">Nuestro Ecosistema</h1>
     </div>
     <div class="d-flex flex-row overflow-auto">
         <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;" (click)="openModal(item)">
@@ -17,6 +17,7 @@
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
         <h1 class="display-5 mb-5">Publicaciones</h1>
+        <p style="font-size: 19px;">Aquí encontrarás una selección de nuestras publicaciones</p>
     </div>
     <div class="scrollable-container">
         <nz-row [nzGutter]="16">

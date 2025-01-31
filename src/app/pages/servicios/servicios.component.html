@@ -44,9 +44,42 @@
         </button>
     </ng-template>
 </div>
+<nz-card class="card-texto">
+    <h2 class="custom-title">Nuestro trabajo fomenta</h2>
+    <hr>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <!-- Indicadores -->
+        <div class="carousel-indicators">
+            <button *ngFor="let slide of slides; let i = index" type="button"
+                data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
+            </button>
+        </div>
+        <!-- Slides -->
+        <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
+                <div class="carousel-caption d-block d-md-block">
+                    <h5>{{ slide.text }}</h5>
+                </div>
+            </div>
+        </div>
+        <!-- Controles -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</nz-card>
 <div class="container-fluid py-5">
     <nz-collapse>
-        <nz-collapse-panel nzHeader="Modalidades de asistencia" [nzActive]="true"
+        <nz-collapse-panel nzHeader="Modalidades de asistencia de los laboratorios" [nzActive]="true"
             style="background-color: #f9f9f9; border-radius: 8px; border: 1px solid #d9d9d9; transition: background-color 0.3s;">
             <div class="panel-content"
                 style="position: relative; padding: 20px; background-image: url('https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png'); background-size: cover; background-position: center; border-radius: 8px;">
@@ -77,6 +110,86 @@
                 </div>
             </div>
         </nz-collapse-panel>
+        <div class="container-fluid py-5">
+            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="display-4 mb-4">Escuelas de Formación</h1>
+                <nz-card [nzBordered]="false" class="dynamic-card">
+                    <p nz-typography nzType="secondary" class="dynamic-text">
+                        Diseñamos soluciones productivas y de servicios desde un enfoque innovador y sostenible,
+                        abordando desafíos sociales, ambientales y económicos.
+                    </p>
+                </nz-card>
+            </div>
+            <div class="container">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" *ngFor="let lab of laboratorios; let i = index">
+                        <div class="card h-100 card-{{ i % 8 }}">
+                            <div class="card-body text-center">
+                                <nz-icon [nzType]="lab.icono" nzTheme="outline"
+                                    style="font-size: 40px; color: #C5BB63;"></nz-icon>
+                                <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
+                                <button class="btn btn-primary mt-3" (click)="openModal(lab)">Más información</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Modal -->
+            <nz-modal 
+                [(nzVisible)]="isModalVisible" 
+                nzTitle="{{ selectedLab?.titulo }}" 
+                nzClassName="custom-modal"
+                [nzClosable]="true"
+                (nzOnCancel)="handleCancel()" 
+                [nzFooter]="modalFooter">
+                <ng-container *nzModalContent>
+                    <div class="custom-modal-content">
+                        <p>{{ selectedLab?.descripcion }}</p>
+                    </div>
+                </ng-container>
+            </nz-modal>
+            <ng-template #modalFooter>
+                <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
+                    (click)="handleOk()">
+                    <span>Mas información</span>
+                </button>
+            </ng-template>
+        </div>
+
+        <nz-card class="card-texto">
+            <h2 class="custom-title">Nuestro trabajo fomenta</h2>
+            <hr>
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicadores -->
+                <div class="carousel-indicators">
+                    <button *ngFor="let slide of slides; let i = index" type="button"
+                        data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                        aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
+                    </button>
+                </div>
+                <!-- Slides -->
+                <div class="carousel-inner">
+                    <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                        <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
+                        <div class="carousel-caption d-block d-md-block">
+                            <h5>{{ slide.text }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- Controles -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </nz-card>
 
         <nz-collapse-panel nzHeader="Escuela de formación y comercio justo" [nzActive]="false"
             style="background-color: #f9f9f9; border-radius: 8px; border: 1px solid #d9d9d9; transition: background-color 0.3s;">
@@ -102,20 +215,4 @@
             </div>
         </nz-collapse-panel>
     </nz-collapse>
-</div>
-<div class="container-fluid py-5">
-    <div id="tarjetasSection">
-        <div *ngFor="let card of laboratorios; let i = index" class="card-container card-item"
-            [ngClass]="{ 'reverse': i % 2 !== 0 }">
-            <nz-card class="card-texto tarjetas1-content">
-                <h2 class="custom-title">{{ card.titulo }}</h2>
-                <hr>
-                <p>{{ card.descripcion }}</p>
-            </nz-card>
-    
-            <div class="card-image">
-                <img [src]="card.image" alt="{{ card.titulo }}">
-            </div>
-        </div>
-    </div>
 </div>

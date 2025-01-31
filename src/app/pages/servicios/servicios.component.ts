@@ -58,6 +58,39 @@ export class ServiciosComponent {
     }
   ];
 
+  slides = [
+    {
+      image: 'https://img.freepik.com/free-vector/futuristic-tech-digital-circuit-line-background-web-innovation_1017-53927.jpg?semt=ais_incoming',
+      text: 'Comercio Justo',
+      buttonText: 'Ver más',
+      route: '/home'
+    },
+    {
+      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
+      text: 'Igualdad de Género',
+      buttonText: 'AHORA',
+      route: '/features'
+    },
+    {
+      image: 'https://img.freepik.com/free-vector/digital-technology-with-hexagonal-shapes_1017-29805.jpg?semt=ais_incoming',
+      text: 'Conciencia sobre el Cambio climático',
+      buttonText: 'Servicios',
+      route: '/services'
+    },
+    {
+      image: 'https://img.freepik.com/free-vector/digial-circuit-diagram-technology-background_1017-28403.jpg?semt=ais_incoming',
+      text: 'Innovación',
+      buttonText: 'Contacto',
+      route: '/contact'
+    },
+    {
+      image: 'https://img.freepik.com/free-vector/digial-circuit-diagram-technology-background_1017-28403.jpg?semt=ais_incoming',
+      text: 'Sostenibilidad',
+      buttonText: 'Contacto',
+      route: '/contact'
+    }
+  ];
+
   openModal(lab: any): void {
     this.selectedLab = lab;
     this.isModalVisible = true;
