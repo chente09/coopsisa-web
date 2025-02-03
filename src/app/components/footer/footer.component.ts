@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { LogoService } from '../../services/logo/logo.service';
 
 @Component({
   selector: 'app-footer',
@@ -9,6 +10,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
+  logoUrl: string = 'https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png'; // Imagen por defecto
+
+  constructor(private logoService: LogoService) { }
+
   rutas = [
     { label: 'Inicio', icon: 'home', route: 'welcome' },
     { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
@@ -16,4 +21,17 @@ export class FooterComponent {
     { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
     { label: 'Contacto', icon: 'phone', route: '/contacto' }
 ];
+
+async ngOnInit(): Promise<void> {
+
+  // Suscribirse al logo actual
+  this.logoService.currentLogo.subscribe(url => {
+    if (url) {
+      this.logoUrl = url;
+    }
+  });
+
+  // Cargar el logo actual si aún no se ha actualizado
+  this.logoService.loadCurrentLogo();
+}
 }

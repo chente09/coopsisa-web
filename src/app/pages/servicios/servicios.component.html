@@ -47,39 +47,41 @@
 <nz-card class="card-texto">
     <h2 class="custom-title">Nuestro trabajo fomenta</h2>
     <hr>
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <!-- Indicadores -->
-        <div class="carousel-indicators">
-            <button *ngFor="let slide of slides; let i = index" type="button"
-                data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
-                aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
-            </button>
-        </div>
-        <!-- Slides -->
-        <div class="carousel-inner">
-            <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
-                <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
-                <div class="carousel-caption d-block d-md-block">
-                    <h5>{{ slide.text }}</h5>
+    <div class="carousel-container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+                <button *ngFor="let slide of slides; let i = index" type="button"
+                    data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                    aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
+                </button>
+            </div>
+            <!-- Slides -->
+            <div class="carousel-inner">
+                <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                    <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
+                    <div class="carousel-caption d-block d-md-block">
+                        <h5>{{ slide.text }}</h5>
+                    </div>
                 </div>
             </div>
+            <!-- Controles -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
         </div>
-        <!-- Controles -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
     </div>
 </nz-card>
 <div class="container-fluid py-5">
     <nz-collapse>
-        <nz-collapse-panel nzHeader="Modalidades de asistencia de los laboratorios" [nzActive]="true"
+        <nz-collapse-panel nzHeader="Modalidades de asistencia de los laboratorios" [nzActive]="false"
             style="background-color: #f9f9f9; border-radius: 8px; border: 1px solid #d9d9d9; transition: background-color 0.3s;">
             <div class="panel-content"
                 style="position: relative; padding: 20px; background-image: url('https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png'); background-size: cover; background-position: center; border-radius: 8px;">
@@ -160,34 +162,36 @@
         <nz-card class="card-texto">
             <h2 class="custom-title">Nuestro trabajo fomenta</h2>
             <hr>
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <!-- Indicadores -->
-                <div class="carousel-indicators">
-                    <button *ngFor="let slide of slides; let i = index" type="button"
-                        data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
-                        aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
-                    </button>
-                </div>
-                <!-- Slides -->
-                <div class="carousel-inner">
-                    <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
-                        <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
-                        <div class="carousel-caption d-block d-md-block">
-                            <h5>{{ slide.text }}</h5>
+            <div class="carousel-container">
+                <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
+                    <!-- Indicadores -->
+                    <div class="carousel-indicators">
+                        <button *ngFor="let slide of slides; let i = index" type="button"
+                            data-bs-target="#carouselExampleIndicators2" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                            aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
+                        </button>
+                    </div>
+                    <!-- Slides -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                            <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
+                            <div class="carousel-caption d-block d-md-block">
+                                <h5>{{ slide.text }}</h5>
+                            </div>
                         </div>
                     </div>
+                    <!-- Controles -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                    </button>
                 </div>
-                <!-- Controles -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
             </div>
         </nz-card>
 

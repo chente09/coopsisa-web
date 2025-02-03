@@ -6,7 +6,7 @@
             <hr>
             <p>{{ card.text }}</p>
             <ul *ngIf="card.subItems && card.subItems.length > 0">
-                <li *ngFor="let item of card.subItems">{{ item }}</li>
+                <!-- <li *ngFor="let item of card.subItems">{{ item }}</li> -->
             </ul>
         </nz-card>
 
@@ -30,34 +30,36 @@
     <nz-card class="card-texto">
         <h2 class="custom-title">Nuestro trabajo fomenta</h2>
         <hr>
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <!-- Indicadores -->
-            <div class="carousel-indicators">
-                <button *ngFor="let slide of slides; let i = index" type="button"
-                    data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
-                    aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
-                </button>
-            </div>
-            <!-- Slides -->
-            <div class="carousel-inner">
-                <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
-                    <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
-                    <div class="carousel-caption d-block d-md-block">
-                        <h5>{{ slide.text }}</h5>
+        <div class="carousel-container">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicadores -->
+                <div class="carousel-indicators">
+                    <button *ngFor="let slide of slides; let i = index" type="button"
+                        data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                        aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
+                    </button>
+                </div>
+                <!-- Slides -->
+                <div class="carousel-inner">
+                    <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                        <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
+                        <div class="carousel-caption d-block d-md-block">
+                            <h5>{{ slide.text }}</h5>
+                        </div>
                     </div>
                 </div>
+                <!-- Controles -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-            <!-- Controles -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
         </div>
     </nz-card>
 

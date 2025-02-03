@@ -46,13 +46,536 @@
             </nz-header>
             <nz-content class="content">
                 <div *ngIf="selectedKey === '1'">
-                    <h4>Configuración 1</h4>
-                    <!-- Aquí colocas el contenido de la Configuración 1 -->
+                    <h4>Administración del Carrusel</h4>
+                    <!-- Formulario para agregar/editar slide -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingSlideId ? 'Editar Slide' : 'Crear Slide' }}</h2>
+                        <form (ngSubmit)="submitSlide()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Texto</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newSlide.text" name="text"
+                                        placeholder="Ingresa el texto" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Texto del Botón</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newSlide.buttonText" name="buttonText"
+                                        placeholder="Texto del botón" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Ruta de Navegación</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newSlide.route" name="route" placeholder="Ej: /home"
+                                        required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
+                                <nz-form-control>
+                                    <input type="file" (change)="onSlideFileChange($event)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingSlideId ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingSlideId" nz-button nzType="default" (click)="cancelEditSlide()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="divider" />
+                    <!-- Lista de Slides -->
+                    <div *ngIf="slides.length > 0" class="slides-list-container">
+                        <h3 class="section-title">Slides Creados</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let slide of slides" [nzSpan]="6" class="slide-column">
+                                <nz-card [nzTitle]="slide.text" class="custom-slide" [nzBordered]="true">
+                                    <img [src]="slide.image" alt="Imagen del slide" class="slide-image" />
+                                    <p class="slide-description">Botón: {{ slide.buttonText }} | Ruta: {{ slide.route }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                            (click)="startEditSlide(slide)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteSlide(slide.id!)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+                    <div *ngIf="slides.length === 0" class="no-slides-message">
+                        <p>No hay slides creados.</p>
+                    </div>
+                    <h4>Administración del Ecosistema</h4>
+
+                    <!-- Formulario para agregar/editar item del ecosistema -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingItemId ? 'Editar Item' : 'Crear Item' }}</h2>
+                        <form (ngSubmit)="submitItem()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Título</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newItem.title" name="title"
+                                        placeholder="Ingresa el título del item" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newItem.description" name="description"
+                                        placeholder="Ingresa una descripción" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
+                                <nz-form-control>
+                                    <input type="file" (change)="onFileChange($event)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingItemId ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingItemId" nz-button nzType="default" (click)="cancelEditItem()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="divider" />
+
+                    <!-- Lista de items del ecosistema -->
+                    <div *ngIf="ecosystemItems.length > 0" class="ecosystem-items-list-container">
+                        <h3 class="section-title">Elementos del Ecosistema</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let item of ecosystemItems" [nzSpan]="6" class="ecosystem-item-column">
+                                <nz-card [nzTitle]="item.title" class="custom-slide" [nzBordered]="true">
+                                    <img [src]="item.image" alt="Imagen del item" class="slide-image" />
+                                    <p class="ecosystem-item-description">{{ item.description }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                            (click)="startEditItem(item)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteItem(item.id!)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+
+                    <div *ngIf="ecosystemItems.length === 0" class="no-ecosystem-items-message">
+                        <p>No hay elementos del ecosistema creados.</p>
+                    </div>
+                    <br>
+                    <!-- Administración de Videos -->
+                    <h4>Administración de Videos</h4>
+
+                    <!-- Formulario para cargar un video -->
+                    <div class="form-container">
+                        <h2 class="form-title">Subir Video</h2>
+                        <nz-form-item>
+                            <nz-form-label [nzRequired]="true">Selecciona un Video</nz-form-label>
+                            <nz-form-control>
+                                <input type="file" accept="video/*" (change)="onVideoSelected($event)" />
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- Barra de progreso -->
+                        <div *ngIf="uploadingVideo" class="progress-container">
+                            <nz-progress [nzPercent]="uploadProgress" [nzStrokeWidth]="6"></nz-progress>
+                        </div>
+
+                        <div class="button-container">
+                            <button nz-button nzType="primary" [disabled]="uploadingVideo" (click)="uploadVideo()">
+                                {{ uploadingVideo ? 'Subiendo...' : 'Subir Video' }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr class="divider" />
+
+                    <!-- Lista de Videos -->
+                    <div *ngIf="videos.length > 0" class="videos-list-container">
+                        <h3 class="section-title">Videos Subidos</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let video of videos" [nzSpan]="8" class="video-column">
+                                <nz-card [nzTitle]="video.name" class="custom-video" [nzBordered]="true">
+                                    <video width="100%" height="150" controls>
+                                        <source [src]="video.url" type="video/mp4" />
+                                        Tu navegador no soporta el tag de video.
+                                    </video>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteVideo(video)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+
+                    <div *ngIf="videos.length === 0" class="no-videos-message">
+                        <p>No hay videos subidos.</p>
+                    </div>
+                    <br>
+                    <!-- Administración de Tarjetas -->
+                    <h4>Administración de Tarjetas</h4>
+
+                    <!-- Formulario para agregar/editar tarjeta -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingItemId2 ? 'Editar Tarjeta' : 'Crear Tarjeta' }}</h2>
+                        <form (ngSubmit)="submitTarjeta()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Título</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newItem2.titulo" name="titulo"
+                                        placeholder="Ingresa el título de la tarjeta" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Ruta</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newItem2.ruta" name="ruta"
+                                        placeholder="Ejemplo: /contacto" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
+                                <nz-form-control>
+                                    <input type="file" (change)="onFileChange2($event)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingItemId2 ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingItemId2" nz-button nzType="default" (click)="cancelEditTarjeta()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="divider" />
+                    <!-- Lista de Tarjetas -->
+                    <div *ngIf="tarjetas.length > 0" class="tarjetas-list-container">
+                        <h3 class="section-title">Tarjetas Creadas</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let tarjeta of tarjetas" [nzSpan]="6" class="tarjeta-column">
+                                <nz-card [nzTitle]="tarjeta.titulo" class="custom-tarjeta" [nzBordered]="true">
+                                    <img [src]="tarjeta.imagen" alt="Imagen de la tarjeta" class="slide-image" />
+                                    <p class="tarjeta-description">Ruta: {{ tarjeta.ruta }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                            (click)="startEditTarjeta(tarjeta)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteTarjetaItem(tarjeta.id!)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+                    <div *ngIf="tarjetas.length === 0" class="no-tarjetas-message">
+                        <p>No hay tarjetas creadas.</p>
+                    </div>
+                    <br>
+                    <!-- Administración de Laboratorios -->
+                    <h4>Administración de Laboratorios</h4>
+
+                    <!-- Formulario para agregar/editar laboratorio -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingLaboratorioId ? 'Editar Laboratorio' : 'Crear Laboratorio' }}
+                        </h2>
+                        <form (ngSubmit)="submitLaboratorio()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Título</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newLaboratorio.titulo" name="titulo"
+                                        placeholder="Ingresa el título del laboratorio" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
+                                <nz-form-control>
+                                    <textarea nz-input [(ngModel)]="newLaboratorio.descripcion" name="descripcion"
+                                        placeholder="Ingresa una descripción" required></textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Ícono</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newLaboratorio.icono" name="icono"
+                                        placeholder="Ejemplo: bi bi-laboratory" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
+                                <nz-form-control>
+                                    <input type="file" (change)="onLaboratorioFileChange($event)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingLaboratorioId ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingLaboratorioId" nz-button nzType="default"
+                                    (click)="cancelEditLaboratorio()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <hr class="divider" />
+
+                    <!-- Lista de Laboratorios -->
+                    <div *ngIf="laboratorios.length > 0" class="laboratorios-list-container">
+                        <h3 class="section-title">Laboratorios Creados</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let laboratorio of laboratorios" [nzSpan]="6" class="laboratorio-column">
+                                <nz-card [nzTitle]="laboratorio.titulo" class="custom-laboratorio" [nzBordered]="true">
+                                    <i [class]="laboratorio.icono" class="laboratorio-icon"></i>
+                                    <img [src]="laboratorio.image" alt="Imagen del laboratorio" class="slide-image" />
+                                    <p class="laboratorio-description">{{ laboratorio.descripcion }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                            (click)="startEditLaboratorio(laboratorio)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteLaboratorio(laboratorio.id!)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+                    <div *ngIf="laboratorios.length === 0" class="no-laboratorios-message">
+                        <p>No hay laboratorios creados.</p>
+                    </div>
                 </div>
                 <div *ngIf="selectedKey === '2'">
-                    <h4>Configuración 2</h4>
-                    <!-- Aquí colocas el contenido de la Configuración 2 -->
+                    <h4>Administración de Nosotros</h4>
+                    <!-- Formulario para agregar/editar "Nosotros" -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingNosotrosId ? 'Editar Sección' : 'Crear Sección' }}</h2>
+                        <form (ngSubmit)="submitNosotros()" class="admin-form">
+
+                            <!-- Campo de Título -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Título</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newNosotros.title" name="title"
+                                        placeholder="Ingresa el título de la sección" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Campo de Descripción -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
+                                <nz-form-control>
+                                    <textarea nz-input [(ngModel)]="newNosotros.text" name="text"
+                                        placeholder="Ingresa la descripción" required></textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Campo de Orden -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
+                                <nz-form-control>
+                                    <input type="number" nz-input [(ngModel)]="newNosotros.order" name="order"
+                                        placeholder="Orden de la sección" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Campo de Subitems -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Subelementos</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newNosotros.subItems" name="subItems"
+                                        placeholder="Subelementos separados por coma" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Campo de Imagen -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
+                                <nz-form-control>
+                                    <input type="file" (change)="onNosotrosFileChange($event)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Botones de Guardar / Cancelar -->
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingNosotrosId ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingNosotrosId" nz-button nzType="default"
+                                    (click)="cancelEditNosotros()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="divider" />
+                    <!-- Lista de Secciones "Nosotros" -->
+                    <div *ngIf="nosotrosList.length > 0" class="nosotros-list-container">
+                        <h3 class="section-title">Secciones de Nosotros</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let nosotros of nosotrosList" [nzSpan]="6" class="nosotros-column">
+                                <nz-card [nzTitle]="nosotros.title" class="custom-nosotros" [nzBordered]="true">
+                                    <img [src]="nosotros.image" alt="Imagen de la sección" class="slide-image" />
+                                    <p class="nosotros-description">{{ nosotros.text }}</p>
+                                    <p><strong>Orden:</strong> {{ nosotros.order }}</p>
+                                    <p><strong>Subelementos:</strong> {{ nosotros.subItems }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                            (click)="startEditNosotros(nosotros)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteNosotros(nosotros.id!)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+                    <div *ngIf="nosotrosList.length === 0" class="no-nosotros-message">
+                        <p>No hay secciones creadas.</p>
+                    </div>
+                    <br>
+                    <h4>Administración de Línea de Tiempo</h4>
+
+                    <!-- Formulario para agregar/editar un evento -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingEventId ? 'Editar Evento' : 'Crear Evento' }}</h2>
+                        <form (ngSubmit)="submitTimelineEvent()" class="admin-form">
+
+                            <!-- Campo de Año -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Año</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newEvent.year" name="year"
+                                        placeholder="Ingresa el año del evento" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Campo de Descripción -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
+                                <nz-form-control>
+                                    <textarea nz-input [(ngModel)]="newEvent.description" name="description"
+                                        placeholder="Ingresa la descripción del evento" required></textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Botones de Guardar / Cancelar -->
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingEventId ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingEventId" nz-button nzType="default" (click)="cancelEditEvent()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <hr class="divider" />
+
+                    <!-- Lista de Eventos -->
+                    <div *ngIf="timelineEvents.length > 0" class="timeline-list-container">
+                        <h3 class="section-title">Eventos de la Línea de Tiempo</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let event of timelineEvents" [nzSpan]="6" class="timeline-column">
+                                <nz-card [nzTitle]="event.year" class="custom-timeline" [nzBordered]="true">
+                                    <p class="timeline-description">{{ event.description }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                            (click)="startEditEvent(event)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+
+                                        <!-- Botón de Eliminar -->
+                                        <button *ngIf="event.id" type="button"
+                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                            (click)="deleteEvent(event.id)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+
+                    <div *ngIf="timelineEvents.length === 0" class="no-events-message">
+                        <p>No hay eventos creados.</p>
+                    </div>
+
                 </div>
+
                 <div *ngIf="selectedKey === '3'">
                     <h4>Configuración 3</h4>
                     <!-- Aquí colocas el contenido de la Configuración 3 -->
@@ -62,12 +585,106 @@
                     <!-- Aquí colocas el contenido de la Configuración 4 -->
                 </div>
                 <div *ngIf="selectedKey === '5'">
-                    <h4>Configuración 5</h4>
-                    <!-- Aquí colocas el contenido de la Configuración 5 -->
+                    <h4>Configuración de Carruseles</h4>
+
+                    <!-- Formulario para agregar/editar slide -->
+                    <div class="form-container">
+                        <h2 class="form-title">{{ editingSlideId ? 'Editar Slide' : 'Crear Slide' }}</h2>
+                        <form (ngSubmit)="submitCarrusel()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Texto</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newCarruselSlide.text" name="text"
+                                        placeholder="Ingresa el texto" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
+                                <nz-form-control>
+                                    <input type="file" (change)="onSlideFileChange($event)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="button-container">
+                                <button nz-button nzType="primary" [disabled]="isSubmitting">
+                                    {{ editingSlideId ? 'Actualizar' : 'Guardar' }}
+                                </button>
+                                <button *ngIf="editingSlideId" nz-button nzType="default" (click)="cancelEditSlide()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <hr class="divider" />
+
+                    <!-- Lista de Carruseles -->
+                    <div *ngIf="slides.length > 0" class="slides-list-container">
+                        <h3 class="section-title">Carruseles Creados</h3>
+                        <nz-row [nzGutter]="16">
+                            <nz-col *ngFor="let slide of slides" [nzSpan]="6" class="slide-column">
+                                <nz-card [nzTitle]="slide.text" class="custom-slide" [nzBordered]="true">
+                                    <img [src]="slide.image" alt="Imagen del carrusel" class="slide-image" />
+                                    <p class="slide-description">Texto: {{ slide.text }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <!-- Botón de Editar -->
+                                        <button type="button" class="btn btn-outline-info btn-sm"
+                                            (click)="startEditCarrusel(slide)">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </button>
+                                        <!-- Botón de Eliminar -->
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                            (click)="deleteCarrusel(slide.id!)">
+                                            <i class="bi bi-trash me-2"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </nz-card>
+                            </nz-col>
+                        </nz-row>
+                    </div>
+
+                    <!-- Mensaje si no hay carruseles -->
+                    <div *ngIf="slides.length === 0" class="no-slides-message">
+                        <p>No hay carruseles creados.</p>
+                    </div>
+
                 </div>
-                <div *ngIf="selectedKey === '6'">
-                    <h4>Configuración 6</h4>
-                    <!-- Aquí colocas el contenido de la Configuración 5 -->
+
+                <div *ngIf="selectedKey === '6'" class="config-container">
+                    <h2>⚙️ Configurar Navbar y Footer</h2>
+
+                    <!-- 📌 Subir nuevo logo -->
+                    <nz-card class="upload-card">
+                        <h3>📤 Subir Nuevo Logo</h3>
+                        <input type="file" (change)="onFileSelected($event)" accept="image/*">
+                        <nz-spin *ngIf="uploading" nzTip="Subiendo imagen..."></nz-spin>
+                    </nz-card>
+
+                    <!-- 📌 Logo Actual -->
+                    <h3>Logo Actual</h3>
+                    <div class="current-logo">
+                        <img [src]="selectedLogo" width="150" class="current-logo-img" />
+                    </div>
+
+                    <!-- 📌 Lista de logos disponibles -->
+                    <h3> Logos Disponibles</h3>
+                    <div class="logo-grid">
+                        <nz-card *ngFor="let logo of logos" class="logo-item">
+                            <img [src]="logo.url" class="logo-img" (click)="setAsLogo(logo)"
+                                [class.selected]="logo.url === selectedLogo" />
+
+                            <!-- Botones de acción -->
+                            <div class="logo-actions">
+                                <button nz-button nzType="default" (click)="setAsLogo(logo)">
+                                    <i nz-icon nzType="check"></i> Usar
+                                </button>
+                                <button nz-button nzType="default" (click)="deleteLogo(logo)">
+                                    <i nz-icon nzType="delete"></i> Eliminar
+                                </button>
+                            </div>
+                        </nz-card>
+                    </div>
                 </div>
             </nz-content>
         </nz-layout>

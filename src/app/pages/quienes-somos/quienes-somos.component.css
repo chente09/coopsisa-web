@@ -336,12 +336,18 @@
 }
 
 /******* Estilo general del carrusel ******/
+.carousel-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    width: 100%; /* O puedes ajustarlo a un valor específico */
+}
 .carousel-item img {
-    max-height: 350px;
-    /* Reducimos el tamaño del slider */
     width: 100%;
-    object-fit: cover;
+    height: 500px; /* Establece una altura fija que se ajuste a una relación más cuadrada */
+    object-fit: cover; /* Asegura que la imagen cubra todo el espacio */
     transition: transform 0.2s ease-in-out;
+    border-radius: 5px;
 }
 
 .carousel-item img:hover {

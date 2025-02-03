@@ -37,7 +37,7 @@
         <h1 class="display-5 mb-5">Nuestros Servicios</h1>
     </div>
     <div class="d-flex flex-row overflow-auto">
-        <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;">
+        <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;">
             <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
                 <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
             </nz-card>
@@ -54,13 +54,13 @@
         <p class="lead">Explora las novedades más importantes del momento.</p>
     </div>
 
-    <div class="video-container position-relative mx-auto">
+    <div class="video-container position-relative mb-4" *ngFor="let video of videos" class="video-item">
         <!-- Video -->
         <iframe 
             class="embed-responsive-item rounded-3 shadow-lg"
-            width="100%" 
-            height="450" 
-            [src]="safeVideoUrl(videoUrl)" 
+            width="65%" 
+            height="520" 
+            [src]="safeVideoUrl(video.url)" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
@@ -82,7 +82,7 @@
                         [style.backgroundImage]="'url(' + tarjeta.imagen + ')'">
                         <div class="service-text rounded p-4">
                             <h4 class="mb-3">{{ tarjeta.titulo }}</h4>
-                            <a class="btn btn-sm saber-mas-btn" [href]="tarjeta.link">
+                            <a class="btn btn-sm saber-mas-btn" [routerLink]="tarjeta.ruta">
                                 <nz-icon [nzType]="'plus'" style="font-size: 18px;"></nz-icon> Saber Más
                             </a>
                         </div>

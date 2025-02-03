@@ -10,15 +10,17 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterModule } from '@angular/router';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NosotrosService, Nosotros } from '../../services/nosotros/nosotros.service';
+import { TimelineEvent, TimelineService } from '../../services/timeline/timeline.service';
 
 @Component({
   selector: 'app-quienes-somos',
   imports: [
-    NzCardModule, 
-    NzTimelineModule, 
-    CommonModule, 
-    FormsModule, 
-    NzFlexModule, 
+    NzCardModule,
+    NzTimelineModule,
+    CommonModule,
+    FormsModule,
+    NzFlexModule,
     NzRadioModule,
     NzGridModule,
     NzListModule,
@@ -31,29 +33,44 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 })
 export class QuienesSomosComponent {
 
-  cards = [
-    { 
-      title: '¿Quiénes somos?', 
-      text: 'Somos la primera cooperativa de servicios en Ecuador enfocada en la innovación y sostenibilidad, promoviendo modelos asociativos que contribuyan con la productividad local y nacional.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' 
-    },
-    { 
-      title: 'Nuestros Principios', 
-      text: 'Nuestro trabajo está basado en los principios de la Economía Social y Solidaria y los valores del Cooperativismo, que nos permiten promover el desarrollo sostenible, derechos humanos y la justicia social en los territorios donde trabajamos.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' 
-    },
-    { 
-      title: 'Nuestro Equipo', 
-      text: 'Somos 26 profesionales ecuatorianos y ecuatorianas que unimos nuestras capacidades para transformar comunidades a lo largo del Ecuador, a través de la innovación social, tecnológica y pública, buscamos alcanzar la sostenibilidad financiera y ambiental, fortaleciendo procesos socio-organizativos y ontribuyendo en la inclusión social y financiera para mejorar la calidad de vida de las personas en diversas localidades.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' 
-    },
-    { 
-      title: 'Nuestro Compromiso', 
-      text: 'Nosotros contribuimos al desarrollo sostenible de Ecuador mediante la consolidación de un modelo empresarial basado en los valores fundamentales de la Economía Social y Solidaria:',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      subItems: ['Reciprocidad', 'Responsabilidad', 'Redistribución'] // Subniveles en forma de lista
-    }
-  ];
+  cards: Nosotros[] = [];
+  timelineEvents: TimelineEvent[] = [];
+
+  constructor(
+    private nosotrosService: NosotrosService,
+    private timelineService: TimelineService
+  ) { }
+
+
+  ngOnInit(): void {
+    // Obtener los datos del servicio NosotrosService
+    this.nosotrosService.getNosotros().subscribe(data => {
+      console.log(data); // Verifica que los datos sean correctos
+      this.cards = data.sort((a, b) => {
+        const order = [
+          '¿Quiénes somos?',
+          'Nuestros Principios',
+          'Nuestro Equipo',
+          'Nuestro Compromiso'
+        ];
+        return order.indexOf(a.title) - order.indexOf(b.title);
+      });
+    }, error => {
+      console.error("Error al obtener los datos de Nosotros:", error);
+    });
+
+    // Obtener los datos del servicio TimelineService
+    this.timelineService.getTimelineEvents().subscribe(data => {
+      console.log(data); // Verifica que los datos sean correctos
+      this.timelineEvents = data.sort((a, b) => {
+        return parseInt(a.year, 10) - parseInt(b.year, 10);
+      });
+    }, error => {
+      console.error("Error al obtener los datos de Timeline:", error);
+    });
+  }
+
+  
 
   slides = [
     {
@@ -88,16 +105,7 @@ export class QuienesSomosComponent {
     }
   ];
 
-  timelineEvents = [
-    { year: '2018', description: 'Se promueve la idea de una asociación orientada a la capacitación en Economía Social y Solidaria.' },
-    { year: '2019', description: 'Se contribuye al cuidado de las personas vinculadas a procesos asociativos durante la pandemia.' },
-    { year: '2020', description: 'Se impulsan proyectos de reactivación económica a través de modelos asociativos.' },
-    { year: '2021', description: 'Se fortalece capacidades en sostenibilidad para promover la reactivación económica.' },
-    { year: '2022', description: 'Se fomenta el modelo asociativo como herramienta para la asistencia humanitaria y la integración de comunidades de acogida.' },
-    { year: '2023', description: 'Se conforma la primera cooperativa de servicios de innovación y sostenibilidad: COOPSISA.' },
-    { year: '2024', description: 'COOPSISA se consolida como pionera en la implementación de laboratorios de innovación para fortalecer los modelos asociativos de Economía Social y Solidaria.' },
-
-  ];
+  
 
   equipo = [
     { nombre: 'Juan Pérez', cargo: 'CEO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
@@ -115,13 +123,13 @@ export class QuienesSomosComponent {
     { role: 'Secretaría', icon: 'file-text' }, // Representa documentos y registros.
     { role: 'Tesorera', icon: 'wallet' } // Representa manejo financiero.
   ];
-  
+
   membersRight = [
     { role: 'Gerente General', icon: 'solution' }, // Representa gestión y soluciones.
     { role: 'Consejo de Vigilancia', icon: 'eye' }, // Representa supervisión y vigilancia.
     { role: 'Consejo de Administración', icon: 'team' } // Representa un grupo administrativo.
   ];
-  
+
   items = [
     {
       title: 'Reciprocidad',

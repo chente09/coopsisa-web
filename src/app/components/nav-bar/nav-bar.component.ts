@@ -3,6 +3,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LogoService } from '../../services/logo/logo.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,8 +18,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent {
+  isCollapsed = false; 
+  logoUrl: string = 'https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png'; // Imagen por defecto
 
-  isCollapsed = false; // Por defecto el menú está contraído
+  constructor(private logoService: LogoService) { }
 
   menuItems = [
     { label: 'Inicio', icon: 'home', route: 'welcome' },
@@ -43,12 +46,19 @@ export class NavBarComponent {
       ]
     }
   ];
-  ngOnInit() {
-    this.updateMenuState(); // Actualiza el estado inicial del menú
-  }
 
-  ngOnDestroy() {
-    // Limpia cualquier suscripción o listener si es necesario
+  async ngOnInit(): Promise<void> {
+    this.updateMenuState(); 
+
+    // Suscribirse al logo actual
+    this.logoService.currentLogo.subscribe(url => {
+      if (url) {
+        this.logoUrl = url;
+      }
+    });
+
+    // Cargar el logo actual si aún no se ha actualizado
+    this.logoService.loadCurrentLogo();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -60,10 +70,8 @@ export class NavBarComponent {
     if (window.innerWidth <= 768) { // Solo permitir el colapso en pantallas pequeñas
       this.isCollapsed = !this.isCollapsed;
     }
-    
-  }
 
-  
+  }
 
   private updateMenuState() {
     if (window.innerWidth > 768) {
