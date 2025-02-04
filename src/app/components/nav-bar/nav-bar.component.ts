@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,10 @@ export class NavBarComponent {
   isCollapsed = false; 
   logoUrl: string = 'https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png'; // Imagen por defecto
 
-  constructor(private logoService: LogoService) { }
+  constructor(
+    private logoService: LogoService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   menuItems = [
     { label: 'Inicio', icon: 'home', route: 'welcome' },
@@ -59,6 +62,7 @@ export class NavBarComponent {
 
     // Cargar el logo actual si aún no se ha actualizado
     this.logoService.loadCurrentLogo();
+    this.cdr.detectChanges();
   }
 
   @HostListener('window:resize', ['$event'])

@@ -22,11 +22,11 @@
     <div class="scrollable-container">
         <nz-row [nzGutter]="16">
             <nz-col *ngFor="let item of downloadItems" [nzSpan]="24" [nzXs]="24" [nzSm]="24" [nzMd]="8">
-                <div class="download-card" [style.backgroundImage]="'url(' + item.image + ')'">
+                <div class="download-card" [style.backgroundImage]="'url(' + item.imageUrl + ')'">
                     <nz-card [nzBordered]="false" [nzHoverable]="true">
                         <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
                         <div class="card-actions">
-                            <button nz-button (click)="downloadFile(item.file)">
+                            <button *ngIf="item.fileUrl" nz-button (click)="downloadFile(item.fileUrl)">
                                 Descargar
                             </button>
                         </div>

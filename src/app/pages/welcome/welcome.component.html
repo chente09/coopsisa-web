@@ -34,16 +34,24 @@
 <!-- reseñas -->
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" >
-        <h1 class="display-5 mb-5">Nuestros Servicios</h1>
+        <h1 class="display-5 mb-5">Reseñas</h1>
     </div>
-    <div class="d-flex flex-row overflow-auto">
-        <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;">
-            <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
-                <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
-            </nz-card>
-            <ng-template #coverTemplate>
-                <img [alt]="item.title" [src]="item.image" />
-            </ng-template>
+    <div class="service-img-bg">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch" *ngFor="let tarjeta of tarjetas"
+                    data-wow-delay="0.3s">
+                    <div class="service-item rounded" [class]="tarjeta.imagen ? 'bg-img' : ''"
+                        [style.backgroundImage]="'url(' + tarjeta.imagen + ')'">
+                        <div class="service-text rounded p-4">
+                            <h4 class="mb-3">{{ tarjeta.titulo }}</h4>
+                            <a class="btn btn-sm saber-mas-btn" [routerLink]="tarjeta.ruta">
+                                <nz-icon [nzType]="'plus'" style="font-size: 18px;"></nz-icon> Saber Más
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -73,22 +81,14 @@
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
         <h1 class="display-4 mb-4">Nuestro Ecosistema</h1>
     </div>
-    <div class="service-img-bg">
-        <div class="container">
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch" *ngFor="let tarjeta of tarjetas"
-                    data-wow-delay="0.3s">
-                    <div class="service-item rounded" [class]="tarjeta.imagen ? 'bg-img' : ''"
-                        [style.backgroundImage]="'url(' + tarjeta.imagen + ')'">
-                        <div class="service-text rounded p-4">
-                            <h4 class="mb-3">{{ tarjeta.titulo }}</h4>
-                            <a class="btn btn-sm saber-mas-btn" [routerLink]="tarjeta.ruta">
-                                <nz-icon [nzType]="'plus'" style="font-size: 18px;"></nz-icon> Saber Más
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="d-flex flex-row overflow-auto">
+        <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;">
+            <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
+                <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
+            </nz-card>
+            <ng-template #coverTemplate>
+                <img [alt]="item.title" [src]="item.image" />
+            </ng-template>
         </div>
     </div>
 </div>

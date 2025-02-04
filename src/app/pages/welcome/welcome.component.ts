@@ -13,6 +13,7 @@ import { EcosystemService, EcosystemData } from '../../services/ecosystem/ecosys
 import { VideoService } from '../../services/video/video.service';
 import { TarjetaService, TarjetaData } from '../../services/tarjetas/tarjeta.service';
 import { LaboratorioService, Laboratorio } from '../../services/laboratorio/laboratorio.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-welcome',
@@ -38,6 +39,7 @@ export class WelcomeComponent {
   videos: { id: string, url: string, name: string }[] = [];
   tarjetas: TarjetaData[] = [];
   laboratorios: Laboratorio[] = [];
+  selectedCollectionlab: string = 'laboratorios';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -45,7 +47,8 @@ export class WelcomeComponent {
     private ecosystemService: EcosystemService,
     private videoService: VideoService,
     private tarjetaService: TarjetaService,
-    private laboratorioService: LaboratorioService
+    private laboratorioService: LaboratorioService,
+    private cdr: ChangeDetectorRef 
   ) { }
 
   // Método para sanitizar la URL del video
@@ -57,11 +60,13 @@ export class WelcomeComponent {
     // Llamamos al servicio para obtener los slides cuando el componente se inicializa
     this.slideService.getSlides().subscribe((slidesData: SlideData[]) => {
       this.slides = slidesData;
+      this.cdr.detectChanges();
     });
 
     // Llamamos al servicio para obtener los items de la ecosistema cuando el componente se inicializa
     this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
       this.ecosystemItems = itemsData;
+      this.cdr.detectChanges();
     })
 
     // Cargar videos
@@ -71,17 +76,23 @@ export class WelcomeComponent {
         url: video.url,
         name: video.id || 'Desconocido'
       }));
+      this.cdr.detectChanges();
     });
 
     // Cargar tarjetas
     this.tarjetaService.getTarjetas().subscribe((tarjetasData: TarjetaData[]) => {
       this.tarjetas = tarjetasData;
+      this.cdr.detectChanges();
     });
 
-    // Cargar laboratorios
-    this.laboratorioService.getLaboratorios().subscribe((laboratoriosData: Laboratorio[]) => {
-      this.laboratorios = laboratoriosData;
-    });
+    // Cargar laboratorios de la colección seleccionada
+    this.laboratorioService.getLaboratorios(this.selectedCollectionlab).subscribe(
+      (laboratoriosData: Laboratorio[]) => {
+        this.laboratorios = laboratoriosData;
+      }
+    );
+    this.cdr.detectChanges();
+
   }
 
 

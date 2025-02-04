@@ -121,16 +121,20 @@
 .embed-responsive-item {
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 80%; /* Asegura que el video sea responsivo */
+    height:500px; 
 }
 
 .video-overlay {
-    top: 50%;
-    left: 50%;
+    position: absolute;
+    top: 5%;
+    left: 10%;
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.5);
     padding: 1rem 2rem;
     border-radius: 10px;
     max-width: 80%;
+    color: white;
 }
 
 .video-overlay h3 {
@@ -142,6 +146,72 @@
     font-size: 1.2rem;
     margin-bottom: 1rem;
 }
+
+/* Responsividad */
+@media (max-width: 1200px) {
+    .video-overlay {
+        max-width: 90%; /* Se reduce un poco el tamaño en pantallas medianas */
+        padding: 1rem;
+    }
+
+    .video-overlay h3 {
+        font-size: 1.8rem;
+    }
+
+    .video-overlay p {
+        font-size: 1rem;
+    }
+    .embed-responsive-item {
+        
+        height:500px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .video-overlay {
+        max-width: 95%; /* El overlay se hace más pequeño en pantallas más pequeñas */
+        padding: 1rem;
+    }
+
+    .video-overlay h3 {
+        font-size: 1.5rem;
+    }
+
+    .video-overlay p {
+        font-size: 1rem;
+    }
+
+    .embed-responsive-item {
+        border-radius: 10px; /* Menos borde en pantallas pequeñas */
+    }
+    .embed-responsive-item {
+        
+        height:260px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .video-overlay h3 {
+        font-size: 1.3rem; /* Ajusta el tamaño del título */
+    }
+
+    .video-overlay p {
+        font-size: 0.9rem; /* Ajusta el tamaño del texto */
+    }
+
+    .video-container {
+        padding: 1rem; /* Agrega algo de espacio en pantallas muy pequeñas */
+    }
+
+    .video-section {
+        padding: 2rem 0; /* Menos espacio alrededor en pantallas muy pequeñas */
+    }
+    .embed-responsive-item {
+        
+        height:260px; 
+    }
+}
+
 
 /******** Estilo de las tarjetas Ecosistema *********/
 .row {

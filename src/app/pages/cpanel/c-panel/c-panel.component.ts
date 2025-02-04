@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsersService } from '../../services/users/users.service';
 import { Router } from '@angular/router';
@@ -34,7 +34,10 @@ import { LaboratorioService, Laboratorio } from '../../../services/laboratorio/l
 import { NosotrosService, Nosotros } from '../../../services/nosotros/nosotros.service';
 import { TimelineService, TimelineEvent } from '../../../services/timeline/timeline.service';
 import { CarruselesService, CarruselData } from '../../../services/carruseles/carruseles.service';
-
+import { Observable } from 'rxjs/internal/Observable';
+import { MembersService, MemberData } from '../../../services/member/members.service';
+import { EquipoService, EquipoData } from '../../../services/equipo/equipo.service';
+import { FilesService, EcosystemItem } from '../../../services/files/files.service';
 @Component({
   selector: 'app-c-panel',
   imports: [
@@ -48,6 +51,7 @@ import { CarruselesService, CarruselData } from '../../../services/carruseles/ca
     NzInputModule,
     NzUploadModule,
     NzSpinModule,
+    NzSelectModule,
     NzMessageModule,
     NzPopconfirmModule,
     NzDividerModule,
@@ -100,6 +104,7 @@ export class CPanelComponent {
   };
   editingLaboratorioId: string | null = null;
   selectedLaboratorioFile: File | null = null;
+  selectedCollectionlab: string = 'laboratorios'; // Valor por defecto
   // ******* 📌 Admin Nosotros ********
   nosotrosList: Nosotros[] = [];
   newNosotros: Partial<Nosotros> = {
@@ -115,12 +120,32 @@ export class CPanelComponent {
   newEvent: TimelineEvent = { year: '', description: '' };
   editingEventId: string | null | undefined = null;
   // ******* 📌 Admin Carrusel ********
-  carrusel: CarruselData[] = [];
-  newCarruselSlide: CarruselData = { image: '', text: '' };
-  selectedCarruselFile: File | null = null;
-  selectedCollection: string = 'defaultCollection'; // Cambia esto según la colección
-  editingCarruselId: string | null = null;
-
+  selectedCollection: string = ''; // Colección seleccionada
+  fileToUpload: File | null = null; // Archivo de imagen a subir
+  carruseles$: Observable<any> = new Observable(); // Observable para los carruseles
+  editingCarruselId: string | null = null; // ID del carrusel en edición
+  newCarrusel: CarruselData = {
+    image: '',
+    text: '',
+  };
+  // ******* 📌 Admin Members ********
+  members$: Observable<MemberData[]> = new Observable();
+  membersLeft: MemberData[] = [];
+  membersRight: MemberData[] = [];
+  editingMemberId: string | null = null;
+  newMember: MemberData = { role: '', icon: '', group: 'left' };
+  // ******* 📌 Admin Equipo ********
+  equipo: EquipoData[] = [];
+  nuevoMiembro: Partial<EquipoData> = { nombre: '', cargo: '', foto: '' };
+  editandoMiembroId: string | null = null;
+  archivoSeleccionado: File | null = null;
+  // ******* 📌 Admin Files ********
+  ecosystemDocuments: EcosystemItem[] = [];
+  newdocument: EcosystemItem = { title: '', description: '', imageUrl: '', fileUrl: '' };
+  imageDocument: File | null = null;
+  documentFile: File | null = null;
+  isSubmittingDocs = false;
+  editingDocsId: string | null = null;
 
   constructor(
     private router: Router,
@@ -134,9 +159,13 @@ export class CPanelComponent {
     private laboratorioService: LaboratorioService,
     private nosotrosService: NosotrosService,
     private timelineService: TimelineService,
-    private carruselService: CarruselesService
+    private carruselService: CarruselesService,
+    private membersService: MembersService,
+    private equipoService: EquipoService,
+    private cdr: ChangeDetectorRef,
+    private fileService: FilesService
   ) {
-    
+
   }
 
   ngOnInit() {
@@ -153,6 +182,11 @@ export class CPanelComponent {
       this.slides = slides;
     });
 
+    this.equipoService.getEquipoMembers().subscribe(data => {
+      this.equipo = data;
+      this.cdr.detectChanges();
+    });
+
     this.getEcosystemData();
     this.loadVideos();
     this.getTarjetasData();
@@ -160,6 +194,8 @@ export class CPanelComponent {
     this.getNosotros();
     this.getTimelineEvents();
     this.loadCarruseles();
+    this.loadMembers();
+    this.loadEcosystemDocuments();
   }
 
   // 📌 Verificar si el usuario está logueado
@@ -177,7 +213,6 @@ export class CPanelComponent {
     });
   }
   // ******* 📌 Admin Logos ********
-
   /** 📌 Función para manejar la carga de archivos */
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -196,7 +231,6 @@ export class CPanelComponent {
       console.error('Error subiendo el logo:', error);
     }
   }
-
   selectSection(key: string): void {
     this.selectedKey = key;
   }
@@ -251,16 +285,13 @@ export class CPanelComponent {
       });
     }
   }
-
   // ******* 📌 Admin Slides ********
-
   // Manejar la selección de archivos
   onSlideFileChange(event: any) {
     if (event.target.files.length > 0) {
       this.selectedSlideFile = event.target.files[0];
     }
   }
-
   async submitSlide() {
     if (!this.newSlide.text || !this.newSlide.buttonText || !this.newSlide.route) {
       this.message.warning('Por favor, completa todos los campos.');
@@ -312,7 +343,6 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
   startEditSlide(slide: SlideData) {
     this.editingSlideId = slide.id!;
     this.newSlide = {
@@ -322,11 +352,9 @@ export class CPanelComponent {
       route: slide.route
     };
   }
-
   cancelEditSlide() {
     this.resetSlideForm();
   }
-
   async deleteSlide(slideId: string) {
     if (confirm('¿Estás seguro de eliminar este slide?')) {
       try {
@@ -338,19 +366,16 @@ export class CPanelComponent {
       }
     }
   }
-
   private resetSlideForm() {
     this.newSlide = { image: '', text: '', buttonText: '', route: '' };
     this.editingSlideId = null;
     this.selectedSlideFile = null;
   }
-
   onSlideFileSelected(event: { file: NzUploadFile }) {
     if (event.file) {
       this.selectedSlideFile = event.file as any;
     }
   }
-
   async updateSlide(slideId: string, updatedData: Partial<SlideData>) {
     try {
       await this.slideService.updateSlide(slideId, updatedData);
@@ -369,14 +394,12 @@ export class CPanelComponent {
       this.ecosystemItems = data;
     });
   }
-
   // Manejar la selección de archivos
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedItemFile = event.target.files[0];
     }
   }
-
   // Crear o editar un item del ecosistema
   async submitItem(): Promise<void> {
     if (!this.newItem.title || !this.newItem.description) {
@@ -425,18 +448,15 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
   // Iniciar la edición de un item
   startEditItem(item: EcosystemData): void {
     this.editingItemId = item.id!;
     this.newItem = { title: item.title, description: item.description, image: item.image };
   }
-
   // Cancelar la edición y resetear el formulario
   cancelEditItem(): void {
     this.resetForm();
   }
-
   // Eliminar un item del ecosistema
   async deleteItem(itemId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este elemento del ecosistema?')) {
@@ -449,7 +469,6 @@ export class CPanelComponent {
       }
     }
   }
-
   // Resetear el formulario
   private resetForm(): void {
     this.newItem = { title: '', description: '', image: '' };
@@ -467,7 +486,6 @@ export class CPanelComponent {
       }));
     });
   }
-
   /** 📌 Manejar la selección de archivos */
   onVideoSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -476,7 +494,6 @@ export class CPanelComponent {
     }
     this.selectedVideoFile = input.files[0];
   }
-
   /** 📌 Subir video */
   async uploadVideo() {
     if (!this.selectedVideoFile) {
@@ -515,7 +532,6 @@ export class CPanelComponent {
       }, 1000);
     }
   }
-
   /** 📌 Eliminar un video */
   async deleteVideo(video: { id: string; url: string; name: string }) {
     if (confirm(`¿Estás seguro de eliminar este video?`)) {
@@ -537,14 +553,12 @@ export class CPanelComponent {
       this.tarjetas = data;
     });
   }
-
   // Manejar la selección de archivos
   onFileChange2(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedItemFile2 = event.target.files[0]; // ✅ Corrección: usar selectedItemFile2
     }
   }
-
   // Crear o editar una tarjeta
   async submitTarjeta(): Promise<void> {
     if (!this.newItem2.titulo || !this.newItem2.ruta) {
@@ -593,18 +607,15 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
   // Iniciar la edición de una tarjeta
   startEditTarjeta(item: TarjetaData): void {
     this.editingItemId2 = item.id!;
     this.newItem2 = { titulo: item.titulo, ruta: item.ruta, imagen: item.imagen };
   }
-
   // Cancelar la edición y resetear el formulario
   cancelEditTarjeta(): void {
     this.resetForm2();
   }
-
   // Eliminar una tarjeta
   async deleteTarjetaItem(itemId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar esta tarjeta?')) {
@@ -617,7 +628,6 @@ export class CPanelComponent {
       }
     }
   }
-
   // Resetear el formulario
   private resetForm2(): void {
     this.newItem2 = { titulo: '', ruta: '', imagen: '' };
@@ -626,21 +636,29 @@ export class CPanelComponent {
   }
 
   // ******* 📌 Admin Laboratorios ********
-  // ✅ Obtener los laboratorios desde Firestore
+  // ✅ Manejar la selección de colección de laboratorios
+  selectCollectionLab(event: any): void {
+    this.selectedCollectionlab = event.target.value;
+    this.getLaboratorios();
+  }
+  // ✅ Obtener los laboratorios según la colección seleccionada
   getLaboratorios(): void {
-    this.laboratorioService.getLaboratorios().subscribe(data => {
+    if (!this.selectedCollectionlab) {
+      this.laboratorios = []; // Si no hay colección seleccionada, vacía la lista
+      return;
+    }
+
+    this.laboratorioService.getLaboratorios(this.selectedCollectionlab).subscribe(data => {
       this.laboratorios = data;
     });
   }
-
   // ✅ Manejar la selección de archivos
   onLaboratorioFileChange(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedLaboratorioFile = event.target.files[0];
     }
   }
-
-  // ✅ Crear o editar un laboratorio
+  // ✅ Guardar en ambas colecciones
   async submitLaboratorio(): Promise<void> {
     if (!this.newLaboratorio.titulo || !this.newLaboratorio.descripcion || !this.newLaboratorio.icono) {
       this.message.warning('Por favor, completa todos los campos.');
@@ -652,34 +670,34 @@ export class CPanelComponent {
       return;
     }
 
+    if (!this.selectedCollectionlab) {
+      this.message.warning('Por favor, selecciona una colección.');
+      return;
+    }
+
     this.isSubmitting = true;
 
     try {
-      let imageUrl = this.newLaboratorio.image;
+      let imageUrl: string = this.newLaboratorio.image || '';
 
-      // Si hay una nueva imagen seleccionada, súbela a Firebase Storage
       if (this.selectedLaboratorioFile) {
         imageUrl = await this.laboratorioService.uploadImage(this.selectedLaboratorioFile);
+        this.selectedLaboratorioFile = null; // Resetear el archivo después de subir
       }
 
+      const laboratorioData = {
+        image: imageUrl,
+        titulo: this.newLaboratorio.titulo!,
+        descripcion: this.newLaboratorio.descripcion!,
+        icono: this.newLaboratorio.icono!
+      };
+
       if (this.editingLaboratorioId) {
-        // Editar laboratorio existente
-        await this.laboratorioService.updateLaboratorio(this.editingLaboratorioId, {
-          image: imageUrl!,
-          titulo: this.newLaboratorio.titulo!,
-          descripcion: this.newLaboratorio.descripcion!,
-          icono: this.newLaboratorio.icono!
-        });
-        this.message.success('Laboratorio actualizado correctamente.');
+        await this.laboratorioService.updateLaboratorio(this.editingLaboratorioId, laboratorioData, this.selectedCollectionlab);
+        this.message.success(`Laboratorio actualizado en la colección ${this.selectedCollectionlab}.`);
       } else {
-        // Crear un nuevo laboratorio
-        await this.laboratorioService.saveLaboratorio({
-          image: imageUrl!,
-          titulo: this.newLaboratorio.titulo!,
-          descripcion: this.newLaboratorio.descripcion!,
-          icono: this.newLaboratorio.icono!
-        });
-        this.message.success('Laboratorio agregado correctamente.');
+        await this.laboratorioService.saveLaboratorio(laboratorioData, this.selectedCollectionlab);
+        this.message.success(`Laboratorio guardado en la colección ${this.selectedCollectionlab}.`);
       }
 
       this.resetLaboratorioForm();
@@ -690,7 +708,6 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
   // ✅ Iniciar la edición de un laboratorio
   startEditLaboratorio(laboratorio: Laboratorio): void {
     this.editingLaboratorioId = laboratorio.id!;
@@ -701,12 +718,10 @@ export class CPanelComponent {
       image: laboratorio.image
     };
   }
-
   // ✅ Cancelar la edición y resetear el formulario
   cancelEditLaboratorio(): void {
     this.resetLaboratorioForm();
   }
-
   // ✅ Eliminar un laboratorio
   async deleteLaboratorio(laboratorioId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este laboratorio?')) {
@@ -719,7 +734,6 @@ export class CPanelComponent {
       }
     }
   }
-
   // ✅ Resetear el formulario
   private resetLaboratorioForm(): void {
     this.newLaboratorio = { titulo: '', descripcion: '', icono: '', image: '' };
@@ -735,13 +749,11 @@ export class CPanelComponent {
     });
   }
   // ✅ Manejar la selección de archivos  
-
   onNosotrosFileChange(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedNosotrosFile = event.target.files[0];
     }
   }
-
   // ✅ Crear o editar un elemento en "Nosotros"  
   async submitNosotros(): Promise<void> {
     if (!this.newNosotros.title || !this.newNosotros.text) {
@@ -793,7 +805,6 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
   // ✅ Iniciar la edición de un elemento de "Nosotros"  
   startEditNosotros(nosotros: Nosotros): void {
     this.editingNosotrosId = nosotros.id!;
@@ -804,12 +815,10 @@ export class CPanelComponent {
       subItems: nosotros.subItems
     };
   }
-
   // ✅ Cancelar la edición y resetear el formulario  
   cancelEditNosotros(): void {
     this.resetNosotrosForm();
   }
-
   // ✅ Eliminar un elemento de "Nosotros"  
   async deleteNosotros(nosotrosId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este elemento?')) {
@@ -822,7 +831,6 @@ export class CPanelComponent {
       }
     }
   }
-
   // ✅ Resetear el formulario  
   private resetNosotrosForm(): void {
     this.newNosotros = { title: '', text: '', image: '', subItems: '' };
@@ -837,7 +845,6 @@ export class CPanelComponent {
       this.timelineEvents = data;
     });
   }
-
   // ✅ Crear o editar un evento
   async submitTimelineEvent(): Promise<void> {
     if (!this.newEvent.year || !this.newEvent.description) {
@@ -867,19 +874,16 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
   // ✅ Iniciar la edición de un evento
   startEditEvent(event: TimelineEvent): void {
     this.editingEventId = event.id ?? null; // Si event.id es undefined, asigna null
     this.newEvent = { ...event };
-  }  
-
+  }
   cancelEditEvent(): void {
     // Limpiar el formulario y restablecer el id de edición
     this.editingEventId = null;
     this.newEvent = { year: '', description: '' };
   }
-
   // ✅ Eliminar un evento
   async deleteEvent(eventId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este evento?')) {
@@ -893,7 +897,6 @@ export class CPanelComponent {
       }
     }
   }
-
   // ✅ Resetear el formulario
   private resetFormTime(): void {
     this.newEvent = { year: '', description: '' };
@@ -902,50 +905,69 @@ export class CPanelComponent {
 
   // ******* 📌 Admin Carruseles varios ********
 
-  // Cargar los carruseles de la colección seleccionada
-  loadCarruseles() {
-    this.carruselService.getSlides(this.selectedCollection).subscribe(
-      (slides) => {
-        this.carrusel = slides; // Asignar los carruseles a la variable slides
-      }
-    );
+  // Función para cambiar la colección seleccionada
+  selectCollection(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedCollection = target.value;
+    this.loadCarruseles(); // Recargar datos de la nueva colección
   }
-
-  // Guardar el carrusel (crear o actualizar)
-  async submitCarrusel() {
-    if (!this.newCarruselSlide.text) {
+  // Función para cargar los carruseles de la colección seleccionada
+  loadCarruseles() {
+    this.carruseles$ = this.carruselService.getSlides(this.selectedCollection);
+  }
+  handleFileInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.fileToUpload = input.files[0];
+    }
+  }
+  // Función para subir una imagen y guardar un carrusel
+  async saveCarrusel() {
+    if (!this.newCarrusel.text) {
       this.message.warning('Por favor, completa todos los campos.');
+      return;
+    }
+
+    if (!this.editingCarruselId && !this.fileToUpload) {
+      this.message.warning('Debes seleccionar una imagen.');
       return;
     }
 
     this.isSubmitting = true;
 
     try {
-      let imageUrl = this.newCarruselSlide.image;
+      let imageUrl = this.newCarrusel.image;
 
-      // Si hay una nueva imagen seleccionada, súbela
-      if (this.selectedCarruselFile) {
-        imageUrl = await this.carruselService.uploadImage(this.selectedCarruselFile);
+      // Subir nueva imagen si se ha seleccionado
+      if (this.fileToUpload) {
+        imageUrl = await this.carruselService.uploadImage(this.fileToUpload);
       }
 
       if (this.editingCarruselId) {
-        // Actualizar slide existente
-        await this.carruselService.updateSlide(this.editingCarruselId, {
-          image: imageUrl,
-          text: this.newCarruselSlide.text
-        }, this.selectedCollection);
+        // Actualizar carrusel existente
+        await this.carruselService.updateSlide(
+          this.editingCarruselId,
+          {
+            image: imageUrl!,
+            text: this.newCarrusel.text!
+          },
+          this.selectedCollection
+        );
         this.message.success('Carrusel actualizado correctamente.');
       } else {
-        // Crear un nuevo slide
-        await this.carruselService.saveSlide({
-          image: imageUrl!,
-          text: this.newCarruselSlide.text!
-        }, this.selectedCollection);
+        // Guardar nuevo carrusel
+        await this.carruselService.saveSlide(
+          {
+            image: imageUrl!,
+            text: this.newCarrusel.text!
+          },
+          this.selectedCollection
+        );
         this.message.success('Carrusel agregado correctamente.');
       }
-
+      // Resetear formulario
       this.resetCarruselForm();
-      this.loadCarruseles();
+      this.loadCarruseles(); // Recargar lista
     } catch (error) {
       console.error('Error al guardar el carrusel:', error);
       this.message.error('Error al guardar el carrusel.');
@@ -953,50 +975,288 @@ export class CPanelComponent {
       this.isSubmitting = false;
     }
   }
-
-  // Configurar el formulario para editar un carrusel
-  startEditCarrusel(slide: CarruselData) {
-    if (slide.id) {
-      this.editingCarruselId = slide.id;
-      this.newCarruselSlide = { ...slide };
-    } else {
-      this.message.error('Este carrusel no tiene un ID válido.');
-    }
+  // 🟢 Iniciar edición de un carrusel
+  startEditCarrusel(carrusel: CarruselData) {
+    this.editingCarruselId = carrusel.id!;
+    this.newCarrusel = {
+      image: carrusel.image,
+      text: carrusel.text
+    };
   }
-
-  // Cancelar la edición de un carrusel
+  // 🟢 Cancelar edición
   cancelEditCarrusel() {
-    this.editingCarruselId = null;
     this.resetCarruselForm();
   }
-
-  // Eliminar un carrusel
-  async deleteCarrusel(slideId: string) {
-    try {
-      await this.carruselService.deleteSlide(slideId, this.selectedCollection);
-      this.message.success('Carrusel eliminado correctamente.');
-      this.loadCarruseles();
-    } catch (error) {
-      console.error('Error al eliminar el carrusel:', error);
-      this.message.error('Error al eliminar el carrusel.');
+  // 🟢 Eliminar carrusel
+  async deleteCarrusel(carruselId: string) {
+    if (confirm('¿Estás seguro de eliminar este carrusel?')) {
+      try {
+        await this.carruselService.deleteSlide(carruselId, this.selectedCollection);
+        this.message.success('Carrusel eliminado correctamente.');
+        this.loadCarruseles(); // Recargar lista
+      } catch (error) {
+        console.error('Error al eliminar el carrusel:', error);
+        this.message.error('Error al eliminar el carrusel.');
+      }
     }
   }
-
-  // Manejar el cambio de archivo de imagen
-  onCarruselFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      this.selectedCarruselFile = input.files[0];
-    }
-  }
-
-  // Resetear el formulario de carrusel
-  resetCarruselForm() {
-    this.newCarruselSlide = { image: '', text: '' };
-    this.selectedCarruselFile = null;
+  // 🟢 Resetear formulario
+  private resetCarruselForm() {
+    this.newCarrusel = { image: '', text: '' };
     this.editingCarruselId = null;
+    this.fileToUpload = null;
   }
-  
+  // 🟢 Función para actualizar solo ciertos datos de un carrusel
+  async updateCarrusel(carruselId: string, updatedData: Partial<CarruselData>) {
+    try {
+      await this.carruselService.updateSlide(carruselId, updatedData, this.selectedCollection);
+      this.message.success('Carrusel actualizado correctamente.');
+      this.editingCarruselId = null;
+      this.loadCarruseles(); // Recargar datos
+    } catch (error) {
+      console.error('Error al actualizar el carrusel:', error);
+      this.message.error('Error al actualizar el carrusel.');
+    }
+  }
+
+  // ******* 📌 Admin Members ********
+  // Cargar miembros desde Firebase
+  loadMembers() {
+    this.members$ = this.membersService.getMembers();
+    this.members$.subscribe(members => {
+      this.membersLeft = members.filter(m => m.group === 'left');
+      this.membersRight = members.filter(m => m.group === 'right');
+    });
+  }
+  // Guardar o actualizar miembro
+  async saveMember() {
+    if (!this.newMember.role || !this.newMember.icon) {
+      this.message.warning('Por favor, completa todos los campos.');
+      return;
+    }
+
+    try {
+      if (this.editingMemberId) {
+        // Actualizar miembro existente
+        await this.membersService.updateMember(this.editingMemberId, {
+          role: this.newMember.role,
+          icon: this.newMember.icon,
+          group: this.newMember.group
+        });
+        this.message.success('Miembro actualizado correctamente.');
+      } else {
+        // Guardar nuevo miembro
+        await this.membersService.saveMember(this.newMember);
+        this.message.success('Miembro agregado correctamente.');
+      }
+
+      this.resetMemberForm();
+      this.loadMembers();
+    } catch (error) {
+      console.error('Error al guardar el miembro:', error);
+      this.message.error('Error al guardar el miembro.');
+    }
+  }
+  // Iniciar edición de un miembro
+  startEditMember(member: MemberData) {
+    this.editingMemberId = member.id!;
+    this.newMember = { ...member };
+  }
+  // Cancelar edición
+  cancelEditMember() {
+    this.resetMemberForm();
+  }
+  // Eliminar miembro
+  async deleteMember(memberId: string) {
+    if (confirm('¿Estás seguro de eliminar este miembro?')) {
+      try {
+        await this.membersService.deleteMember(memberId);
+        this.message.success('Miembro eliminado correctamente.');
+        this.loadMembers();
+      } catch (error) {
+        console.error('Error al eliminar el miembro:', error);
+        this.message.error('Error al eliminar el miembro.');
+      }
+    }
+  }
+  // Resetear formulario
+  private resetMemberForm() {
+    this.newMember = { role: '', icon: '', group: 'left' };
+    this.editingMemberId = null;
+  }
+
+  // ******* 📌 Admin Equipo ********
+  // 📌 Obtener los miembros del equipo desde Firebase
+  mostrarEquipo(): void {
+    this.equipoService.getEquipoMembers().subscribe(data => {
+      this.equipo = data;
+      this.cdr.detectChanges();
+    });
+  }
+
+  // 📌 Manejar la selección de archivos
+  onArchivoSeleccionado(event: any): void {
+    if (event.target.files.length > 0) {
+      this.archivoSeleccionado = event.target.files[0];
+    }
+  }
+  // 📌 Crear o editar un miembro del equipo
+  async enviarMiembro(): Promise<void> {
+    if (!this.nuevoMiembro.nombre || !this.nuevoMiembro.cargo) {
+      this.message.warning('Por favor, completa todos los campos.');
+      return;
+    }
+
+    if (!this.editandoMiembroId && !this.archivoSeleccionado) {
+      this.message.warning('Debes seleccionar una imagen.');
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    try {
+      let fotoUrl = this.nuevoMiembro.foto;
+
+      // Si hay una nueva imagen seleccionada, súbela
+      if (this.archivoSeleccionado) {
+        fotoUrl = await this.equipoService.uploadImage(this.archivoSeleccionado);
+      }
+
+      if (this.editandoMiembroId) {
+        // Editar miembro existente
+        await this.equipoService.updateEquipoMember(this.editandoMiembroId, {
+          foto: fotoUrl!,
+          nombre: this.nuevoMiembro.nombre!,
+          cargo: this.nuevoMiembro.cargo!
+        });
+        this.message.success('Miembro del equipo actualizado correctamente.');
+      } else {
+        // Crear un nuevo miembro
+        await this.equipoService.addEquipoMember({
+          foto: fotoUrl!,
+          nombre: this.nuevoMiembro.nombre!,
+          cargo: this.nuevoMiembro.cargo!
+        });
+        this.message.success('Miembro del equipo agregado correctamente.');
+      }
+
+      this.reiniciarFormulario();
+    } catch (error) {
+      console.error('Error al guardar el miembro:', error);
+      this.message.error('Error al guardar el miembro.');
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+  // 📌 Iniciar la edición de un miembro del equipo
+  iniciarEdicion(miembro: EquipoData): void {
+    this.editandoMiembroId = miembro.id!;
+    this.nuevoMiembro = { nombre: miembro.nombre, cargo: miembro.cargo, foto: miembro.foto };
+  }
+  // 📌 Cancelar la edición y resetear el formulario
+  cancelarEdicion(): void {
+    this.reiniciarFormulario();
+  }
+  // 📌 Eliminar un miembro del equipo
+  async eliminarMiembro(miembroId: string): Promise<void> {
+    if (confirm('¿Estás seguro de eliminar este miembro del equipo?')) {
+      try {
+        await this.equipoService.deleteEquipoMember(miembroId);
+        this.message.success('Miembro del equipo eliminado correctamente.');
+      } catch (error) {
+        console.error('Error al eliminar el miembro:', error);
+        this.message.error('Error al eliminar el miembro.');
+      }
+    }
+  }
+  // 📌 Resetear el formulario
+  private reiniciarFormulario(): void {
+    this.nuevoMiembro = { nombre: '', cargo: '', foto: '' };
+    this.editandoMiembroId = null;
+    this.archivoSeleccionado = null;
+  }
+
+  // ******* 📌 Admin Files ********
+
+  // 📌 Cargar documentos del ecosistema desde Firestore
+  loadEcosystemDocuments(): void {
+    this.fileService.getEcosystemItems().subscribe((items: EcosystemItem[]) => {
+      this.ecosystemDocuments = items;
+      this.cdr.detectChanges();
+    });
+  }
+
+  // 📌 Manejar selección de imagen
+  onImageChange(event: any): void {
+    if (event.target.files.length > 0) {
+      this.imageDocument = event.target.files[0];
+    }
+  }
+
+  // 📌 Manejar selección de documento
+  onDocumentChange(event: any): void {
+    if (event.target.files.length > 0) {
+      this.documentFile = event.target.files[0];
+    }
+  }
+
+  // 📌 Subir un nuevo documento o actualizar
+  async submitDocument(): Promise<void> {
+    if (!this.imageDocument) {
+      alert('Selecciona una imagen.');
+      return;
+    }
+
+    this.isSubmittingDocs = true;
+
+    try {
+      await this.fileService.uploadItem(
+        this.newdocument.title,
+        this.newdocument.description,
+        this.imageDocument ?? undefined,
+        this.documentFile ?? undefined
+      );
+      alert('Documento subido correctamente.');
+      this.loadEcosystemDocuments();
+    } catch (error) {
+      console.error('Error al subir el documento:', error);
+    } finally {
+      this.isSubmittingDocs = false;
+      this.resetDocumentForm();
+    }
+  }
+
+  // 📌 Iniciar edición de un documento
+  startEditDocument(item: EcosystemItem): void {
+    this.editingDocsId = item.id || null;
+    this.newdocument = { ...item };
+  }
+
+  // 📌 Cancelar edición
+  cancelEditDocument(): void {
+    this.editingDocsId = null;
+    this.resetDocumentForm();
+  }
+
+  // 📌 Eliminar un documento
+  async deleteDocument(id: string): Promise<void> {
+    if (confirm('¿Seguro que deseas eliminar este documento?')) {
+      await this.fileService.deleteItem(id);
+      this.loadEcosystemDocuments();
+    }
+  }
+
+  // 📌 Restablecer formulario
+  resetDocumentForm(): void {
+    this.newdocument = { title: '', description: '', imageUrl: '', fileUrl: '' };
+    this.imageDocument = null;
+    this.documentFile = null;
+  }
+
+  // 📌 Descargar archivo
+  downloadFile(fileUrl: string): void {
+    window.open(fileUrl, '_blank');
+  }
 
 }
 

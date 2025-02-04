@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,9 @@ import { RouterModule } from '@angular/router';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NosotrosService, Nosotros } from '../../services/nosotros/nosotros.service';
 import { TimelineEvent, TimelineService } from '../../services/timeline/timeline.service';
+import { CarruselesService, CarruselData } from '../../services/carruseles/carruseles.service';
+import { MembersService } from '../../services/member/members.service';
+import { EquipoService, EquipoData } from '../../services/equipo/equipo.service';
 
 @Component({
   selector: 'app-quienes-somos',
@@ -35,10 +38,18 @@ export class QuienesSomosComponent {
 
   cards: Nosotros[] = [];
   timelineEvents: TimelineEvent[] = [];
+  slides: CarruselData[] = [];
+  membersLeft: any[] = [];
+  membersRight: any[] = [];
+  equipo: EquipoData[] = [];
 
   constructor(
     private nosotrosService: NosotrosService,
-    private timelineService: TimelineService
+    private timelineService: TimelineService,
+    private carruselService: CarruselesService,
+    private cdr: ChangeDetectorRef,
+    private membersService: MembersService,
+    private equipoService: EquipoService
   ) { }
 
 
@@ -55,6 +66,7 @@ export class QuienesSomosComponent {
         ];
         return order.indexOf(a.title) - order.indexOf(b.title);
       });
+      this.cdr.detectChanges();
     }, error => {
       console.error("Error al obtener los datos de Nosotros:", error);
     });
@@ -65,70 +77,30 @@ export class QuienesSomosComponent {
       this.timelineEvents = data.sort((a, b) => {
         return parseInt(a.year, 10) - parseInt(b.year, 10);
       });
+      this.cdr.detectChanges();
     }, error => {
       console.error("Error al obtener los datos de Timeline:", error);
     });
+    // Obtener los datos del servicio CarruselesService
+    this.carruselService.getSlides('job-foment').subscribe(
+      (data) => {
+        this.slides = data;
+      },
+      (error) => console.error('Error al obtener los carruseles:', error)
+    );
+    // Obtener miembros
+    this.membersService.getMembers().subscribe(members => {
+      this.membersLeft = members.filter(m => m.group === 'left');
+      this.membersRight = members.filter(m => m.group === 'right');
+      this.cdr.detectChanges();
+    });
+
+    // Obtener miembros del equipo
+    this.equipoService.getEquipoMembers().subscribe(data => {
+      this.equipo = data;
+      this.cdr.detectChanges();
+    });
   }
-
-  
-
-  slides = [
-    {
-      image: 'https://img.freepik.com/free-vector/futuristic-tech-digital-circuit-line-background-web-innovation_1017-53927.jpg?semt=ais_incoming',
-      text: 'Comercio Justo',
-      buttonText: 'Ver más',
-      route: '/home'
-    },
-    {
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      text: 'Igualdad de Género',
-      buttonText: 'AHORA',
-      route: '/features'
-    },
-    {
-      image: 'https://img.freepik.com/free-vector/digital-technology-with-hexagonal-shapes_1017-29805.jpg?semt=ais_incoming',
-      text: 'Conciencia sobre el Cambio climático',
-      buttonText: 'Servicios',
-      route: '/services'
-    },
-    {
-      image: 'https://img.freepik.com/free-vector/digial-circuit-diagram-technology-background_1017-28403.jpg?semt=ais_incoming',
-      text: 'Innovación',
-      buttonText: 'Contacto',
-      route: '/contact'
-    },
-    {
-      image: 'https://img.freepik.com/free-vector/digial-circuit-diagram-technology-background_1017-28403.jpg?semt=ais_incoming',
-      text: 'Sostenibilidad',
-      buttonText: 'Contacto',
-      route: '/contact'
-    }
-  ];
-
-  
-
-  equipo = [
-    { nombre: 'Juan Pérez', cargo: 'CEO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'Ana López', cargo: 'CTO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'Carlos Méndez', cargo: 'COO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'María García', cargo: 'CFO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'Juan Pérez', cargo: 'CEO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'Ana López', cargo: 'CTO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'Carlos Méndez', cargo: 'COO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' },
-    { nombre: 'María García', cargo: 'CFO', foto: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png' }
-  ];
-
-  membersLeft = [
-    { role: 'Presidenta', icon: 'gold' }, // Representa liderazgo.
-    { role: 'Secretaría', icon: 'file-text' }, // Representa documentos y registros.
-    { role: 'Tesorera', icon: 'wallet' } // Representa manejo financiero.
-  ];
-
-  membersRight = [
-    { role: 'Gerente General', icon: 'solution' }, // Representa gestión y soluciones.
-    { role: 'Consejo de Vigilancia', icon: 'eye' }, // Representa supervisión y vigilancia.
-    { role: 'Consejo de Administración', icon: 'team' } // Representa un grupo administrativo.
-  ];
 
   items = [
     {

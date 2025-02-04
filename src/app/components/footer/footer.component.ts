@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LogoService } from '../../services/logo/logo.service';
@@ -12,7 +12,10 @@ import { LogoService } from '../../services/logo/logo.service';
 export class FooterComponent {
   logoUrl: string = 'https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png'; // Imagen por defecto
 
-  constructor(private logoService: LogoService) { }
+  constructor(
+    private logoService: LogoService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   rutas = [
     { label: 'Inicio', icon: 'home', route: 'welcome' },
@@ -33,5 +36,6 @@ async ngOnInit(): Promise<void> {
 
   // Cargar el logo actual si aún no se ha actualizado
   this.logoService.loadCurrentLogo();
+  this.cdr.detectChanges();
 }
 }

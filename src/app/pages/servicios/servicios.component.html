@@ -16,7 +16,7 @@
                         <nz-icon [nzType]="lab.icono" nzTheme="outline"
                             style="font-size: 40px; color: #C5BB63;"></nz-icon>
                         <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
-                        <button class="btn btn-primary mt-3" (click)="openModal(lab)">Más información</button>
+                        <button class="btn btn-primary mt-3" (click)="openModalLab(lab)">Más información</button>
                     </div>
                 </div>
             </div>
@@ -24,20 +24,15 @@
     </div>
 
     <!-- Modal -->
-    <nz-modal 
-        [(nzVisible)]="isModalVisible" 
-        nzTitle="{{ selectedLab?.titulo }}" 
-        nzClassName="custom-modal"
-        [nzClosable]="true"
-        (nzOnCancel)="handleCancel()" 
-        [nzFooter]="modalFooter">
+    <nz-modal [(nzVisible)]="isModalVisibleLab" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+        [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterLab">
         <ng-container *nzModalContent>
             <div class="custom-modal-content">
                 <p>{{ selectedLab?.descripcion }}</p>
             </div>
         </ng-container>
     </nz-modal>
-    <ng-template #modalFooter>
+    <ng-template #modalFooterLab>
         <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
             (click)="handleOk()">
             <span>Mas información</span>
@@ -51,14 +46,15 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicadores -->
             <div class="carousel-indicators">
-                <button *ngFor="let slide of slides; let i = index" type="button"
+                <button *ngFor="let slide of labCarruselSlides; let i = index" type="button"
                     data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
                     aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
                 </button>
             </div>
             <!-- Slides -->
             <div class="carousel-inner">
-                <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                <div class="carousel-item" *ngFor="let slide of labCarruselSlides; let i = index"
+                    [class.active]="i === 0">
                     <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
                     <div class="carousel-caption d-block d-md-block">
                         <h5>{{ slide.text }}</h5>
@@ -117,43 +113,40 @@
                 <h1 class="display-4 mb-4">Escuelas de Formación</h1>
                 <nz-card [nzBordered]="false" class="dynamic-card">
                     <p nz-typography nzType="secondary" class="dynamic-text">
-                        Diseñamos soluciones productivas y de servicios desde un enfoque innovador y sostenible,
-                        abordando desafíos sociales, ambientales y económicos.
+                        Las escuelas son iniciativas de transmisión de conocimientos formales
+                        y no formales diseñadas desde los enfoques de género, educación popular y ciencia ciudadana.
                     </p>
                 </nz-card>
             </div>
             <div class="container">
                 <div class="row g-4 justify-content-center">
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" *ngFor="let lab of laboratorios; let i = index">
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
+                        *ngFor="let lab of escuelas; let i = index">
                         <div class="card h-100 card-{{ i % 8 }}">
                             <div class="card-body text-center">
                                 <nz-icon [nzType]="lab.icono" nzTheme="outline"
                                     style="font-size: 40px; color: #C5BB63;"></nz-icon>
                                 <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
-                                <button class="btn btn-primary mt-3" (click)="openModal(lab)">Más información</button>
+                                <button class="btn btn-primary mt-3" (click)="openModalEscuela(lab)">Más
+                                    información</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        
+
             <!-- Modal -->
-            <nz-modal 
-                [(nzVisible)]="isModalVisible" 
-                nzTitle="{{ selectedLab?.titulo }}" 
-                nzClassName="custom-modal"
-                [nzClosable]="true"
-                (nzOnCancel)="handleCancel()" 
-                [nzFooter]="modalFooter">
+            <nz-modal [(nzVisible)]="isModalVisibleEscuela" nzTitle="{{ selectedLab?.titulo }}"
+                nzClassName="custom-modal" [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterEscuela">
                 <ng-container *nzModalContent>
                     <div class="custom-modal-content">
                         <p>{{ selectedLab?.descripcion }}</p>
                     </div>
                 </ng-container>
             </nz-modal>
-            <ng-template #modalFooter>
+            <ng-template #modalFooterEscuela>
                 <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
-                    (click)="handleOk()">
+                    (click)="handleEsc()">
                     <span>Mas información</span>
                 </button>
             </ng-template>
@@ -163,17 +156,18 @@
             <h2 class="custom-title">Nuestro trabajo fomenta</h2>
             <hr>
             <div class="carousel-container">
-                <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
+                <div id="carouselIndicators2" class="carousel slide" data-bs-ride="carousel">
                     <!-- Indicadores -->
                     <div class="carousel-indicators">
-                        <button *ngFor="let slide of slides; let i = index" type="button"
-                            data-bs-target="#carouselExampleIndicators2" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                        <button *ngFor="let slide of escuelasSlides; let i = index" type="button"
+                            data-bs-target="#carouselIndicators2" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
                             aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
                         </button>
                     </div>
                     <!-- Slides -->
                     <div class="carousel-inner">
-                        <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+                        <div class="carousel-item" *ngFor="let slide of escuelasSlides; let i = index"
+                            [class.active]="i === 0">
                             <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
                             <div class="carousel-caption d-block d-md-block">
                                 <h5>{{ slide.text }}</h5>
@@ -181,12 +175,12 @@
                         </div>
                     </div>
                     <!-- Controles -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2"
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators2"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Anterior</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2"
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators2"
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Siguiente</span>

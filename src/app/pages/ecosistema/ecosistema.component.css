@@ -31,17 +31,13 @@
 
 /* Modal */
 .ant-modal-header {
-    background-color:#a63a8dc4;
-    color: #ffffff;
     border-radius: 8px 8px 0 0;
     padding: 16px;
     text-align: center;
 }
 
 .ant-modal-title {
-    color: #ffffff;
     font-size: 1.5rem;
-    font-weight: bold;
 }
 
 .ant-modal-content {
@@ -52,7 +48,6 @@
 
 .ant-modal-body {
     padding: 24px;
-    background-color: #f49f594f;
     font-size: 1rem;
     line-height: 1.6;
     text-align: justify;

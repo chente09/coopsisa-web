@@ -5,7 +5,9 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-
+import { EcosystemService, EcosystemData } from '../../services/ecosystem/ecosystem.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { FilesService, EcosystemItem } from '../../services/files/files.service';
 
 @Component({
   selector: 'app-ecosistema',
@@ -22,41 +24,27 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
   styleUrl: './ecosistema.component.css'
 })
 export class EcosistemaComponent {
-  items: Array<{ title: string; description: string; image: string }> = [
-    {
-      title: 'Europe Street beat',
-      description: 'www.instagram.com',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-    },
-    {
-      title: 'Ocean Breeze',
-      description: 'www.example.com',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-    },
-    {
-      title: 'Mountain Trek',
-      description: 'www.sample.com',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-    },
-    {
-      title: 'Europe Street beat',
-      description: 'www.instagram.com',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-    },
-    {
-      title: 'Ocean Breeze',
-      description: 'www.example.com',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-    },
-    {
-      title: 'Mountain Trek',
-      description: 'www.sample.com',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-    },
-    // Agrega más objetos si es necesario
-  ];
+  items: EcosystemData[] = [];
+  downloadItems : EcosystemItem[] = [];
 
-  constructor(private modal: NzModalService) {}
+  ngOnInit(): void {
+    this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => { {
+      this.items = itemsData;
+      this.cdr.detectChanges();
+    }});
+
+    this.fileService.getEcosystemItems().subscribe((items: EcosystemItem[]) => {
+      this.downloadItems = items;
+      this.cdr.detectChanges(); 
+    });
+    }
+
+  constructor(
+    private modal: NzModalService,
+    private ecosystemService: EcosystemService,
+    private cdr: ChangeDetectorRef,
+    private fileService: FilesService
+  ) {}
   openModal(item: { title: string; description: string; }): void {
     this.modal.create({
       nzTitle: item.title,
@@ -70,64 +58,7 @@ export class EcosistemaComponent {
     });
   }
 
-  downloadItems = [
-    {
-      title: 'Documento 1',
-      description: 'Descripción breve del documento 1.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento1.pdf'
-    },
-    {
-      title: 'Documento 2',
-      description: 'Descripción breve del documento 2.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento2.pdf'
-    },
-    {
-      title: 'Documento 3',
-      description: 'Descripción breve del documento 3.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento3.pdf'
-    },
-    {
-      title: 'Documento 1',
-      description: 'Descripción breve del documento 1.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento1.pdf'
-    },
-    {
-      title: 'Documento 2',
-      description: 'Descripción breve del documento 2.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento2.pdf'
-    },
-    {
-      title: 'Documento 3',
-      description: 'Descripción breve del documento 3.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento3.pdf'
-    },
-    {
-      title: 'Documento 1',
-      description: 'Descripción breve del documento 1.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento1.pdf'
-    },
-    {
-      title: 'Documento 2',
-      description: 'Descripción breve del documento 2.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento2.pdf'
-    },
-    {
-      title: 'Documento 3',
-      description: 'Descripción breve del documento 3.',
-      image: 'https://i.postimg.cc/rFCrGpKR/coopsisa-Logo.png',
-      file: 'path/to/documento3.pdf'
-    }
-  ];
-
-  downloadFile(filePath: string): void {
-    window.open(filePath, '_blank');
+  downloadFile(fileUrl: string): void {
+    window.open(fileUrl, '_blank');
   }
 }
