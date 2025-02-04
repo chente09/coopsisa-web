@@ -121,17 +121,15 @@
 .embed-responsive-item {
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    width: 80%; /* Asegura que el video sea responsivo */
-    height:500px; 
+    width: 50%; /* Asegura que el video sea responsivo */
+    height:490px; 
 }
 
 .video-overlay {
     position: absolute;
-    top: 5%;
     left: 10%;
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.5);
-    padding: 1rem 2rem;
     border-radius: 10px;
     max-width: 80%;
     color: white;
@@ -334,6 +332,11 @@
 /* Elimina el espacio entre tarjetas */
 .row.g-0 {
     margin: 0;
+}
+.mb-3:hover {
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Contenido superpuesto */

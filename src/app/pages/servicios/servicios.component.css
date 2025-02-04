@@ -86,51 +86,53 @@
 }
 
 .card-0:hover {
-    background-color: #f49f59ea;
+    background-color: #f49f599b;
 }
 
 .card-1:hover {
-    background-color: #E9336F;
+    background-color: #e9337052;
 }
 
 .card-2:hover {
-    background-color: #A63A8D;
+    background-color: #a63a8d9d;
 }
 
 .card-3:hover {
-    background-color: #7969A8;
+    background-color: #7969a899;
 }
 
 .card-4:hover {
-    background-color: #3994C7;
+    background-color: #3993c797;
 }
 
 .card-5:hover {
-    background-color: #62B4B2;
+    background-color: #62b4b396;
 }
 
 .card-6:hover {
-    background-color: #C5BB63;
+    background-color: #c5bb6393;
 }
 
 .card-7:hover {
-    background-color: #EF625F;
+    background-color: #ef615f97;
 }
 
 
 .card h5 {
     font-size: 18px;
-    font-weight: bold;
-    color: #333;
+    font-weight: lighter;
+    color: black;
     transition: color 0.3s ease;
+
 }
 
 .card:hover h5 {
-    color: #fff;
+    color: black;
+    font-size: 20px;
 }
 
 .card button {
-    background-color: #C5BB63;
+    background-color: #ef615fd0;
     border: none;
     padding: 10px 20px;
     color: white;
@@ -303,12 +305,12 @@ nz-collapse-panel:hover {
 }
 
 .card-item:nth-of-type(2):hover .tarjetas1-content {
-    background-color: #e93370a7;
+    background-color: #e9337052;
     font-size: 18px;
 }
 
 .card-item:nth-of-type(3):hover .tarjetas1-content {
-    background-color: #a63a8d94;
+    background-color: #a63a8d9b;
     font-size: 18px;
 }
 
