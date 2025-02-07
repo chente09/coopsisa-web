@@ -3,9 +3,12 @@
         <!-- Menú lateral -->
         <nz-sider [nzCollapsible]="true" [nzWidth]="250" class="sider">
             <div class="logo">
-                <h2 style="color: aliceblue;">Admin Panel</h2>
+                <h2 style="color: aliceblue;">Administración</h2>
             </div>
             <div class="menu-buttons">
+                <button nz-button nzBlock nzType="default" (click)="selectSection('0')">
+                    Inicio
+                </button>
                 <button nz-button nzBlock nzType="default" (click)="selectSection('1')"
                     [nzLoading]="selectedKey === '1'">
                     Componentes Varios
@@ -41,10 +44,49 @@
 
         <!-- Contenido principal -->
         <nz-layout>
-            <nz-header class="header">
-                <h3>Opciones de configuración</h3>
-            </nz-header>
             <nz-content class="content">
+                <div *ngIf="selectedKey === '0'">
+                    <div class="admin-panel-container">
+                        <!-- Título -->
+                        <div class="admin-panel-header">
+                            <h2>Administración del Sitio</h2>
+                            <p>Selecciona una sección para administrar el contenido de la página.</p>
+                        </div>
+
+                        <!-- Menú de opciones -->
+                        <div class="admin-panel-menu">
+                            <button (click)="selectSection('1')" class="admin-panel-btn">
+                                <strong>Componentes Varios</strong>
+                                <br> Administra elementos diversos de la página.
+                            </button>
+
+                            <button (click)="selectSection('2')" class="admin-panel-btn">
+                                <strong>Información de CoopSisa</strong>
+                                <br> Gestiona los datos sobre la cooperativa.
+                            </button>
+
+                            <button (click)="selectSection('3')" class="admin-panel-btn">
+                                <strong>Organización</strong>
+                                <br> Configura la estructura organizativa.
+                            </button>
+
+                            <button (click)="selectSection('4')" class="admin-panel-btn">
+                                <strong>Ecosistema</strong>
+                                <br> Administra el entorno y recursos asociados.
+                            </button>
+
+                            <button (click)="selectSection('5')" class="admin-panel-btn">
+                                <strong>Carruseles y Documentos</strong>
+                                <br> Modifica imágenes y archivos descargables.
+                            </button>
+
+                            <button (click)="selectSection('6')" class="admin-panel-btn">
+                                <strong>Logo de la Empresa</strong>
+                                <br> Sube o cambia el logo corporativo.
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div *ngIf="selectedKey === '1'">
                     <h4>Administración del Carrusel</h4>
                     <!-- Formulario para agregar/editar slide -->
@@ -347,7 +389,7 @@
                             </nz-form-item>
 
                             <nz-form-item>
-                                <nz-form-label [nzRequired]="true">Ícono</nz-form-label>
+                                <nz-form-label [nzRequired]="false">Ícono</nz-form-label>
                                 <nz-form-control>
                                     <input nz-input [(ngModel)]="newLaboratorio.icono" name="icono"
                                         placeholder="Ejemplo: bi bi-laboratory" required />
@@ -748,13 +790,23 @@
                             <option value="job-foment">Trabajo Fomenta</option>
                             <option value="lab-carrusel">Laboratorios</option>
                             <option value="escuelas">Escuelas</option>
+                            <option value="neg-solid">Negocios Solidarios</option>
                         </select>
                         <form (ngSubmit)="saveCarrusel()" class="admin-form">
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Texto</nz-form-label>
                                 <nz-form-control>
                                     <input nz-input [(ngModel)]="newCarrusel.text" name="text"
-                                        placeholder="Ingresa el texto" required />
+                                        placeholder="Ingresa el texto que se mostrará en el carrusel" required />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="false">Descripción</nz-form-label>
+                                <nz-form-control>
+                                    <textarea nz-input [(ngModel)]="newCarrusel.description" name="description"
+                                        placeholder="Solo es necesario ingresar una descripción para evitar errores"
+                                        required></textarea>
                                 </nz-form-control>
                             </nz-form-item>
 
@@ -779,6 +831,9 @@
                     <hr class="divider" />
                     <div *ngIf="carruseles$ | async as carruseles" class="slides-list-container">
                         <h3 class="section-title">Carruseles Creados</h3>
+                        <div *ngFor="let carrusel of carruseles">
+                            <p>{{ carrusel.description }}</p>
+                        </div>
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let carrusel of carruseles" [nzSpan]="6" class="slide-column">
                                 <nz-card [nzTitle]="carrusel.text" class="custom-slide" [nzBordered]="true">
@@ -804,7 +859,6 @@
                     </div>
 
                     <h4>Administración del Ecosistema</h4>
-
                     <!-- Formulario para agregar/editar documento -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingDocsId ? 'Editar Documento' : 'Crear Documento' }}</h2>
@@ -820,8 +874,8 @@
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input [(ngModel)]="newdocument.description" name="description"
-                                        placeholder="Descripción" required />
+                                    <textarea nz-input [(ngModel)]="newdocument.description" name="description"
+                                        placeholder="Descripción" required></textarea>
                                 </nz-form-control>
                             </nz-form-item>
 
@@ -867,35 +921,68 @@
 
                 </div>
                 <div *ngIf="selectedKey === '6'" class="config-container">
-                    <h2>⚙️ Configurar Navbar y Footer</h2>
+                    <h2>Configurar Navbar y Footer</h2>
 
                     <!-- 📌 Subir nuevo logo -->
                     <nz-card class="upload-card">
-                        <h3>📤 Subir Nuevo Logo</h3>
+                        <h3>Subir Nuevo Logo</h3>
                         <input type="file" (change)="onFileSelected($event)" accept="image/*">
                         <nz-spin *ngIf="uploading" nzTip="Subiendo imagen..."></nz-spin>
+                        <div *ngIf="imagePreview" class="preview-container">
+                            <h4>Vista previa</h4>
+                            <img [src]="imagePreview" width="150" class="preview-img" />
+                        </div>
+                        <button nz-button nzType="primary" (click)="uploadNavbarLogo()"
+                            [disabled]="!selectedFile || uploading">
+                            Subir como Navbar
+                        </button>
+                        <button nz-button nzType="primary" (click)="uploadFooterLogo()"
+                            [disabled]="!selectedFile || uploading">
+                            Subir como Footer
+                        </button>
                     </nz-card>
 
-                    <!-- 📌 Logo Actual -->
-                    <h3>Logo Actual</h3>
-                    <div class="current-logo">
-                        <img [src]="selectedLogo" width="150" class="current-logo-img" />
+                    <!-- 📌 Logos actuales -->
+                    <h3>Logos Actuales</h3>
+                    <div class="current-logos">
+                        <div>
+                            <h4>Navbar</h4>
+                            <img [src]="navbarLogo" width="150" class="current-logo-img" />
+                        </div>
+                        <div>
+                            <h4>Footer</h4>
+                            <img [src]="footerLogo" width="150" class="current-logo-img" />
+                        </div>
                     </div>
 
                     <!-- 📌 Lista de logos disponibles -->
-                    <h3> Logos Disponibles</h3>
+                    <h3>Logos Disponibles</h3>
+                    <!-- Logos Navbar -->
+                    <h4>Logos Navbar</h4>
                     <div class="logo-grid">
-                        <nz-card *ngFor="let logo of logos" class="logo-item">
-                            <img [src]="logo.url" class="logo-img" (click)="setAsLogo(logo)"
-                                [class.selected]="logo.url === selectedLogo" />
-
-                            <!-- Botones de acción -->
+                        <nz-card *ngFor="let logo of navbarLogos" class="logo-item">
+                            <img [src]="logo.url" class="logo-img" />
                             <div class="logo-actions">
-                                <button nz-button nzType="default" (click)="setAsLogo(logo)">
-                                    <i nz-icon nzType="check"></i> Usar
+                                <button type="button" class="btn btn-outline-info btn-sm d-flex align-items-center" (click)="setNavbarLogo(logo.url)">
+                                    <i nz-icon nzType="info-circle" nzTheme="outline"></i>Usar en Navbar
                                 </button>
-                                <button nz-button nzType="default" (click)="deleteLogo(logo)">
-                                    <i nz-icon nzType="delete"></i> Eliminar
+                                <button type="button" class="btn btn-outline-danger btn-sm d-flex align-items-center" (click)="deleteLogo(logo, 'navbar')">
+                                    <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar
+                                </button>
+                            </div>
+                        </nz-card>
+                    </div>
+                    <!-- Logos Footer -->
+                    <h4>Logos Footer</h4>
+                    <div class="logo-grid">
+                        <nz-card *ngFor="let logo of footerLogos" class="logo-item">
+                            <img [src]="logo.url" class="logo-img" />
+                            <div class="logo-actions">
+                                <button type="button" class="btn btn-outline-info btn-sm d-flex align-items-center" (click)="setFooterLogo(logo.url)">
+                                    <i nz-icon nzType="info-circle" nzTheme="outline"></i>Usar en Footer
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm d-flex align-items-center" (click)="deleteLogo(logo, 'footer')">
+                                    <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar
                                 </button>
                             </div>
                         </nz-card>

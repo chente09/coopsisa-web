@@ -14,7 +14,7 @@
             <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
             <div class="carousel-caption d-block d-md-block">
                 <h5>{{ slide.text }}</h5>
-                <a [routerLink]="slide.route" class="btn btn-primary">{{ slide.buttonText }}</a>
+                <a [href]="slide.route" class="btn btn-primary" target="_blank">{{ slide.buttonText }}</a>
             </div>
         </div>
     </div>
@@ -33,19 +33,18 @@
 </div>
 <!-- reseñas -->
 <div class="container-fluid py-5">
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" >
-        <h1 class="display-5 mb-5">Servicios</h1>
+    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
+        <h1 class="display-4 mb-4">Servicios</h1>
     </div>
-    <div class="service-img-bg">
+    <div class="servicios-bg">
         <div class="container">
             <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch" *ngFor="let tarjeta of tarjetas"
-                    data-wow-delay="0.3s">
-                    <div class="service-item rounded" [class]="tarjeta.imagen ? 'bg-img' : ''"
-                        [style.backgroundImage]="'url(' + tarjeta.imagen + ')'">
-                        <div class="service-text rounded p-4">
+                <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch tarjeta-contenedor" 
+                    *ngFor="let tarjeta of tarjetas" data-wow-delay="0.3s">
+                    <div class="tarjeta-servicio" [style.backgroundImage]="'url(' + tarjeta.imagen + ')'">
+                        <div class="tarjeta-texto">
                             <h4 class="mb-3">{{ tarjeta.titulo }}</h4>
-                            <a class="btn btn-sm saber-mas-btn" [routerLink]="tarjeta.ruta">
+                            <a class="btn btn-sm boton-mas" [routerLink]="tarjeta.ruta">
                                 <nz-icon [nzType]="'plus'" style="font-size: 18px;"></nz-icon> Saber Más
                             </a>
                         </div>
@@ -62,20 +61,17 @@
         <p class="lead">Explora las novedades más importantes del momento.</p>
     </div>
 
-    <div class="video-container position-relative mb-4" *ngFor="let video of videos" class="video-item">
+    <div class="video-container" *ngFor="let video of videos">
         <!-- Video -->
         <iframe 
-            class="embed-responsive-item rounded-3 shadow-lg"
-            width="65%" 
-            height="520" 
+            class="video-iframe"
             [src]="safeVideoUrl(video.url)" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
         </iframe>
     </div>
-</div>
-
+</div>  
 <!-- tarjetas -->
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">

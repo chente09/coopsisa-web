@@ -7,7 +7,7 @@ import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { WppComponent } from "./components/wpp/wpp.component";
-import { UsersService } from './pages/services/users/users.service';
+import { UsersService } from './services/users/users.service';
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 

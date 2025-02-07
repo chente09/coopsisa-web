@@ -93,26 +93,26 @@
         </div>
     </nz-card>
 </div>
-
-
-<div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-    <h1 class="display-5 mb-3">Nuestros Socios</h1>
-</div>
-
-<div class="equipo">
-    <div nz-row [nzGutter]="16" nzJustify="center" class="tarjetas-scroll">
-        <div nz-col *ngFor="let miembro of equipo" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
-            <div class="equipo-card">
-                <div class="foto-container">
-                    <img [src]="miembro.foto" alt="{{ miembro.nombre }}" class="foto-circular" />
-                </div>
-                <div class="info-container">
-                    <h3>{{ miembro.nombre }}</h3>
-                    <p>{{ miembro.cargo }}</p>
+<div class="quienes-somos">
+    <nz-card [nzBordered]="true">
+        <h2 class="custom-title">Nuestros Socios</h2>
+        <hr>
+        <div class="equipo">
+            <div nz-row [nzGutter]="16" nzJustify="center" class="tarjetas-scroll">
+                <div nz-col *ngFor="let miembro of equipo" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+                    <div class="equipo-card">
+                        <div class="foto-container">
+                            <img [src]="miembro.foto" alt="{{ miembro.nombre }}" class="foto-circular" />
+                        </div>
+                        <div class="info-container">
+                            <h3>{{ miembro.nombre }}</h3>
+                            <p>{{ miembro.cargo }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </nz-card>
 </div>
 
 <div class="transparencia-resultados">

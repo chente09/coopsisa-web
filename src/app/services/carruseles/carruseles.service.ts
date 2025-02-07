@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 // Interfaz para los datos de los slides
 export interface CarruselData {
   id?: string;
+  description: string;
   image: string;
   text: string;
 }

@@ -21,11 +21,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { UsersService } from '../../services/users/users.service';
+import { UsersService } from '../../../services/users/users.service';
 import { Router } from '@angular/router';
 
 
-import { LogoService } from '../../../services/logo/logo.service';
+import { LogoService, Logo } from '../../../services/logo/logo.service';
 import { SlidesService, SlideData } from '../../../services/SlideData/slides.service';
 import { EcosystemService, EcosystemData } from '../../../services/ecosystem/ecosystem.service';
 import { VideoService } from '../../../services/video/video.service';
@@ -65,14 +65,15 @@ import { FilesService, EcosystemItem } from '../../../services/files/files.servi
   styleUrl: './c-panel.component.css'
 })
 export class CPanelComponent {
-  selectedKey = '1'; // Por defecto, la primera opción
+  selectedKey = '0'; // Por defecto, la primera opción
   // ******* 📌 Admin Logos ********
+  navbarLogo: string = '';
+  footerLogo: string = '';
+  navbarLogos: Logo[] = [];
+  footerLogos: Logo[] = [];
   selectedFile: File | null = null;
-  uploading: boolean = false;
-  logos: { id: string, url: string, name: string }[] = [];
-  selectedLogo: string = '';
-  newLogoName: string = '';
   imagePreview: string | null = null;
+  uploading: boolean = false;
   // ******* 📌 Admin Slides ********
   slides: SlideData[] = [];
   newSlide: Partial<SlideData> = { image: '', text: '', buttonText: '', route: '' };
@@ -127,6 +128,7 @@ export class CPanelComponent {
   newCarrusel: CarruselData = {
     image: '',
     text: '',
+    description: ''
   };
   // ******* 📌 Admin Members ********
   members$: Observable<MemberData[]> = new Observable();
@@ -169,13 +171,13 @@ export class CPanelComponent {
   }
 
   ngOnInit() {
-    this.logoService.getLogos().subscribe((logos: any) => {
-      this.logos = logos;
-    });
+    // Suscribirse a los logos actuales para actualizar en tiempo real
+    this.logoService.currentNavbarLogo.subscribe(url => this.navbarLogo = url);
+    this.logoService.currentFooterLogo.subscribe(url => this.footerLogo = url);
 
-    this.logoService.currentLogo.subscribe(url => {
-      this.selectedLogo = url;
-    });
+    // Cargar todos los logos subidos previamente
+    this.logoService.getNavbarLogos().subscribe(logos => this.navbarLogos = logos);
+    this.logoService.getFooterLogos().subscribe(logos => this.footerLogos = logos);
 
     // Cargar slides al iniciar
     this.slideService.getSlides().subscribe(slides => {
@@ -212,79 +214,83 @@ export class CPanelComponent {
       window.location.reload();
     });
   }
-  // ******* 📌 Admin Logos ********
-  /** 📌 Función para manejar la carga de archivos */
-  async onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) {
-      return; // No se seleccionó ningún archivo
-    }
-
-    const file = input.files[0];
-    const fileName = file.name;
-
-    try {
-      const url = await this.logoService.uploadLogo(file, fileName);
-      await this.logoService.changeLogo({ url, name: fileName });
-      console.log('Logo actualizado con éxito:', url);
-    } catch (error) {
-      console.error('Error subiendo el logo:', error);
-    }
-  }
   selectSection(key: string): void {
     this.selectedKey = key;
   }
-  // Función para interceptar la carga automática y almacenar el archivo
-  beforeUpload = (file: NzUploadFile): boolean => {
-    if (file.originFileObj) {
-      this.selectedFile = file.originFileObj as File;
-      console.log('Archivo almacenado:', this.selectedFile);
-    } else {
-      console.warn('No se pudo obtener el archivo');
-    }
-    return false; // Evita la carga automática
-  };
-  uploadLogo() {
-    console.log('Archivo seleccionado para subir:', this.selectedFile); // Debugging
-
-    if (!this.selectedFile) {
-      this.message.warning('Por favor, selecciona un archivo.');
-      return;
-    }
-
-    this.uploading = true;
-
-    this.logoService.uploadLogo(this.selectedFile, this.selectedFile.name)
-      .then(url => {
-        this.uploading = false;
-        this.selectedFile = null;
-        this.message.success('Logo subido correctamente.');
-      })
-      .catch(error => {
-        this.uploading = false;
-        this.message.error('Error al subir el logo.');
-      });
+  // ******* 📌 Admin Logos ********
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    this.selectedFile = input.files[0];
+    const reader = new FileReader();
+    reader.onload = () => this.imagePreview = reader.result as string;
+    reader.readAsDataURL(this.selectedFile);
   }
-  /** Establecer un logo como principal */
-  setAsLogo(logo: { id: string, url: string, name: string }) {
-    this.logoService.changeLogo(logo).then(() => {
-      this.message.success('Logo establecido como principal.');
+
+  async uploadNavbarLogo() {
+    if (!this.selectedFile) return;
+    this.uploading = true;
+    try {
+      const downloadURL = await this.logoService.uploadLogo(this.selectedFile);
+      await this.logoService.changeNavbarLogo(downloadURL);
+    } finally {
+      this.uploading = false;
+      this.selectedFile = null;
+      this.imagePreview = null;
+    }
+  }
+
+  async uploadFooterLogo() {
+    if (!this.selectedFile) return;
+    this.uploading = true;
+    try {
+      const downloadURL = await this.logoService.uploadLogo(this.selectedFile);
+      await this.logoService.changeFooterLogo(downloadURL);
+    } finally {
+      this.uploading = false;
+      this.selectedFile = null;
+      this.imagePreview = null;
+    }
+  }
+  setNavbarLogo(url: string) {
+    this.logoService.changeNavbarLogo(url);
+  }
+  setFooterLogo(url: string) {
+    this.logoService.changeFooterLogo(url);
+  }
+  setAsNavbarLogo(logo: Logo) {
+    this.logoService.changeNavbarLogo(logo.url).then(() => {
+      this.message.success('Logo del Navbar actualizado.');
     }).catch(error => {
-      this.message.error('Error al cambiar el logo.');
-      console.error('Error cambiando el logo:', error);
+      this.message.error('Error al actualizar el logo del Navbar.');
+      console.error('Error cambiando el logo del Navbar:', error);
     });
   }
-  /** Eliminar un logo */
-  deleteLogo(logo: { id: string, url: string, name: string }) {
-    if (confirm(`¿Estás seguro de eliminar el logo "${logo.name}"?`)) {
-      this.logoService.deleteLogo(logo.id).then(() => {
+
+  setAsFooterLogo(logo: Logo) {
+    this.logoService.changeFooterLogo(logo.url).then(() => {
+      this.message.success('Logo del Footer actualizado.');
+    }).catch(error => {
+      this.message.error('Error al actualizar el logo del Footer.');
+      console.error('Error cambiando el logo del Footer:', error);
+    });
+  }
+
+  async deleteLogo(logo: Logo, type: 'navbar' | 'footer') {
+    if (!confirm(`¿Eliminar el logo "${logo.name}"?`)) return;
+
+    try {
+        if (type === 'navbar') {
+            await this.logoService.deleteNavbarLogo(logo.id!, logo.url);
+        } else {
+            await this.logoService.deleteFooterLogo(logo.id!, logo.url);
+        }
         this.message.success('Logo eliminado correctamente.');
-      }).catch(error => {
+    } catch (error) {
         this.message.error('Error al eliminar el logo.');
         console.error('Error eliminando el logo:', error);
-      });
     }
-  }
+}
   // ******* 📌 Admin Slides ********
   // Manejar la selección de archivos
   onSlideFileChange(event: any) {
@@ -949,7 +955,8 @@ export class CPanelComponent {
           this.editingCarruselId,
           {
             image: imageUrl!,
-            text: this.newCarrusel.text!
+            text: this.newCarrusel.text!,
+            description: this.newCarrusel.description!,
           },
           this.selectedCollection
         );
@@ -959,7 +966,8 @@ export class CPanelComponent {
         await this.carruselService.saveSlide(
           {
             image: imageUrl!,
-            text: this.newCarrusel.text!
+            text: this.newCarrusel.text!,
+            description: this.newCarrusel.description!,
           },
           this.selectedCollection
         );
@@ -980,7 +988,8 @@ export class CPanelComponent {
     this.editingCarruselId = carrusel.id!;
     this.newCarrusel = {
       image: carrusel.image,
-      text: carrusel.text
+      text: carrusel.text,
+      description: carrusel.description
     };
   }
   // 🟢 Cancelar edición
@@ -1002,7 +1011,7 @@ export class CPanelComponent {
   }
   // 🟢 Resetear formulario
   private resetCarruselForm() {
-    this.newCarrusel = { image: '', text: '' };
+    this.newCarrusel = { image: '', text: '', description: '' };
     this.editingCarruselId = null;
     this.fileToUpload = null;
   }

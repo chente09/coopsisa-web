@@ -32,6 +32,7 @@ isModalVisibleEscuela: boolean = false;
   escuelasSlides: any[] = [];
   laboratorios: any[] = [];
   escuelas: any[] = [];
+  negocios: any[] = [];
 
 
 
@@ -53,6 +54,13 @@ isModalVisibleEscuela: boolean = false;
       this.carruselService.getSlides('escuelas').subscribe(
         (data) => {
           this.escuelasSlides = data; // ✅ También para escuelas
+          this.cdr.detectChanges();
+          },
+        (error) => console.error('Error al obtener los carruseles de escuelas:', error)
+      );
+      this.carruselService.getSlides('neg-solid').subscribe(
+        (data) => {
+          this.negocios = data; // ✅ También para escuelas
           this.cdr.detectChanges();
           },
         (error) => console.error('Error al obtener los carruseles de escuelas:', error)

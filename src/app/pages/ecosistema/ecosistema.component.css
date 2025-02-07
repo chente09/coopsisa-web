@@ -1,3 +1,12 @@
+h1:hover {
+    color: #EF625F;
+    transition: all 0.3s ease-in-out;
+    transform: perspective(1px) translateZ(0);
+}
+p:hover {
+    color: #EF625F;
+    transition: all 0.3s ease-in-out;
+}
 .container-fluid .d-flex {
     gap: 15px;
     /* Espaciado entre tarjetas */

@@ -52,19 +52,18 @@ export class NavBarComponent {
 
   async ngOnInit(): Promise<void> {
     this.updateMenuState(); 
-
-    // Suscribirse al logo actual
-    this.logoService.currentLogo.subscribe(url => {
-      if (url) {
-        this.logoUrl = url;
-      }
-    });
-
-    // Cargar el logo actual si aún no se ha actualizado
-    this.logoService.loadCurrentLogo();
-    this.cdr.detectChanges();
+    this.loadNavbarLogo();     
   }
 
+  private loadNavbarLogo() {
+    this.logoService.currentNavbarLogo.subscribe(url => {
+      if (url) {
+        this.logoUrl = url;
+        this.cdr.detectChanges(); // Forzar la actualización de la vista si es necesario
+      }
+    });
+  }
+  
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.updateMenuState();

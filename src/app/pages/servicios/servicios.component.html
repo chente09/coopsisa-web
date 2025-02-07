@@ -1,12 +1,15 @@
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
         <h1 class="display-4 mb-4">Laboratorios de Innovación</h1>
-        <nz-card [nzBordered]="false" class="dynamic-card">
-            <p nz-typography nzType="secondary" class="dynamic-text">
-                Diseñamos soluciones productivas y de servicios desde un enfoque innovador y sostenible,
-                abordando desafíos sociales, ambientales y económicos.
-            </p>
-        </nz-card>
+        <ng-container *ngFor="let carrusel of labCarruselSlides">
+            <nz-card *ngIf="carrusel.description && carrusel.description.trim() !== ''" [nzBordered]="false"
+                class="dynamic-card">
+                <p nz-typography nzType="secondary" class="dynamic-text">
+                    {{ carrusel.description }}
+                </p>
+            </nz-card>
+        </ng-container>
+
     </div>
     <div class="container">
         <div class="row g-4 justify-content-center">
@@ -77,17 +80,18 @@
     <div class="container-fluid py-5">
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
             <h1 class="display-4 mb-4">Escuelas de Formación</h1>
-            <nz-card [nzBordered]="false" class="dynamic-card">
-                <p nz-typography nzType="secondary" class="dynamic-text">
-                    Las escuelas son iniciativas de transmisión de conocimientos formales
-                    y no formales diseñadas desde los enfoques de género, educación popular y ciencia ciudadana.
-                </p>
-            </nz-card>
+            <ng-container *ngFor="let carrusel of escuelasSlides">
+                <nz-card *ngIf="carrusel.description && carrusel.description.trim() !== ''" [nzBordered]="false"
+                    class="dynamic-card">
+                    <p nz-typography nzType="secondary" class="dynamic-text">
+                        {{ carrusel.description }}
+                    </p>
+                </nz-card>
+            </ng-container>
         </div>
         <div class="container">
             <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-                    *ngFor="let lab of escuelas; let i = index">
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" *ngFor="let lab of escuelas; let i = index">
                     <div class="card h-100 card-{{ i % 8 }}">
                         <div class="card-body text-center">
                             <nz-icon [nzType]="lab.icono" nzTheme="outline"
@@ -102,8 +106,8 @@
         </div>
 
         <!-- Modal -->
-        <nz-modal [(nzVisible)]="isModalVisibleEscuela" nzTitle="{{ selectedLab?.titulo }}"
-            nzClassName="custom-modal" [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterEscuela">
+        <nz-modal [(nzVisible)]="isModalVisibleEscuela" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+            [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterEscuela">
             <ng-container *nzModalContent>
                 <div class="custom-modal-content">
                     <p>{{ selectedLab?.descripcion }}</p>
@@ -157,12 +161,14 @@
     <div class="container-fluid py-5">
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
             <h1 class="display-4 mb-4">Centro de Negocios Solidarios</h1>
-            <nz-card [nzBordered]="false" class="dynamic-card">
-                <p nz-typography nzType="secondary" class="dynamic-text">
-                    Las escuelas son iniciativas de transmisión de conocimientos formales
-                    y no formales diseñadas desde los enfoques de género, educación popular y ciencia ciudadana.
-                </p>
-            </nz-card>
+            <ng-container *ngFor="let carrusel of negocios">
+                <nz-card *ngIf="carrusel.description && carrusel.description.trim() !== ''" [nzBordered]="false"
+                    class="dynamic-card">
+                    <p nz-typography nzType="secondary" class="dynamic-text">
+                        {{ carrusel.description }}
+                    </p>
+                </nz-card>
+            </ng-container>
         </div>
     </div>
 
@@ -171,14 +177,14 @@
             <div id="carouselIndicators3" class="carousel slide" data-bs-ride="carousel">
                 <!-- Indicadores -->
                 <div class="carousel-indicators">
-                    <button *ngFor="let slide of escuelasSlides; let i = index" type="button"
+                    <button *ngFor="let slide of negocios; let i = index" type="button"
                         data-bs-target="#carouselIndicators3" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
                         aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
                     </button>
                 </div>
                 <!-- Slides -->
                 <div class="carousel-inner">
-                    <div class="carousel-item" *ngFor="let slide of escuelasSlides; let i = index"
+                    <div class="carousel-item" *ngFor="let slide of negocios; let i = index"
                         [class.active]="i === 0">
                         <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
                         <div class="carousel-caption d-block d-md-block">

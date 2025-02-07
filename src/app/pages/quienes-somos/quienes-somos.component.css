@@ -713,8 +713,8 @@
 
 .info-container:hover {
     transition: color 0.3s ease;
-    background: #3993c79a;
-    padding: auto;
+    background: #EF625F;
+    padding: 5px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }

@@ -3,7 +3,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
-import { UsersService } from '../../services/users/users.service';
+import { UsersService } from '../../../services/users/users.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 

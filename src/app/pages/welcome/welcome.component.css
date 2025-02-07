@@ -1,6 +1,6 @@
 /* Estilo general del carrusel */
 .carousel-item img {
-    max-height: 500px;
+    max-height: 600px;
     width: 100%;
     object-fit: cover;
     transition: transform 0.1s ease-in-out;
@@ -19,7 +19,7 @@
     text-align: center;
     max-width: 80%;
     margin: auto;
-    animation: fadeIn 1s ease-in-out;
+    animation: fadeIn 0.2s ease-in-out;
 }
 
 /* Transición para el texto */
@@ -112,195 +112,152 @@
     padding: 3rem 0;
 }
 
+h1:hover {
+    color: #EF625F;
+    transition: all 0.3s ease-in-out;
+    transform: perspective(1px) translateZ(0);
+}
+
+.lead {
+    font-size: 24px;
+    margin-bottom: 2rem;
+}
+
+.lead:hover {
+    color: #EF625F;
+    transition: all 0.3s ease-in-out;
+}
+
 .video-container {
-    max-width: 1400px;
+    width: 70%; /* El video ocupa el 80% del contenedor en pantallas grandes */
+    max-width: 1200px;
     margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 }
 
-.embed-responsive-item {
+/* Video responsivo */
+.video-iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Mantiene la relación de aspecto del video */
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    width: 50%; /* Asegura que el video sea responsivo */
-    height:490px; 
 }
 
-.video-overlay {
-    position: absolute;
-    left: 10%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    max-width: 80%;
-    color: white;
-}
-
-.video-overlay h3 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
-.video-overlay p {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-/* Responsividad */
+/* Ajustes para pantallas medianas */
 @media (max-width: 1200px) {
-    .video-overlay {
-        max-width: 90%; /* Se reduce un poco el tamaño en pantallas medianas */
-        padding: 1rem;
-    }
-
-    .video-overlay h3 {
-        font-size: 1.8rem;
-    }
-
-    .video-overlay p {
-        font-size: 1rem;
-    }
-    .embed-responsive-item {
-        
-        height:500px; 
-    }
-}
-
-@media (max-width: 768px) {
-    .video-overlay {
-        max-width: 95%; /* El overlay se hace más pequeño en pantallas más pequeñas */
-        padding: 1rem;
-    }
-
-    .video-overlay h3 {
-        font-size: 1.5rem;
-    }
-
-    .video-overlay p {
-        font-size: 1rem;
-    }
-
-    .embed-responsive-item {
-        border-radius: 10px; /* Menos borde en pantallas pequeñas */
-    }
-    .embed-responsive-item {
-        
-        height:260px; 
-    }
-}
-
-@media (max-width: 480px) {
-    .video-overlay h3 {
-        font-size: 1.3rem; /* Ajusta el tamaño del título */
-    }
-
-    .video-overlay p {
-        font-size: 0.9rem; /* Ajusta el tamaño del texto */
-    }
-
     .video-container {
-        padding: 1rem; /* Agrega algo de espacio en pantallas muy pequeñas */
+        width: 90%;
     }
+}
 
-    .video-section {
-        padding: 2rem 0; /* Menos espacio alrededor en pantallas muy pequeñas */
+/* Ajustes para tablets */
+@media (max-width: 768px) {
+    .video-container {
+        width: 95%;
     }
-    .embed-responsive-item {
-        
-        height:260px; 
+}
+
+/* Ajustes para móviles */
+@media (max-width: 480px) {
+    .video-container {
+        width: 100%;
+        padding: 0 1rem;
     }
 }
 
 
-/******** Estilo de las tarjetas Ecosistema *********/
+/******** Estilo de las tarjetas Servicios *********/
 .row {
+    display: flex;
+    flex-wrap: wrap;
     margin: 0 auto;
     justify-content: center;
 }
 
-.service-item {
-    height: auto;
-    max-width: 90%;
-    margin: 10px;
+.tarjeta-contenedor {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    align-items: stretch;
 }
 
-.bg-img, .service-img-bg {
+.tarjeta-servicio {
+    height: 450px;
+    width: 600px; /* Ancho definido */
+    display: flex;
+    align-items: flex-end;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-end;
+    transform: translateY(-5px);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tarjeta-servicio:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.servicios-bg {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
 }
 
-.bg-img {
-    height: 260px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.bg-img::before {
-    content: "";
-    top: 0;
-    right: 0;
+.tarjeta-texto {
     bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    position: relative;
-}
-
-.bg-img:hover::before {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.service-text {
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(239, 98, 95, 1), rgba(0, 0, 0, 0.3));
     color: white;
-    padding: 18px;
+    padding: 10px 10px;
     text-align: center;
-    z-index: 2;
-    border-radius: 4px;
-    position: relative;
-    transition: all 0.3s ease;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
 }
 
-.service-text:hover {
+.tarjeta-texto h4 {
+    color: white;
+    text-align: center;
+}
+
+.tarjeta-texto:hover {
     background: rgba(0, 0, 0, 0.7);
 }
 
-.saber-mas-btn {
+.boton-mas {
     margin-top: 10px;
     display: inline-block;
     z-index: 3;
-    background-color: white;
-    color: black;
+    background-color: #EF625F;
+    color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
     transition: all 0.3s ease;
 }
 
-.saber-mas-btn:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
+.boton-mas:hover {
+    font-size: large;
 }
 
-/* Grid en pantallas pequeñas y grandes */
+/* Responsividad */
 @media (min-width: 576px) {
-    .row .col-md-6 {
+    .tarjeta-contenedor {
         max-width: 48%;
     }
 }
 
 @media (min-width: 1200px) {
-    .row .col-lg-4 {
-        max-width: 24%;
+    .tarjeta-contenedor {
+        max-width: 50%;
     }
 }
 

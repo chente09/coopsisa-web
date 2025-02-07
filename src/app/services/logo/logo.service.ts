@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, doc, getDoc, setDoc, deleteDoc, updateDoc } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Logo {
-  id?: string; // ID opcional para Firestore
+  id?: string;
   url: string;
   name: string;
 }
@@ -13,66 +13,96 @@ export interface Logo {
   providedIn: 'root'
 })
 export class LogoService {
-  private logoSource = new BehaviorSubject<string>('');
-  currentLogo = this.logoSource.asObservable();
+  private navbarLogoSource = new BehaviorSubject<string>('');
+  private footerLogoSource = new BehaviorSubject<string>('');
+
+  currentNavbarLogo = this.navbarLogoSource.asObservable();
+  currentFooterLogo = this.footerLogoSource.asObservable();
 
   constructor(private firestore: Firestore, private storage: Storage) {
-    this.loadCurrentLogo();
+    this.loadNavbarLogo();
+    this.loadFooterLogo();
   }
 
-  /** 📌 Cargar el logo actual desde Firestore */
-  async loadCurrentLogo(): Promise<void> {
-    try {
-      const docRef = doc(this.firestore, 'config/logo');
-      const docSnap = await getDoc(docRef);
+  async loadNavbarLogo(): Promise<void> {
+    await this.loadLogo('navbarLogo', this.navbarLogoSource);
+  }
 
+  async loadFooterLogo(): Promise<void> {
+    await this.loadLogo('footerLogo', this.footerLogoSource);
+  }
+
+  private async loadLogo(path: string, subject: BehaviorSubject<string>): Promise<void> {
+    try {
+      const docRef = doc(this.firestore, `config/${path}`);
+      const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data() as Logo;
-        if (data.url) {
-          this.logoSource.next(data.url);
-        }
+        subject.next(data.url);
       }
     } catch (error) {
-      console.error('Error cargando el logo:', error);
+      console.error(`Error cargando el logo de ${path}:`, error);
     }
   }
 
-  /** 📌 Subir un nuevo logo a Firebase Storage y guardarlo en Firestore */
-  async uploadLogo(file: File, name: string): Promise<string> {
+  public async uploadLogo(file: File): Promise<string> {
     try {
       const filePath = `logos/${Date.now()}_${file.name}`;
       const fileRef = ref(this.storage, filePath);
-      
       await uploadBytes(fileRef, file);
-      const downloadURL = await getDownloadURL(fileRef);
-
-      const logoData: Logo = { url: downloadURL, name: name };
-      await addDoc(collection(this.firestore, 'logos'), logoData);
-      
-      return downloadURL;
+      return await getDownloadURL(fileRef);
     } catch (error) {
       console.error('Error subiendo el logo:', error);
       throw error;
     }
   }
 
-  /** 📌 Guardar o actualizar el logo principal en Firestore */
-  async changeLogo(logo: Logo): Promise<void> {
+  public async deleteOldLogo(url: string): Promise<void> {
     try {
-      const logoRef = doc(this.firestore, 'config/logo');
-      await setDoc(logoRef, logo);
-      this.logoSource.next(logo.url);
+      if (!url) return;
+      const fileRef = ref(this.storage, url);
+      await deleteObject(fileRef);
     } catch (error) {
-      console.error('Error cambiando el logo:', error);
+      console.warn('No se pudo eliminar la imagen anterior:', error);
     }
   }
 
-  /** 📌 Obtener todos los logos almacenados */
-  getLogos(): Observable<Logo[]> {
-    return collectionData(collection(this.firestore, 'logos'), { idField: 'id' }) as Observable<Logo[]>;
+  async changeNavbarLogo(url: string): Promise<void> {
+    try {
+      const logoRef = doc(this.firestore, 'config/navbarLogo');
+      await setDoc(logoRef, { url });
+
+      // Agregar el logo a la colección navbarLogos
+      await addDoc(collection(this.firestore, 'navbarLogos'), { url, name: `Navbar ${Date.now()}` });
+
+      this.navbarLogoSource.next(url);
+    } catch (error) {
+      console.error('Error cambiando el logo del navbar:', error);
+    }
+  }
+  
+  async changeFooterLogo(url: string): Promise<void> {
+    try {
+      const logoRef = doc(this.firestore, 'config/footerLogo');
+      await setDoc(logoRef, { url });
+
+      // Agregar el logo a la colección footerLogos
+      await addDoc(collection(this.firestore, 'footerLogos'), { url, name: `Footer ${Date.now()}` });
+
+      this.footerLogoSource.next(url);
+    } catch (error) {
+      console.error('Error cambiando el logo del footer:', error);
+    }
   }
 
-  /** 📌 Actualizar el nombre de un logo */
+  getNavbarLogos(): Observable<Logo[]> {
+    return collectionData(collection(this.firestore, 'navbarLogos'), { idField: 'id' }) as Observable<Logo[]>;
+  }
+
+  getFooterLogos(): Observable<Logo[]> {
+    return collectionData(collection(this.firestore, 'footerLogos'), { idField: 'id' }) as Observable<Logo[]>;
+  }
+
   async updateLogoName(id: string, newName: string): Promise<void> {
     try {
       const docRef = doc(this.firestore, `logos/${id}`);
@@ -82,13 +112,21 @@ export class LogoService {
     }
   }
 
-  /** 📌 Eliminar un logo de Firestore */
-  async deleteLogo(id: string): Promise<void> {
+  async deleteNavbarLogo(id: string, url: string): Promise<void> {
     try {
-      const docRef = doc(this.firestore, `logos/${id}`);
-      await deleteDoc(docRef);
+        await deleteDoc(doc(this.firestore, `navbarLogos/${id}`));
+        await this.deleteOldLogo(url);
     } catch (error) {
-      console.error('Error eliminando el logo:', error);
+        console.error('Error eliminando el logo del navbar:', error);
     }
-  }
+}
+
+async deleteFooterLogo(id: string, url: string): Promise<void> {
+    try {
+        await deleteDoc(doc(this.firestore, `footerLogos/${id}`));
+        await this.deleteOldLogo(url);
+    } catch (error) {
+        console.error('Error eliminando el logo del footer:', error);
+    }
+}
 }

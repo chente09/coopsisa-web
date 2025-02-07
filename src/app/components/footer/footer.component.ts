@@ -5,7 +5,7 @@ import { LogoService } from '../../services/logo/logo.service';
 
 @Component({
   selector: 'app-footer',
-  imports: [ CommonModule, RouterLink ],
+  imports: [CommonModule, RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
@@ -23,19 +23,18 @@ export class FooterComponent {
     { label: 'Servicios', icon: 'appstore', route: '/servicios' },
     { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
     { label: 'Contacto', icon: 'phone', route: '/contacto' }
-];
+  ];
 
-async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
+    this.loadFooterLogo();
+  }
 
-  // Suscribirse al logo actual
-  this.logoService.currentLogo.subscribe(url => {
-    if (url) {
-      this.logoUrl = url;
-    }
-  });
-
-  // Cargar el logo actual si aún no se ha actualizado
-  this.logoService.loadCurrentLogo();
-  this.cdr.detectChanges();
-}
+  private loadFooterLogo() {
+    this.logoService.currentFooterLogo.subscribe(url => {
+      if (url) {
+        this.logoUrl = url;
+        this.cdr.detectChanges(); // Forzar actualización de la vista si es necesario
+      }
+    });
+  }
 }
