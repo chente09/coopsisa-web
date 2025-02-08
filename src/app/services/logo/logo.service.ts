@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, doc, getDoc, setDoc, deleteDoc, updateDoc } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 export interface Logo {
   id?: string;
@@ -69,31 +70,41 @@ export class LogoService {
 
   async changeNavbarLogo(url: string): Promise<void> {
     try {
-      const logoRef = doc(this.firestore, 'config/navbarLogo');
-      await setDoc(logoRef, { url });
+        const logoRef = doc(this.firestore, 'config/navbarLogo');
+        await setDoc(logoRef, { url });
 
-      // Agregar el logo a la colección navbarLogos
-      await addDoc(collection(this.firestore, 'navbarLogos'), { url, name: `Navbar ${Date.now()}` });
+        // Verificar si la URL ya está en la colección antes de agregarla
+        const logosCollection = collection(this.firestore, 'navbarLogos');
+        const snapshot = await firstValueFrom(collectionData(logosCollection, { idField: 'id' })) as Logo[];
 
-      this.navbarLogoSource.next(url);
+        if (!snapshot.some((logo) => logo.url === url)) {
+            await addDoc(logosCollection, { url, name: `Navbar ${Date.now()}` });
+        }
+
+        this.navbarLogoSource.next(url);
     } catch (error) {
-      console.error('Error cambiando el logo del navbar:', error);
+        console.error('Error cambiando el logo del navbar:', error);
     }
-  }
+}
   
   async changeFooterLogo(url: string): Promise<void> {
     try {
       const logoRef = doc(this.firestore, 'config/footerLogo');
       await setDoc(logoRef, { url });
 
-      // Agregar el logo a la colección footerLogos
-      await addDoc(collection(this.firestore, 'footerLogos'), { url, name: `Footer ${Date.now()}` });
+      // Verificar si la URL ya está en la colección antes de agregarla
+      const logosCollection = collection(this.firestore, 'footerLogos');
+      const snapshot = await firstValueFrom(collectionData(logosCollection, { idField: 'id' })) as Logo[];
+
+      if (!snapshot.some((logo) => logo.url === url)) {
+        await addDoc(logosCollection, { url, name: `Footer ${Date.now()}` });
+      }
 
       this.footerLogoSource.next(url);
     } catch (error) {
       console.error('Error cambiando el logo del footer:', error);
     }
-  }
+}
 
   getNavbarLogos(): Observable<Logo[]> {
     return collectionData(collection(this.firestore, 'navbarLogos'), { idField: 'id' }) as Observable<Logo[]>;

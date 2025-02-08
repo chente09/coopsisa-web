@@ -56,9 +56,9 @@
 </div>
 <!-- Sección de Noticias con Video Prominente -->
 <div class="container-fluid video-section">
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
+    <div class="text-center mx-auto wow fadeInUp" *ngFor="let video of videos" data-wow-delay="0.1s">
         <h1 class="display-4 mb-4">Últimas Noticias</h1>
-        <p class="lead">Explora las novedades más importantes del momento.</p>
+        <p class="lead">{{ video.description}}</p>
     </div>
 
     <div class="video-container" *ngFor="let video of videos">

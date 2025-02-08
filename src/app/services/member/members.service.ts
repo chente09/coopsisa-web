@@ -7,6 +7,7 @@ export interface MemberData {
   id?: string;
   role: string;
   icon: string;
+  order: number;
   group: 'left' | 'right'; // Para diferenciar miembros de izquierda y derecha
 }
 

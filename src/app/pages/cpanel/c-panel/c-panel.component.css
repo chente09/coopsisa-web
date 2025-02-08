@@ -4,8 +4,14 @@
     margin: 0;
     padding: 0;
     display: flex;
+    font-size: 18px;
 }
-
+h1 {
+    position: sticky; 
+    top: 0; 
+    background-color: #f0f2f5; 
+    z-index: 10;
+}
 .sider {
     height: 100vh;
     background: #001529;
@@ -156,7 +162,7 @@
 }
 
 .admin-panel-btn:hover {
-    background: rgba(6, 50, 94, 0.495);
+    background: #001529;
     color: white;
     transform: translateY(-2px);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);

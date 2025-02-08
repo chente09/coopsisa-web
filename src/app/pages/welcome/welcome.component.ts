@@ -10,7 +10,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SlidesService, SlideData } from '../../services/SlideData/slides.service';
 import { EcosystemService, EcosystemData } from '../../services/ecosystem/ecosystem.service';
-import { VideoService } from '../../services/video/video.service';
+import { VideoService, VideoData } from '../../services/video/video.service';
 import { TarjetaService, TarjetaData } from '../../services/tarjetas/tarjeta.service';
 import { LaboratorioService, Laboratorio } from '../../services/laboratorio/laboratorio.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -36,7 +36,7 @@ export class WelcomeComponent {
   selectedLab: any = null;
   slides: SlideData[] = [];
   ecosystemItems: EcosystemData[] = [];
-  videos: { id: string, url: string, name: string }[] = [];
+  videos: VideoData[] = [];
   tarjetas: TarjetaData[] = [];
   laboratorios: Laboratorio[] = [];
   selectedCollectionlab: string = 'laboratorios';
@@ -70,11 +70,11 @@ export class WelcomeComponent {
     })
 
     // Cargar videos
-    this.videoService.getVideos().subscribe((videosData: any) => {
-      this.videos = videosData.map((video: { id: any; url: any; }) => ({
+    this.videoService.getVideos().subscribe((videosData: VideoData[]) => {
+      this.videos = videosData.map(video => ({
         id: video.id,
         url: video.url,
-        name: video.id || 'Desconocido'
+        description: video.description // ✅ Ahora sí incluye la descripción
       }));
       this.cdr.detectChanges();
     });

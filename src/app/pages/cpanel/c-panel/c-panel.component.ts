@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
 import { LogoService, Logo } from '../../../services/logo/logo.service';
 import { SlidesService, SlideData } from '../../../services/SlideData/slides.service';
 import { EcosystemService, EcosystemData } from '../../../services/ecosystem/ecosystem.service';
-import { VideoService } from '../../../services/video/video.service';
+import { VideoService, VideoData } from '../../../services/video/video.service';
 import { TarjetaService, TarjetaData } from '../../../services/tarjetas/tarjeta.service';
 import { LaboratorioService, Laboratorio } from '../../../services/laboratorio/laboratorio.service';
 import { NosotrosService, Nosotros } from '../../../services/nosotros/nosotros.service';
@@ -87,8 +87,9 @@ export class CPanelComponent {
   selectedItemFile: File | null = null;
   // ******* 📌 Admin Video ********
   selectedVideoFile: File | null = null;
+  videoDescription: string = '';
   uploadingVideo: boolean = false;
-  videos: { id: string, url: string, name: string }[] = [];
+  videos: { id: string; url: string; name: string; description: string; }[] = [];
   uploadProgress: number = 0; // Estado de progreso
   // ******* 📌 Admin Tarjeta ********
   tarjetas: TarjetaData[] = [];
@@ -135,7 +136,7 @@ export class CPanelComponent {
   membersLeft: MemberData[] = [];
   membersRight: MemberData[] = [];
   editingMemberId: string | null = null;
-  newMember: MemberData = { role: '', icon: '', group: 'left' };
+  newMember: MemberData = { role: '',order: 0, icon: '', group: 'left' };
   // ******* 📌 Admin Equipo ********
   equipo: EquipoData[] = [];
   nuevoMiembro: Partial<EquipoData> = { nombre: '', cargo: '', foto: '' };
@@ -189,6 +190,16 @@ export class CPanelComponent {
       this.cdr.detectChanges();
     });
 
+    this.membersService.getMembers().subscribe(members => {
+      this.membersLeft = members
+        .filter(m => m.group === 'left')
+        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+      this.membersRight = members
+        .filter(m => m.group === 'right')
+        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+      this.cdr.detectChanges(); // Detectar cambios en la vista
+    });
+
     this.getEcosystemData();
     this.loadVideos();
     this.getTarjetasData();
@@ -196,7 +207,6 @@ export class CPanelComponent {
     this.getNosotros();
     this.getTimelineEvents();
     this.loadCarruseles();
-    this.loadMembers();
     this.loadEcosystemDocuments();
   }
 
@@ -226,7 +236,6 @@ export class CPanelComponent {
     reader.onload = () => this.imagePreview = reader.result as string;
     reader.readAsDataURL(this.selectedFile);
   }
-
   async uploadNavbarLogo() {
     if (!this.selectedFile) return;
     this.uploading = true;
@@ -239,7 +248,6 @@ export class CPanelComponent {
       this.imagePreview = null;
     }
   }
-
   async uploadFooterLogo() {
     if (!this.selectedFile) return;
     this.uploading = true;
@@ -266,7 +274,6 @@ export class CPanelComponent {
       console.error('Error cambiando el logo del Navbar:', error);
     });
   }
-
   setAsFooterLogo(logo: Logo) {
     this.logoService.changeFooterLogo(logo.url).then(() => {
       this.message.success('Logo del Footer actualizado.');
@@ -275,7 +282,6 @@ export class CPanelComponent {
       console.error('Error cambiando el logo del Footer:', error);
     });
   }
-
   async deleteLogo(logo: Logo, type: 'navbar' | 'footer') {
     if (!confirm(`¿Eliminar el logo "${logo.name}"?`)) return;
 
@@ -488,6 +494,7 @@ export class CPanelComponent {
       this.videos = videos.map(video => ({
         id: video.id!,
         url: video.url,
+        description: video.description,
         name: video.id || 'Desconocido'
       }));
     });
@@ -507,6 +514,11 @@ export class CPanelComponent {
       return;
     }
 
+    if (!this.videoDescription) {
+      this.message.warning('Por favor, ingresa una descripción.');
+      return;
+    }
+
     this.uploadingVideo = true;
     this.uploadProgress = 0; // Reiniciar progreso
 
@@ -518,15 +530,20 @@ export class CPanelComponent {
         }
       }, 500);
 
-      const videoId = await this.videoService.saveVideo(this.selectedVideoFile, (progress) => {
+      const videoId = await this.videoService.saveVideo(
+        this.selectedVideoFile, 
+        (progress) => {
         this.uploadProgress = progress; // Usa el progreso real si está disponible
-      });
+        },
+        this.videoDescription
+      );
 
       clearInterval(interval); // Detener la simulación cuando termine
       this.uploadProgress = 100; // Completar la barra
       this.message.success('Video subido correctamente.');
 
       this.selectedVideoFile = null;
+      this.videoDescription = '';
       this.loadVideos(); // Recargar la lista de videos
     } catch (error) {
       console.error('Error al subir el video:', error);
@@ -908,9 +925,7 @@ export class CPanelComponent {
     this.newEvent = { year: '', description: '' };
     this.editingEventId = null;
   }
-
   // ******* 📌 Admin Carruseles varios ********
-
   // Función para cambiar la colección seleccionada
   selectCollection(event: Event) {
     const target = event.target as HTMLSelectElement;
@@ -1031,10 +1046,14 @@ export class CPanelComponent {
   // ******* 📌 Admin Members ********
   // Cargar miembros desde Firebase
   loadMembers() {
-    this.members$ = this.membersService.getMembers();
-    this.members$.subscribe(members => {
-      this.membersLeft = members.filter(m => m.group === 'left');
-      this.membersRight = members.filter(m => m.group === 'right');
+    this.membersService.getMembers().subscribe(members => {
+      this.membersLeft = members
+        .filter(m => m.group === 'left')
+        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+      this.membersRight = members
+        .filter(m => m.group === 'right')
+        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+      this.cdr.detectChanges(); // Detectar cambios en la vista
     });
   }
   // Guardar o actualizar miembro
@@ -1058,9 +1077,7 @@ export class CPanelComponent {
         await this.membersService.saveMember(this.newMember);
         this.message.success('Miembro agregado correctamente.');
       }
-
       this.resetMemberForm();
-      this.loadMembers();
     } catch (error) {
       console.error('Error al guardar el miembro:', error);
       this.message.error('Error al guardar el miembro.');
@@ -1090,7 +1107,7 @@ export class CPanelComponent {
   }
   // Resetear formulario
   private resetMemberForm() {
-    this.newMember = { role: '', icon: '', group: 'left' };
+    this.newMember = { role: '',order: 0 , icon: '', group: 'left' };
     this.editingMemberId = null;
   }
 

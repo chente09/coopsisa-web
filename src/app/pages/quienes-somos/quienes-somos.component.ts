@@ -13,7 +13,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NosotrosService, Nosotros } from '../../services/nosotros/nosotros.service';
 import { TimelineEvent, TimelineService } from '../../services/timeline/timeline.service';
 import { CarruselesService, CarruselData } from '../../services/carruseles/carruseles.service';
-import { MembersService } from '../../services/member/members.service';
+import { MembersService, MemberData } from '../../services/member/members.service';
 import { EquipoService, EquipoData } from '../../services/equipo/equipo.service';
 
 @Component({
@@ -39,8 +39,8 @@ export class QuienesSomosComponent {
   cards: Nosotros[] = [];
   timelineEvents: TimelineEvent[] = [];
   slides: CarruselData[] = [];
-  membersLeft: any[] = [];
-  membersRight: any[] = [];
+  membersLeft: MemberData[] = [];
+  membersRight: MemberData[] = [];
   equipo: EquipoData[] = [];
 
   constructor(
@@ -89,16 +89,26 @@ export class QuienesSomosComponent {
       (error) => console.error('Error al obtener los carruseles:', error)
     );
     // Obtener miembros
-    this.membersService.getMembers().subscribe(members => {
-      this.membersLeft = members.filter(m => m.group === 'left');
-      this.membersRight = members.filter(m => m.group === 'right');
-      this.cdr.detectChanges();
-    });
+    this.loadMembers();
 
     // Obtener miembros del equipo
     this.equipoService.getEquipoMembers().subscribe(data => {
       this.equipo = data;
       this.cdr.detectChanges();
+    });
+  }
+
+  loadMembers() {
+    this.membersService.getMembers().subscribe(members => {
+      this.membersLeft = members
+        .filter(m => m.group === 'left')
+        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+  
+      this.membersRight = members
+        .filter(m => m.group === 'right')
+        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+  
+      this.cdr.detectChanges(); // Detectar cambios en la vista
     });
   }
 

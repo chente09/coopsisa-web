@@ -9,6 +9,7 @@ export interface VideoData {
   id?: string;
   file?: File;
   url: string;
+  description: string;
 }
 
 @Injectable({
@@ -28,9 +29,9 @@ export class VideoService {
   }
 
   // Método para guardar una URL de video en Firestore
-  async saveVideo(file: File, p0: (progress: any) => void): Promise<string> {
+  async saveVideo(file: File, p0: (progress: any) => void, description: string): Promise<string> {
     const url = await this.uploadVideo(file); // Primero sube el video
-    const videoData: VideoData = { url }; // Crea el objeto con la URL
+    const videoData: VideoData = { url, description }; // Crea el objeto con la URL
     const videosRef = collection(this.firestore, this.collectionName);
     const docRef = await addDoc(videosRef, videoData); // Guarda en Firestore
     return docRef.id;
