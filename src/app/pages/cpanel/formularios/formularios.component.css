@@ -1,0 +1,132 @@
+/* Fondo y margen para todo el contenedor principal */
+.container {
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border: 3px solid #001529; /* Borde color #001529 */
+  }
+  
+  .sticky-btn {
+    bottom: 20px;  /* Distancia desde la parte inferior de la pantalla */
+    left: 20px;    /* Distancia desde el borde izquierdo */
+    z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+    background-color: #00152974;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .sticky-btn:hover {
+    background-color: #001529;  /* Color de fondo al pasar el ratón */
+  }
+
+  /* Estilo para los encabezados de cada sección */
+  h2 {
+    font-size: 1.75rem;
+    color: #001529; /* Color del borde */
+    border-bottom: 2px solid #001529; /* Subrayado */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para las listas de formularios */
+  ul.list-group {
+    margin-bottom: 30px;
+  }
+  
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Efecto de hover para los items de la lista */
+  .list-group-item:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    background-color: #f4f4f9;
+  }
+  
+  /* Estilo de botones de copiar y eliminar */
+  button.btn-outline-secondary {
+    border-color: #001529;
+    color: #001529;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  button.btn-outline-secondary:hover {
+    background-color: #001529;
+    color: #fff;
+  }
+  
+  button.btn-danger {
+    background-color: #f44336;
+    border-color: #f44336;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.btn-danger:hover {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+  }
+  
+  /* Estilos para los botones de copiar todos */
+  button.btn-outline-primary {
+    border-color: #001529;
+    color: #001529;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  button.btn-outline-primary:hover {
+    background-color: #001529;
+    color: #fff;
+  }
+  
+  /* Estilo de los iconos */
+  i.bi {
+    font-size: 1.3rem;
+  }
+  
+  /* Estilo para el texto de los correos */
+  .text-muted {
+    font-size: 0.95rem;
+    color: #6c757d;
+  }
+  
+  .text-primary {
+    color: #007bff;
+  }
+  
+  .text-success {
+    color: #28a745;
+  }
+  
+  /* Alerta de "correo copiado" */
+  alert {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .alert.error {
+    background-color: #dc3545;
+  }
+  
+  .alert.success {
+    background-color: #28a745;
+  }
+  

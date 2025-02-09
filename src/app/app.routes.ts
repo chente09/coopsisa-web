@@ -5,7 +5,9 @@ import { QuienesSomosComponent } from './pages/quienes-somos/quienes-somos.compo
 import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { CpanelLoginComponent } from './pages/cpanel/cpanel-login/cpanel-login.component';
 import { CPanelComponent } from './pages/cpanel/c-panel/c-panel.component';
+import { FormulariosComponent } from './pages/cpanel/formularios/formularios.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+
 
 export const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/cpanel-login']);
 
@@ -18,6 +20,7 @@ export const routes: Routes = [
   { path: 'servicios', component: ServiciosComponent },
   { path: 'cpanel-login', component: CpanelLoginComponent },
   { path: 'cpanel', component: CPanelComponent, ...canActivate(redirectUnauthorizedToLogin) }, 
+  { path: 'formularios', component: FormulariosComponent, ...canActivate(redirectUnauthorizedToLogin) },
 ];
 
 

@@ -12,6 +12,9 @@ h1 {
     background-color: #f0f2f5; 
     z-index: 10;
 }
+.icon {
+    font-size: 20px;
+}
 .sider {
     height: 100vh;
     background: #001529;

@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 // 🛠 Importar módulos de Ng-Zorro Ant Design
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -23,6 +25,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsersService } from '../../../services/users/users.service';
 import { Router } from '@angular/router';
+import { EMPTY, map } from 'rxjs';
 
 
 import { LogoService, Logo } from '../../../services/logo/logo.service';
@@ -38,6 +41,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { MembersService, MemberData } from '../../../services/member/members.service';
 import { EquipoService, EquipoData } from '../../../services/equipo/equipo.service';
 import { FilesService, EcosystemItem } from '../../../services/files/files.service';
+import { FormularioService, Formulario } from '../../../services/formulario/formulario.service';
+
 @Component({
   selector: 'app-c-panel',
   imports: [
@@ -58,7 +63,10 @@ import { FilesService, EcosystemItem } from '../../../services/files/files.servi
     NzTableModule,
     FormsModule,
     ReactiveFormsModule,
-    NzProgressModule
+    NzProgressModule,
+    NzListModule,
+    RouterLink,
+    RouterLinkActive
   ],
   providers: [NzModalService],
   templateUrl: './c-panel.component.html',
@@ -136,7 +144,7 @@ export class CPanelComponent {
   membersLeft: MemberData[] = [];
   membersRight: MemberData[] = [];
   editingMemberId: string | null = null;
-  newMember: MemberData = { role: '',order: 0, icon: '', group: 'left' };
+  newMember: MemberData = { role: '', order: 0, icon: '', group: 'left' };
   // ******* 📌 Admin Equipo ********
   equipo: EquipoData[] = [];
   nuevoMiembro: Partial<EquipoData> = { nombre: '', cargo: '', foto: '' };
@@ -149,6 +157,12 @@ export class CPanelComponent {
   documentFile: File | null = null;
   isSubmittingDocs = false;
   editingDocsId: string | null = null;
+  // ******* 📌 Admin Contact ********
+  contactForms: any[] = [];
+  collaboratorForms: any[] = [];
+  // ******* 📌 Admin Formularios ********
+  consultas: Formulario[] = []; // Solo formularios de tipo 'consulta'
+  colaboradores: Formulario[] = []; // Solo formularios de tipo 'colaborador'
 
   constructor(
     private router: Router,
@@ -166,7 +180,8 @@ export class CPanelComponent {
     private membersService: MembersService,
     private equipoService: EquipoService,
     private cdr: ChangeDetectorRef,
-    private fileService: FilesService
+    private fileService: FilesService,
+    private formularioService: FormularioService
   ) {
 
   }
@@ -200,6 +215,11 @@ export class CPanelComponent {
       this.cdr.detectChanges(); // Detectar cambios en la vista
     });
 
+    this.fileService.getEcosystemItems().subscribe((items: EcosystemItem[]) => {
+      this.ecosystemDocuments = items;
+      this.cdr.detectChanges();
+    });
+
     this.getEcosystemData();
     this.loadVideos();
     this.getTarjetasData();
@@ -207,8 +227,10 @@ export class CPanelComponent {
     this.getNosotros();
     this.getTimelineEvents();
     this.loadCarruseles();
-    this.loadEcosystemDocuments();
+    
+    
   }
+
 
   // 📌 Verificar si el usuario está logueado
   isLogged(): boolean {
@@ -286,17 +308,17 @@ export class CPanelComponent {
     if (!confirm(`¿Eliminar el logo "${logo.name}"?`)) return;
 
     try {
-        if (type === 'navbar') {
-            await this.logoService.deleteNavbarLogo(logo.id!, logo.url);
-        } else {
-            await this.logoService.deleteFooterLogo(logo.id!, logo.url);
-        }
-        this.message.success('Logo eliminado correctamente.');
+      if (type === 'navbar') {
+        await this.logoService.deleteNavbarLogo(logo.id!, logo.url);
+      } else {
+        await this.logoService.deleteFooterLogo(logo.id!, logo.url);
+      }
+      this.message.success('Logo eliminado correctamente.');
     } catch (error) {
-        this.message.error('Error al eliminar el logo.');
-        console.error('Error eliminando el logo:', error);
+      this.message.error('Error al eliminar el logo.');
+      console.error('Error eliminando el logo:', error);
     }
-}
+  }
   // ******* 📌 Admin Slides ********
   // Manejar la selección de archivos
   onSlideFileChange(event: any) {
@@ -531,9 +553,9 @@ export class CPanelComponent {
       }, 500);
 
       const videoId = await this.videoService.saveVideo(
-        this.selectedVideoFile, 
+        this.selectedVideoFile,
         (progress) => {
-        this.uploadProgress = progress; // Usa el progreso real si está disponible
+          this.uploadProgress = progress; // Usa el progreso real si está disponible
         },
         this.videoDescription
       );
@@ -1107,7 +1129,7 @@ export class CPanelComponent {
   }
   // Resetear formulario
   private resetMemberForm() {
-    this.newMember = { role: '',order: 0 , icon: '', group: 'left' };
+    this.newMember = { role: '', order: 0, icon: '', group: 'left' };
     this.editingMemberId = null;
   }
 

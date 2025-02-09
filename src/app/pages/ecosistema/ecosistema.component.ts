@@ -25,26 +25,30 @@ import { FilesService, EcosystemItem } from '../../services/files/files.service'
 })
 export class EcosistemaComponent {
   items: EcosystemData[] = [];
-  downloadItems : EcosystemItem[] = [];
+  downloadItems: EcosystemItem[] = [];
+
 
   ngOnInit(): void {
-    this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => { {
-      this.items = itemsData;
-      this.cdr.detectChanges();
-    }});
+    this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
+      {
+        this.items = itemsData;
+        this.cdr.detectChanges();
+      }
+    });
 
     this.fileService.getEcosystemItems().subscribe((items: EcosystemItem[]) => {
       this.downloadItems = items;
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     });
-    }
+
+  }
 
   constructor(
     private modal: NzModalService,
     private ecosystemService: EcosystemService,
     private cdr: ChangeDetectorRef,
-    private fileService: FilesService
-  ) {}
+    private fileService: FilesService,
+  ) { }
   openModal(item: { title: string; description: string; }): void {
     this.modal.create({
       nzTitle: item.title,

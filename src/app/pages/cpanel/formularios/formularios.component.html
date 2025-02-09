@@ -1,0 +1,55 @@
+<div class="sticky-top">
+    <button class="btn sticky-btn" (click)="goToCPanel()">⬅️ Regresar a Panel</button>
+</div>
+<div class="container mt-4">
+    <!-- Sección de Consultas -->
+    <h2 class="text-center border-bottom pb-2">📩 Bandeja de Consultas</h2>
+    <button class="btn btn-outline-primary btn-sm mb-2" (click)="copiarTodosCorreos('consulta')">
+        📋 Copiar Todos los Correos
+    </button>
+    <ul class="list-group mb-4">
+        <li class="list-group-item d-flex justify-content-between align-items-center"
+            *ngFor="let consulta of consultas$ | async">
+            <div>
+                <i class="bi bi-envelope text-primary me-2"></i>
+                <strong>{{ consulta.name }} {{ consulta.lastName }}</strong> -
+                <span class="text-muted">{{ consulta.email }}</span>
+                <p class="mb-1 text-muted">Mensaje: {{ consulta.message }}</p>
+                <button class="btn btn-sm btn-outline-secondary" (click)="copiarCorreo(consulta.email)">
+                    📋 Copiar
+                </button>
+            </div>
+            <button class="btn btn-danger btn-sm" (click)="eliminarFormulario(consulta.id!)">
+                <i class="bi bi-trash"></i> Eliminar
+            </button>
+        </li>
+    </ul>
+
+    <!-- Sección de Colaboradores -->
+    <h2 class="text-center border-bottom pb-2">👥 Solicitudes de Colaboradores</h2>
+    <button class="btn btn-outline-primary btn-sm mb-2" (click)="copiarTodosCorreos('colaborador')">
+        📋 Copiar Todos los Correos
+    </button>
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center"
+            *ngFor="let colaborador of colaboradores$ | async">
+            <div>
+                <i class="bi bi-person-workspace text-success me-2"></i>
+                <strong>{{ colaborador.name }} {{ colaborador.lastName }}</strong> -
+                <span class="text-muted">{{ colaborador.email }}</span>
+                <p class="mb-1 text-muted">Motivo: {{ colaborador.skills }}</p>
+                <p class="mb-1 text-muted">Teléfono: {{ colaborador.phone }}</p>
+                <button class="btn btn-sm btn-outline-secondary" (click)="copiarCorreo(colaborador.email)">
+                    📋 Copiar
+                </button>
+            </div>
+            <button class="btn btn-danger btn-sm" (click)="eliminarFormulario(colaborador.id!)">
+                <i class="bi bi-trash"></i> Eliminar
+            </button>
+        </li>
+    </ul>
+
+    <ng-template #loading>
+        <p class="text-center text-muted mt-4">📨 Cargando formularios...</p>
+    </ng-template>
+</div>

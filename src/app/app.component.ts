@@ -38,8 +38,10 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        // Oculta el layout si la ruta actual es '/cpanel' o alguna de sus subrutas
-        this.showLayout = !event.url.startsWith('/cpanel');
+        // Oculta el layout si la ruta actual es '/cpanel' o '/formularios' o alguna de sus subrutas
+        this.showLayout = !(
+          event.url.startsWith('/cpanel') || event.url.startsWith('/formularios')
+        );
       });
   }
 }
