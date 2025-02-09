@@ -20,10 +20,11 @@ import { LogoService } from '../../services/logo/logo.service';
 export class NavBarComponent {
   isCollapsed = false; 
   logoUrl: string = 'https://i.postimg.cc/QxZFBQfg/coopsisa-Logo-removebg-preview.png'; // Imagen por defecto
+  currentLanguage: string = 'es'; // Idioma inicial
 
   constructor(
     private logoService: LogoService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) { }
 
   menuItems = [
@@ -50,9 +51,33 @@ export class NavBarComponent {
     }
   ];
 
+  menuItemsEn = [
+    { label: 'Home', icon: 'home', route: 'welcome' },
+    { label: 'About CoopSisa', icon: 'team', route: '/about-us' },
+    { label: 'Services', icon: 'appstore', route: '/services' },
+    { label: 'Ecosystem', icon: 'branches', route: '/ecosystem' },
+    { label: 'Contact', icon: 'phone', route: '/contact' },
+    {
+      label: 'Submenu',
+      icon: 'setting',
+      route: '',
+      children: [
+        { label: 'Option 1', route: '/option1' },
+        { label: 'Option 2', route: '/option2' },
+        {
+          label: 'Subsubmenu',
+          children: [
+            { label: 'Option 3', route: '/option3' },
+            { label: 'Option 4', route: '/option4' }
+          ]
+        }
+      ]
+    }
+  ];
+  
   async ngOnInit(): Promise<void> {
     this.updateMenuState(); 
-    this.loadNavbarLogo();     
+    this.loadNavbarLogo();    
   }
 
   private loadNavbarLogo() {
@@ -84,10 +109,57 @@ export class NavBarComponent {
     }
   }
 
+  
+
   changeLanguage() {
-    // Lógica para cambiar el idioma, por ejemplo, con un servicio de internacionalización
-    console.log('Idioma cambiado');
-    // Implementa el cambio real de idioma (puede ser con una librería como ngx-translate)
+    // Alternar idioma
+    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
+    console.log(`Idioma cambiado a: ${this.currentLanguage}`);
+  
+    // Obtener el nuevo conjunto de etiquetas de menú
+    const updatedMenu = this.currentLanguage === 'en' ? this.menuItemsEn : [
+      { label: 'Inicio', icon: 'home', route: 'welcome' },
+      { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
+      { label: 'Servicios', icon: 'appstore', route: '/servicios' },
+      { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
+      { label: 'Contacto', icon: 'phone', route: '/contacto' },
+      {
+        label: 'Submenu',
+        icon: 'setting',
+        route: '',
+        children: [
+          { label: 'Opción 1', route: '/option1' },
+          { label: 'Opción 2', route: '/option2' },
+          {
+            label: 'Subsubmenu',
+            children: [
+              { label: 'Opción 3', route: '/option3' },
+              { label: 'Opción 4', route: '/option4' }
+            ]
+          }
+        ]
+      }
+    ];
+  
+    // Mantener la referencia del array y solo actualizar los labels
+    this.menuItems.forEach((item, index) => {
+      item.label = updatedMenu[index].label;
+      if (item.children) {
+        item.children.forEach((child, childIndex) => {
+          child.label = updatedMenu[index].children![childIndex].label;
+          if (child.children) {
+            child.children.forEach((subChild, subChildIndex) => {
+              subChild.label = updatedMenu[index].children![childIndex].children![subChildIndex].label;
+            });
+          }
+        });
+      }
+    });
+  
+    // Forzar la actualización de la vista
+    this.cdr.detectChanges();
   }
+  
+
 
 }

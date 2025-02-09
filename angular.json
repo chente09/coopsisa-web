@@ -32,7 +32,12 @@
               },
               "src/icon.ico",
               "src/icon.png",
-              "src/_redirects"
+              "src/_redirects",
+              {
+                "glob": "**/*",
+                "input": "src/assets/i18n/",
+                "output": "/assets/i18n/"
+              }
             ],
             "styles": [
               "src/custom-theme.scss",

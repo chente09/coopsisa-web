@@ -27,6 +27,8 @@
 
     <!-- Botón para cambiar idioma a la derecha -->
     <div class="navbar-right">
-        <button class="language-button" (click)="changeLanguage()">ES/EN</button>
+        <button class="language-button" (click)="changeLanguage()">
+            {{ currentLanguage === 'es' ? 'ES/EN' : 'EN/ES' }}
+        </button>
     </div>
 </div>

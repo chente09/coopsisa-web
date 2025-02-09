@@ -30,6 +30,10 @@
                     [nzLoading]="selectedKey === '5'">
                     Ecosistema index
                 </button>
+                <button nz-button nzBlock nzType="default" [routerLink]="['/formularios']"   >
+                    Administración de Formularios
+                </button>
+
                 <!-- Botón de cerrar sesión -->
                 <button nz-button nzBlock nzType="primary" nzDanger (click)="logout()">
                     Cerrar Sesión
@@ -174,9 +178,9 @@
                         secciones.</h1>
                     <h4>Administración del Carrusel</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en el carrusel principal.</p>
-                    <p>Se recomienda usar un solo tamaño de imaganes el ancho de 1200px y alto de 600px. Estas medidas
-                        deberán ser mantidas en todas las imagenes para una buena presentación. </p>
-                    <p>Para para la ruta de navegacion, se puede colocar links externos o internos. Permite navegar
+                    <p>Estas medidas deben mantenerse en todas las imágenes para una buena presentación: ancho de 1200px y alto de 600px. Estas medidas
+                        deberán ser mantenidas en todas las imágenes para una buena presentación. </p>
+                    <p>Para la ruta de navegación, se puede colocar links externos o internos. Permite navegar
                         fuera de la página.</p>
                     <!-- Formulario para agregar/editar slide -->
                     <div class="form-container">
@@ -252,11 +256,11 @@
                         <p>No hay slides creados.</p>
                     </div>
                     <!-- Administración de Tarjetas -->
-                    <h4>Administración de trajetas resumen de servicios.</h4>
+                    <h4>Administración de tarjetas resumen de servicios.</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en la sección de tarjetas. El tamaño de la
-                        imagenes se ajustan dinámicamente, pero se recomineda un tamaño mínimo de 400px por 400px.</p>
+                        imágenes se ajustan dinámicamente, pero se recomienda un tamaño mínimo de 400px por 400px.</p>
                     <p>Para colocar la ruta a una sección, se recomienda usar el siguiente formato: "/servicios" solo
-                        permite navegar en las index propias de la página</p>
+                        permite navegar en las index propias de la página.</p>
                     <!-- Formulario para agregar/editar tarjeta -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingItemId2 ? 'Editar Tarjeta' : 'Crear Tarjeta' }}</h2>
@@ -387,9 +391,9 @@
                 <div *ngIf="selectedKey === '3'">
                     <h1>Puedes editar la información que se muestra en la index de Sobre CoopSisa y no son parte de
                         otras secciones.</h1>
-                    <h4>Tarjetas de informacion</h4>
+                    <h4>Tarjetas de información</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en la sección de tarjetas de información.</p>
-                    <p>Se recomienda usar un solo tamaño de imaganes, el ancho de 650px y alto de 350px.</p>
+                    <p>Se recomienda usar un solo tamaño de imágenes, el ancho de 650px y alto de 350px.</p>
                     <!-- Formulario para agregar/editar "Nosotros" -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingNosotrosId ? 'Editar Tarjeta' : 'Crear Tarjeta' }}</h2>
@@ -546,8 +550,8 @@
                     <hr class="divider">
                     <h4>Configuración de Carruseles</h4>
                     <p>Agrega, edita o elimina carruseles que se muestran en la sección de Carrusel.</p>
-                    <p>Se recomienda usar un solo tamaño de imaganes el ancho de 1200px y alto de 600px. Estas medidas
-                        deberán ser mantidas en todas las imagenes para una buena presentación. </p>
+                    <p>Se recomienda usar un solo tamaño de imágenes el ancho de 1200px y alto de 600px. Estas medidas
+                        deberán ser mantenidas en todas las imágenes para una buena presentación. </p>
                     <div class="form-container">
                         <h2 class="form-title">{{ editingCarruselId ? 'Editar Carrusel' : 'Crear Carrusel' }}</h2>
                         <select (change)="selectCollection($event)">
@@ -610,7 +614,7 @@
                     <hr class="divider" />
                     <h4>Configuración de Miembros</h4>
                     <p>Agrega, edita o elimina miembros que se muestran en la sección de Miembros.</p>
-                    <p>Importanete colocar el numero de orden en el que se desean mostrar los miembros, solo conlocar
+                    <p>Importante colocar el número de orden en el que se desean mostrar los miembros, solo colocar
                         números enteros.</p>
                     <p>Para saber que icono utilizar, pueden usar el siguiente link: <a
                             href="https://ng.ant.design/components/icon/en" class="btn btn-outline-info" target="_blank"
@@ -627,7 +631,7 @@
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item>
-                                <nz-form-label [nzRequired]="true">Oreden</nz-form-label>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
                                 <nz-form-control>
                                     <input nz-input [(ngModel)]="newMember.order" name="order"
                                         placeholder="Ingresa el número de orden" required />
@@ -715,7 +719,7 @@
                     <hr class="divider" />
                     <h4>Administración del Equipo</h4>
                     <p>Agrega, edita o elimina miembros que se muestran en la sección de Miembros.</p>
-                    <p>Se recomienda que el tamaño de la imagen sea superior de 600px por 600px</p>
+                    <p>Se recomienda que el tamaño de la imagen sea superior a 600px por 600px</p>
                     <!-- Formulario para agregar/editar miembro del equipo -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editandoMiembroId ? 'Editar Miembro' : 'Agregar Miembro' }}</h2>
@@ -791,9 +795,9 @@
                     <!-- Administración de Laboratorios -->
                     <h4>Administración de Laboratorios</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en la sección de Laboratorios.</p>
-                    <p>En la lista desplegable se puede seleccionar la colección de laboratorios o escuelas segun la
+                    <p>En la lista desplegable, se puede seleccionar la colección de laboratorios o escuelas según la
                         necesidad.</p>
-                    <p>Para saber que icono utilizar, pueden usar el siguiente link: <a
+                    <p>Para eleguir un icono a utilizar, usar el siguiente link: <a
                             href="https://ng.ant.design/components/icon/en" class="btn btn-outline-info" target="_blank"
                             style="height: auto; width: 100px;">Ver iconos</a> Se recomienda usar el siguiente formato:
                         "solution", solo colocar el nombre del icono.</p>
@@ -961,7 +965,7 @@
                     <h1>Puedes editar la información que se muestra en la index de ecosistema.</h1>
                     <h4>Tarjetas del ecosistema.</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en la sección de tarjetas del ecosistema.</p>
-                    <p>Se recomienda usar un solo tamaño de imaganes, el ancho de 400px y alto de 400px.</p>
+                    <p>Se recomienda usar un único tamaño de imágenes:  400px de ancho y 400px de alto.</p>
                     <!-- Formulario para agregar/editar item del ecosistema -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingItemId ? 'Editar Item' : 'Crear Item' }}</h2>
@@ -1029,7 +1033,8 @@
                     <hr class="divider" />
                     <h4>Administración del Ecosistema</h4>
                     <p>Agrega, edita o elimina documentos que se muestran en la sección de Ecosistema.</p>
-                    <p>la imagen debe ser de 400px por 400px, se usa de miniatura para el documento.</p>
+                    <p>La imagen debe tener un tamaño de 400px por 400px, ya que se emplea como miniatura en el documento.
+                    </p>
                     <!-- Formulario para agregar/editar documento -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingDocsId ? 'Editar Documento' : 'Crear Documento' }}</h2>
