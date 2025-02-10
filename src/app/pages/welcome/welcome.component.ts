@@ -14,6 +14,8 @@ import { VideoService, VideoData } from '../../services/video/video.service';
 import { TarjetaService, TarjetaData } from '../../services/tarjetas/tarjeta.service';
 import { LaboratorioService, Laboratorio } from '../../services/laboratorio/laboratorio.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -26,7 +28,8 @@ import { ChangeDetectorRef } from '@angular/core';
     NzModalModule,
     NzButtonModule,
     NzCollapseModule,
-    NzListModule
+    NzListModule,
+    NzSpinModule
   ],
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
@@ -40,6 +43,7 @@ export class WelcomeComponent {
   tarjetas: TarjetaData[] = [];
   laboratorios: Laboratorio[] = [];
   selectedCollectionlab: string = 'laboratorios';
+  isLoading = true; 
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -57,16 +61,19 @@ export class WelcomeComponent {
   }
 
   ngOnInit(): void {
+    
     // Llamamos al servicio para obtener los slides cuando el componente se inicializa
     this.slideService.getSlides().subscribe((slidesData: SlideData[]) => {
       this.slides = slidesData;
       this.cdr.detectChanges();
+      this.isLoading = false;
     });
 
     // Llamamos al servicio para obtener los items de la ecosistema cuando el componente se inicializa
     this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
       this.ecosystemItems = itemsData;
       this.cdr.detectChanges();
+      this.isLoading = false;
     })
 
     // Cargar videos
@@ -77,21 +84,29 @@ export class WelcomeComponent {
         description: video.description // ✅ Ahora sí incluye la descripción
       }));
       this.cdr.detectChanges();
+      this.isLoading = false;
     });
 
     // Cargar tarjetas
     this.tarjetaService.getTarjetas().subscribe((tarjetasData: TarjetaData[]) => {
       this.tarjetas = tarjetasData;
       this.cdr.detectChanges();
+      this.isLoading = false;
     });
 
     // Cargar laboratorios de la colección seleccionada
-    this.laboratorioService.getLaboratorios(this.selectedCollectionlab).subscribe(
-      (laboratoriosData: Laboratorio[]) => {
+    this.laboratorioService.getLaboratorios(this.selectedCollectionlab).subscribe({
+      next: (laboratoriosData: Laboratorio[]) => {
         this.laboratorios = laboratoriosData;
+        this.cdr.detectChanges(); // Se ejecuta después de asignar los datos
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al obtener los laboratorios:', error);
       }
-    );
-    this.cdr.detectChanges();
+    });
+    
+
 
   }
 
