@@ -105,9 +105,6 @@ export class WelcomeComponent {
         console.error('Error al obtener los laboratorios:', error);
       }
     });
-    
-
-
   }
 
 

@@ -1,31 +1,24 @@
 <div class="navbar">
-    <!-- Logo a la izquierda -->
     <div class="navbar-left">
         <img [src]="logoUrl" alt="Logo" class="logo">
     </div>
 
-    <!-- Menú -->
     <nz-icon
-        nzType="menu"
-        class="hamburger-icon"
+        nzType="{{ isCollapsed ? 'menu' : 'close' }}"  class="hamburger-icon"
         (click)="toggleMenu()"
     ></nz-icon>
+
     <ul nz-menu [hidden]="isCollapsed" [class.collapsed]="isCollapsed" style="font-size: 20px;">
         <ng-container *ngFor="let item of menuItems">
             <li *ngIf="!item.children" nz-menu-item>
                 <nz-icon [nzType]="item.icon" style="font-size: 18px;"></nz-icon>
-                <a 
-                    [routerLink]="item.route" 
-                    routerLinkActive="active-link" 
-                    [routerLinkActiveOptions]="{ exact: true }"
-                >
+                <a [routerLink]="item.route" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
                     {{ item.label }}
                 </a>
             </li>
         </ng-container>
     </ul>
 
-    <!-- Botón para cambiar idioma a la derecha -->
     <div class="navbar-right">
         <button class="language-button" (click)="changeLanguage()">
             {{ currentLanguage === 'es' ? 'ES/EN' : 'EN/ES' }}

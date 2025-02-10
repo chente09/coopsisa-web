@@ -57,22 +57,6 @@ export class NavBarComponent {
     { label: 'Services', icon: 'appstore', route: '/services' },
     { label: 'Ecosystem', icon: 'branches', route: '/ecosystem' },
     { label: 'Contact', icon: 'phone', route: '/contact' },
-    {
-      label: 'Submenu',
-      icon: 'setting',
-      route: '',
-      children: [
-        { label: 'Option 1', route: '/option1' },
-        { label: 'Option 2', route: '/option2' },
-        {
-          label: 'Subsubmenu',
-          children: [
-            { label: 'Option 3', route: '/option3' },
-            { label: 'Option 4', route: '/option4' }
-          ]
-        }
-      ]
-    }
   ];
   
   async ngOnInit(): Promise<void> {
