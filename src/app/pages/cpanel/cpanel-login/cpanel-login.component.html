@@ -18,11 +18,11 @@
             </nz-form-item>
             <div nz-row class="login-options">
                 <label nz-checkbox>
-                    <span>Recordar sesión</span>
+                    <span>Recuperar contraseña</span>
                 </label>
-                <a class="login-form-forgot">¿Olvidaste tu contraseña?</a>
+                <a class="login-form-forgot" (click)="recuperarContrasena()">¿Olvidaste tu contraseña?</a>
             </div>
-            <button nz-button class="login-form-button" [nzType]="'primary'" type="button" (click)="onLogin()">
+            <button nz-button class="login-form-button" [nzType]="'primary'" type="button" (click)="onLogin()" [disabled]="form.invalid">
                 Ingresar
             </button>
         </form>

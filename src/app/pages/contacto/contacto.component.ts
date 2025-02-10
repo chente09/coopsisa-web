@@ -70,7 +70,7 @@ export class ContactoComponent  {
       this.formularioService
         .saveFormulario(formulario)
         .then(() => {
-          this.message.success('Consulta enviada correctamente.');
+          this.message.success('¡Tu consulta ha sido enviada!.');
           this.resetForm(this.contactForm);
         })
         .catch((error) => {
@@ -93,7 +93,7 @@ export class ContactoComponent  {
       this.formularioService
         .saveFormulario(formulario)
         .then(() => {
-          this.message.success('Colaborador guardado correctamente.');
+          this.message.success('¡Tu mensaje ha sido enviado!.');
           this.resetForm(this.collaboratorForm);
         })
         .catch((error) => {
