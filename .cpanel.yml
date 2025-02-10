@@ -1,0 +1,4 @@
+---
+deployment:
+  tasks:
+    - /bin/bash -c "cd ~/repositories/coopsisa-web && npm install && npm run build --prod"
