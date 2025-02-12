@@ -73,7 +73,6 @@ export class WelcomeComponent {
     this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
       this.ecosystemItems = itemsData;
       this.cdr.detectChanges();
-      this.isLoading = false;
     })
 
     // Cargar videos
@@ -84,14 +83,12 @@ export class WelcomeComponent {
         description: video.description // ✅ Ahora sí incluye la descripción
       }));
       this.cdr.detectChanges();
-      this.isLoading = false;
     });
 
     // Cargar tarjetas
     this.tarjetaService.getTarjetas().subscribe((tarjetasData: TarjetaData[]) => {
       this.tarjetas = tarjetasData;
       this.cdr.detectChanges();
-      this.isLoading = false;
     });
 
     // Cargar laboratorios de la colección seleccionada
@@ -99,7 +96,6 @@ export class WelcomeComponent {
       next: (laboratoriosData: Laboratorio[]) => {
         this.laboratorios = laboratoriosData;
         this.cdr.detectChanges(); // Se ejecuta después de asignar los datos
-        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error al obtener los laboratorios:', error);
