@@ -15,7 +15,16 @@
                 <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
                 <div class="carousel-caption d-block d-md-block">
                     <h5>{{ slide.text }}</h5>
-                    <a [href]="slide.route" class="btn btn-primary" target="_blank">{{ slide.buttonText }}</a>
+                
+                    <!-- Si es una ruta interna, usa RouterLink -->
+                    <a *ngIf="isInternalRoute(slide.route)" [routerLink]="slide.route" class="btn btn-primary">
+                        {{ slide.buttonText }}
+                    </a>
+                
+                    <!-- Si es una URL externa, usa href con target _blank -->
+                    <a *ngIf="!isInternalRoute(slide.route)" [href]="slide.route" class="btn btn-primary" target="_blank">
+                        {{ slide.buttonText }}
+                    </a>
                 </div>
             </div>
         </div>

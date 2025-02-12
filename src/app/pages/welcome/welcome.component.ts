@@ -103,6 +103,9 @@ export class WelcomeComponent {
     });
   }
 
+  isInternalRoute(route: string): boolean {
+    return route.startsWith('/') && !route.startsWith('http');
+}
 
   openModal(lab: any): void {
     this.selectedLab = lab;
