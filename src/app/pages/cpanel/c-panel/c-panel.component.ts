@@ -45,6 +45,7 @@ import { FormularioService, Formulario } from '../../../services/formulario/form
 
 @Component({
   selector: 'app-c-panel',
+  standalone: true,
   imports: [
     NzLayoutModule,
     NzMenuModule,
@@ -230,7 +231,6 @@ export class CPanelComponent {
     
     
   }
-
 
   // 📌 Verificar si el usuario está logueado
   isLogged(): boolean {

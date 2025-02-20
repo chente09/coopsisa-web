@@ -30,10 +30,9 @@
                     [nzLoading]="selectedKey === '5'">
                     Ecosistema index
                 </button>
-                <button nz-button nzBlock nzType="default" [routerLink]="['/formularios']"   >
+                <button nz-button nzBlock nzType="default" [routerLink]="['/formularios']">
                     Administración de Formularios
                 </button>
-
                 <!-- Botón de cerrar sesión -->
                 <button nz-button nzBlock nzType="primary" nzDanger (click)="logout()">
                     Cerrar Sesión
@@ -41,7 +40,6 @@
             </div>
 
         </nz-sider>
-
         <!-- Contenido principal -->
         <nz-layout>
             <nz-content class="content">
@@ -80,7 +78,8 @@
                                 <br> Modifica tarjetas y archivos descargables.
                             </button>
 
-                            <button [routerLink]="['/formularios']" routerLinkActive="router-link-active"  class="admin-panel-btn">
+                            <button [routerLink]="['/formularios']" routerLinkActive="router-link-active"
+                                class="admin-panel-btn">
                                 <strong>Administración de Formularios</strong>
                                 <br> Gestiona los formularios de consultas y de colaboración.
                             </button>
@@ -178,11 +177,16 @@
                         secciones.</h1>
                     <h4>Administración del Carrusel</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en el carrusel principal.</p>
-                    <p>Estas medidas deben mantenerse en todas las imágenes para una buena presentación: ancho de 1200px y alto de 600px. Estas medidas
+                    <p>Estas medidas deben mantenerse en todas las imágenes para una buena presentación: ancho de 1200px
+                        y alto de 600px. Estas medidas
                         deberán ser mantenidas en todas las imágenes para una buena presentación. </p>
-                    <p>La ruta de navegación SI permite navegar fuera de la página, se puede colocar links externos o internos.</p>
-                    <p>Para colocar la ruta a un link externo, se recomienda usar el siguiente formato: "https://www.google.com"</p>
-                    <p style="color: red;">Para colocar la ruta a un link interno, se recomienda usar el siguiente formato: "/servicios" esto permite navegar en las index propias de la página sin salir de la misma.</p>
+                    <p>La ruta de navegación SI permite navegar fuera de la página, se puede colocar links externos o
+                        internos.</p>
+                    <p>Para colocar la ruta a un link externo, se recomienda usar el siguiente formato:
+                        "https://www.google.com"</p>
+                    <p style="color: red;">Para colocar la ruta a un link interno, se recomienda usar el siguiente
+                        formato: "/servicios" esto permite navegar en las index propias de la página sin salir de la
+                        misma.</p>
                     <!-- Formulario para agregar/editar slide -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingSlideId ? 'Editar Slide' : 'Crear Slide' }}</h2>
@@ -260,11 +264,15 @@
                     <h4>Administración de tarjetas resumen de servicios.</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en la sección de tarjetas. El tamaño de la
                         imágenes se ajustan dinámicamente, pero se recomienda un tamaño mínimo de 400px por 400px.</p>
-                    <p>Para colocar la ruta a una sección, se recomienda usar el siguiente formato: "/servicios" unicamente
+                    <p>Para colocar la ruta a una sección, se recomienda usar el siguiente formato: "/servicios"
+                        unicamente
                         permite navegar en las index propias de la página.</p>
-                    <p>La ruta de navegación, NO permite navegar fuera de la página, se puede colocar únicanemente links internos.</p>
-                    <p style="color: red;">Para colocar la ruta a un link interno, se recomienda usar el siguiente formato: "/servicios" esto permite navegar en las index propias de la página sin salir de la misma.</p>
-                        <!-- Formulario para agregar/editar tarjeta -->
+                    <p>La ruta de navegación, NO permite navegar fuera de la página, se puede colocar únicanemente links
+                        internos.</p>
+                    <p style="color: red;">Para colocar la ruta a un link interno, se recomienda usar el siguiente
+                        formato: "/servicios" esto permite navegar en las index propias de la página sin salir de la
+                        misma.</p>
+                    <!-- Formulario para agregar/editar tarjeta -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingItemId2 ? 'Editar Tarjeta' : 'Crear Tarjeta' }}</h2>
                         <form (ngSubmit)="submitTarjeta()" class="admin-form">
@@ -558,6 +566,7 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editingCarruselId ? 'Editar Carrusel' : 'Crear Carrusel' }}</h2>
                         <select (change)="selectCollection($event)">
+                            <option value="job-foment">Trabajo Fomenta</option>
                             <option value="job-foment">Trabajo Fomenta</option>
                         </select>
                         <form (ngSubmit)="saveCarrusel()" class="admin-form">
@@ -968,7 +977,7 @@
                     <h1>Puedes editar la información que se muestra en la index de ecosistema.</h1>
                     <h4>Tarjetas del ecosistema.</h4>
                     <p>Agrega, edita o elimina contenido que se muestra en la sección de tarjetas del ecosistema.</p>
-                    <p>Se recomienda usar un único tamaño de imágenes:  400px de ancho y 400px de alto.</p>
+                    <p>Se recomienda usar un único tamaño de imágenes: 400px de ancho y 400px de alto.</p>
                     <!-- Formulario para agregar/editar item del ecosistema -->
                     <div class="form-container">
                         <h2 class="form-title">{{ editingItemId ? 'Editar Item' : 'Crear Item' }}</h2>
@@ -1036,7 +1045,8 @@
                     <hr class="divider" />
                     <h4>Administración del Ecosistema</h4>
                     <p>Agrega, edita o elimina documentos que se muestran en la sección de Ecosistema.</p>
-                    <p>La imagen debe tener un tamaño de 400px por 400px, ya que se emplea como miniatura en el documento.
+                    <p>La imagen debe tener un tamaño de 400px por 400px, ya que se emplea como miniatura en el
+                        documento.
                     </p>
                     <!-- Formulario para agregar/editar documento -->
                     <div class="form-container">
