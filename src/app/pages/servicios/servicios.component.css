@@ -408,7 +408,8 @@ nz-collapse-panel:hover {
 }
 .carousel-item img {
     width: 100%;
-    height: 500px; /* Establece una altura fija que se ajuste a una relación más cuadrada */
+    height: 80vh; /* Establece una altura fija que se ajuste a una relación más cuadrada */
+    min-height: 500px; 
     object-fit: cover; /* Asegura que la imagen cubra todo el espacio */
     transition: transform 0.2s ease-in-out;
     border-radius: 5px;
@@ -436,7 +437,8 @@ nz-collapse-panel:hover {
     font-size: 2rem;
     font-weight: bold;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
-    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /* Animación de aparición */
@@ -495,6 +497,25 @@ nz-collapse-panel:hover {
 
 /* Responsividad */
 @media (max-width: 768px) {
+    /* Ajustar altura en móviles */
+    .carousel-item img {
+        height: 60vh; /* Hace que la imagen no sea tan alta en móviles */
+        min-height: 300px; /* Evita imágenes demasiado pequeñas */
+        object-fit: contain; /* Evita que se pierda información de la imagen */
+        border-radius: 5px;
+    }
+
+    /* Centrar y hacer el texto más compacto */
+    .carousel-caption {
+        max-width: 100%;
+        padding: 0.2rem;
+    }
+
+    .carousel-caption h5 {
+        font-size: 1rem; /* Reduce el tamaño del título en móviles */
+    }
+
+    /* Ajustar tamaño de indicadores en móviles */
     .carousel-indicators button {
         width: 30px;
         height: 6px;

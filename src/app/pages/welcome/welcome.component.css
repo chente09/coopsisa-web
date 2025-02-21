@@ -1,7 +1,7 @@
 
 /* Estilo general del carrusel */
 .carousel-item img {
-    max-height: 600px;
+    height: max-content;
     width: 100%;
     object-fit: cover;
     transition: transform 0.1s ease-in-out;
@@ -65,19 +65,22 @@
 
 /* Adaptabilidad */
 @media (max-width: 768px) {
+    .carousel-item img {
+        height: max-content;
+    }
     .carousel-caption {
         background: linear-gradient(to bottom, rgba(239, 98, 95, 1), rgba(0, 0, 0, 0.3)); /* Fondo más oscuro para mejor legibilidad */
-        padding: 0.75rem;
+        padding: 0.2rem;
         max-width: 90%; /* Reduce el ancho máximo del caption */
     }
 
     .carousel-caption h5 {
-        font-size: 1.25rem; /* Reduce el tamaño del texto */
+        font-size: 1rem; /* Reduce el tamaño del texto */
         line-height: 1.4; /* Mejora el espaciado */
     }
 
     .carousel-caption .btn {
-        padding: 0.5rem 1rem; /* Botón más compacto */
+        padding: 0.2rem 0.5rem; /* Botón más compacto */
         font-size: 0.875rem;
     }
 }
