@@ -106,12 +106,11 @@
         </div>
 
         <!-- Modal -->
-        <nz-modal [(nzVisible)]="isModalVisibleEscuela" nzTitle="{{ selectedEscuela?.titulo }}"
-            nzClassName="custom-modal" [nzClosable]="true" (nzOnCancel)="handleCancel()"
-            [nzFooter]="modalFooterEscuela">
+        <nz-modal [(nzVisible)]="isModalVisibleEscuela" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+            [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterEscuela">
             <ng-container *nzModalContent>
                 <div class="custom-modal-content">
-                    <p>{{ selectedEscuela?.descripcion }}</p>
+                    <p>{{ selectedLab?.descripcion }}</p>
                 </div>
             </ng-container>
         </nz-modal>
@@ -185,7 +184,8 @@
                 </div>
                 <!-- Slides -->
                 <div class="carousel-inner">
-                    <div class="carousel-item" *ngFor="let slide of negocios; let i = index" [class.active]="i === 0">
+                    <div class="carousel-item" *ngFor="let slide of negocios; let i = index"
+                        [class.active]="i === 0">
                         <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
                         <div class="carousel-caption d-block d-md-block">
                             <h5>{{ slide.text }}</h5>

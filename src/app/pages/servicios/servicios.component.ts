@@ -84,19 +84,14 @@ export class ServiciosComponent {
     );
   }
 
-
-
-
   openModalLab(lab: any): void {
-    this.selectedLab = lab; // Asignar el laboratorio seleccionado
-    this.selectedEscuela = null; // Limpiar la escuela seleccionada
-    this.isModalVisibleLab = true; // Abrir el modal de laboratorios
+    this.selectedLab = lab;
+    this.isModalVisibleLab = true;
   }
   
   openModalEscuela(escuela: any): void {
-    this.selectedEscuela = escuela; // Asignar la escuela seleccionada
-    this.selectedLab = null; // Limpiar el laboratorio seleccionado
-    this.isModalVisibleEscuela = true; // Abrir el modal de escuelas
+    this.selectedEscuela = escuela;
+    this.isModalVisibleEscuela = true;
   }
 
   handleOk(): void {
