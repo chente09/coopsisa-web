@@ -26,8 +26,9 @@ import { LaboratorioService } from '../../services/laboratorio/laboratorio.servi
 })
 export class ServiciosComponent {
   isModalVisibleLab: boolean = false;
-isModalVisibleEscuela: boolean = false;
+  isModalVisibleEscuela: boolean = false;
   selectedLab: any = null;
+  selectedEscuela: any = null;
   labCarruselSlides: any[] = []; // ✅ Declaramos la propiedad
   escuelasSlides: any[] = [];
   laboratorios: any[] = [];
@@ -37,87 +38,89 @@ isModalVisibleEscuela: boolean = false;
 
 
   constructor(
-      private carruselService: CarruselesService,
-      private laboratorioService: LaboratorioService,
-      private cdr: ChangeDetectorRef
-    ) { }
+    private carruselService: CarruselesService,
+    private laboratorioService: LaboratorioService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
-    ngOnInit(): void {
-      this.carruselService.getSlides('lab-carrusel').subscribe(
-        (data) => {
-          this.labCarruselSlides = data; // ✅ Ahora esta propiedad existe
-          this.cdr.detectChanges();
-        },
-        (error) => console.error('Error al obtener los carruseles de lab-carrusel:', error)
-      );
+  ngOnInit(): void {
+    this.carruselService.getSlides('lab-carrusel').subscribe(
+      (data) => {
+        this.labCarruselSlides = data; // ✅ Ahora esta propiedad existe
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error al obtener los carruseles de lab-carrusel:', error)
+    );
+
+    this.carruselService.getSlides('escuelas').subscribe(
+      (data) => {
+        this.escuelasSlides = data; // ✅ También para escuelas
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error al obtener los carruseles de escuelas:', error)
+    );
+    this.carruselService.getSlides('neg-solid').subscribe(
+      (data) => {
+        this.negocios = data; // ✅ También para escuelas
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error al obtener los carruseles de escuelas:', error)
+    );
+
+    this.laboratorioService.getLaboratorios('laboratorios').subscribe(
+      (data) => {
+        this.laboratorios = data; // ✅ Ahora esta propiedad existe
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error al obtener los laboratorios:', error)
+    );
+
+    this.laboratorioService.getLaboratorios('schol-tj').subscribe(
+      (data) => {
+        this.escuelas = data; // ✅ También para escuelas
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error al obtener las escuelas:', error)
+    );
+  }
+
+
+
+
+  openModalLab(lab: any): void {
+    this.selectedLab = lab; // Asignar el laboratorio seleccionado
+    this.selectedEscuela = null; // Limpiar la escuela seleccionada
+    this.isModalVisibleLab = true; // Abrir el modal de laboratorios
+  }
   
-      this.carruselService.getSlides('escuelas').subscribe(
-        (data) => {
-          this.escuelasSlides = data; // ✅ También para escuelas
-          this.cdr.detectChanges();
-          },
-        (error) => console.error('Error al obtener los carruseles de escuelas:', error)
-      );
-      this.carruselService.getSlides('neg-solid').subscribe(
-        (data) => {
-          this.negocios = data; // ✅ También para escuelas
-          this.cdr.detectChanges();
-          },
-        (error) => console.error('Error al obtener los carruseles de escuelas:', error)
-      );
-
-      this.laboratorioService.getLaboratorios('laboratorios').subscribe(
-        (data) => {
-          this.laboratorios = data; // ✅ Ahora esta propiedad existe
-          this.cdr.detectChanges();
-        },
-        (error) => console.error('Error al obtener los laboratorios:', error)
-      );
-  
-      this.laboratorioService.getLaboratorios('schol-tj').subscribe(
-        (data) => {
-          this.escuelas = data; // ✅ También para escuelas
-          this.cdr.detectChanges();
-        },
-        (error) => console.error('Error al obtener las escuelas:', error)
-      );
-    }
-    
-
-
-
-    openModalLab(lab: any): void {
-      this.selectedLab = lab;
-      this.isModalVisibleLab = true;
-    }
-    
-    openModalEscuela(escuela: any): void {
-      this.selectedLab = escuela;
-      this.isModalVisibleEscuela = true;
-    }
+  openModalEscuela(escuela: any): void {
+    this.selectedEscuela = escuela; // Asignar la escuela seleccionada
+    this.selectedLab = null; // Limpiar el laboratorio seleccionado
+    this.isModalVisibleEscuela = true; // Abrir el modal de escuelas
+  }
 
   handleOk(): void {
-    this.isModalVisibleLab = false; // Cierra el modal primero
+    this.isModalVisibleLab = false; // Cerrar el modal de laboratorios
     setTimeout(() => {
       const section = document.getElementById("carouselExampleIndicators");
       if (section) {
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 400); // Mayor tiempo de espera para asegurar que el DOM esté listo
+    }, 400);
   }
+  
   handleEsc(): void {
-    console.log('hola');
-    this.isModalVisibleEscuela = false; // Cierra el modal primero
+    this.isModalVisibleEscuela = false; // Cerrar el modal de escuelas
     setTimeout(() => {
       const section = document.getElementById("carouselIndicators2");
       if (section) {
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 400); // Mayor tiempo de espera para asegurar que el DOM esté listo
+    }, 400);
   }
-
+  
   handleCancel(): void {
-    this.isModalVisibleLab  = false;
+    this.isModalVisibleLab = false; // Cerrar ambos modales
     this.isModalVisibleEscuela = false;
   }
 }
