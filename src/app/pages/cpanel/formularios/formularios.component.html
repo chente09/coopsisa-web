@@ -19,7 +19,7 @@
                     📋 Copiar
                 </button>
             </div>
-            <button class="btn btn-danger btn-sm" (click)="eliminarFormulario(consulta.id!)">
+            <button class="btn btn-danger btn-sm" (click)="confirmarEliminacion(consulta.id!)">
                 <i class="bi bi-trash"></i> Eliminar
             </button>
         </li>
@@ -35,19 +35,27 @@
             *ngFor="let colaborador of colaboradores$ | async">
             <div>
                 <i class="bi bi-person-workspace text-success me-2"></i>
-                <strong>{{ colaborador.name }} {{ colaborador.lastName }}</strong> -
+                <strong>{{ colaborador.name }} {{ colaborador.lastName }}</strong> - 
                 <span class="text-muted">{{ colaborador.email }}</span>
                 <p class="mb-1 text-muted">Motivo: {{ colaborador.skills }}</p>
                 <p class="mb-1 text-muted">Teléfono: {{ colaborador.phone }}</p>
+    
+                <!-- ✅ Mostrar enlace solo si existe un adjunto -->
+                <ng-container *ngIf="colaborador.attachment">
+                    <a [href]="colaborador.attachment" target="_blank"> 📎 Descargar Adjunto</a>
+                </ng-container>
+                <br>
+    
                 <button class="btn btn-sm btn-outline-secondary" (click)="copiarCorreo(colaborador.email)">
                     📋 Copiar
                 </button>
             </div>
-            <button class="btn btn-danger btn-sm" (click)="eliminarFormulario(colaborador.id!)">
+            <button class="btn btn-danger btn-sm" (click)="confirmarEliminacion(colaborador.id!)">
                 <i class="bi bi-trash"></i> Eliminar
             </button>
         </li>
     </ul>
+    
 
     <ng-template #loading>
         <p class="text-center text-muted mt-4">📨 Cargando formularios...</p>

@@ -4,18 +4,25 @@ import { FormularioService, Formulario } from '../../../services/formulario/form
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-formularios',
-  imports: [ CommonModule ],
+  imports: [CommonModule, NzModalModule],
   templateUrl: './formularios.component.html',
   styleUrl: './formularios.component.css'
 })
 export class FormulariosComponent implements OnInit {
   consultas$: Observable<Formulario[]> = new Observable();
-colaboradores$: Observable<Formulario[]> = new Observable();  // Colaboradores
+  colaboradores$: Observable<Formulario[]> = new Observable();  // Colaboradores
 
-  constructor(private formularioService: FormularioService, private router: Router) {}
+  constructor(
+    private formularioService: FormularioService,
+    private router: Router,
+    private modal: NzModalService,
+    private message: NzMessageService
+  ) { }
 
   ngOnInit(): void {
     // Obtener formularios y separarlos por tipo
@@ -30,14 +37,27 @@ colaboradores$: Observable<Formulario[]> = new Observable();  // Colaboradores
     );
   }
 
-  async eliminarFormulario(id: string) {
-    try {
-      await this.formularioService.deleteFormulario(id);
-      console.log('Formulario eliminado correctamente');
-    } catch (error) {
-      console.error('Error al eliminar el formulario:', error);
-    }
+  // ✅ Confirmación antes de eliminar
+  confirmarEliminacion(id: string, filePath?: string): void {
+    this.modal.confirm({
+      nzTitle: '¿Estás seguro de eliminar este formulario?',
+      nzContent: 'Esta acción no se puede deshacer.',
+      nzOkText: 'Sí, eliminar',
+      nzOnOk: () => this.eliminarFormulario(id, filePath),
+      nzCancelText: 'Cancelar',
+    });
   }
+
+  // ✅ Eliminar formulario y adjunto si existe
+  eliminarFormulario(id: string, filePath?: string): void {
+    this.formularioService.deleteFormulario(id, filePath)
+      .then(() => this.message.success('Formulario eliminado correctamente.'))
+      .catch(error => {
+        this.message.error('Error al eliminar el formulario.');
+        console.error('Error al eliminar:', error);
+      });
+  }
+
 
   goToCPanel() {
     this.router.navigate(['/cpanel']);

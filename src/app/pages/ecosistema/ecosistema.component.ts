@@ -8,6 +8,7 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { EcosystemService, EcosystemData } from '../../services/ecosystem/ecosystem.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { FilesService, EcosystemItem } from '../../services/files/files.service';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-ecosistema',
@@ -18,7 +19,8 @@ import { FilesService, EcosystemItem } from '../../services/files/files.service'
     NzCardModule,
     NzAvatarModule,
     NzGridModule,
-    NzModalModule
+    NzModalModule,
+    NzUploadModule,
   ],
   templateUrl: './ecosistema.component.html',
   styleUrl: './ecosistema.component.css'

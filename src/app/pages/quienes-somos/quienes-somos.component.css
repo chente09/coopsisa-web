@@ -837,38 +837,38 @@
 }
 
 .hover-1:hover {
-    background-color: #f49f599c;
+    background-color: #f49f596a;
 }
 
 .hover-2:hover {
-    background-color: #e93370a7;
+    background-color: #e9337076;
 }
 
 .hover-3:hover {
-    background-color: #a63a8d94;
+    background-color: #a63a8d6f;
 }
 
 .hover-4:hover {
-    background-color: #7969a894;
+    background-color: #7969a867;
 }
 
 .hover-5:hover {
-    background-color: #3993c781;
+    background-color: #3993c760;
 }
 
 .hover-6:hover {
-    background-color: #62b4b395;
+    background-color: #62b4b35a;
 }
 
 .hover-7:hover {
-    background-color: #c5bb6397;
+    background-color: #c5bb636f;
 }
 
 .hover-8:hover {
-    background-color: #ef615f98;
+    background-color: #ef615f5c;
 }
 
 /* Si hay más de 8 elementos, repetir el patrón */
 .hover-9:hover {
-    background-color: #f49f599c;
+    background-color: #f49f597b;
 }

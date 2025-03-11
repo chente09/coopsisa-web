@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -43,7 +43,7 @@ export class WelcomeComponent {
   tarjetas: TarjetaData[] = [];
   laboratorios: Laboratorio[] = [];
   selectedCollectionlab: string = 'laboratorios';
-  isLoading = true; 
+  isLoading = true;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -52,7 +52,8 @@ export class WelcomeComponent {
     private videoService: VideoService,
     private tarjetaService: TarjetaService,
     private laboratorioService: LaboratorioService,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   // Método para sanitizar la URL del video
@@ -61,7 +62,7 @@ export class WelcomeComponent {
   }
 
   ngOnInit(): void {
-    
+
     // Llamamos al servicio para obtener los slides cuando el componente se inicializa
     this.slideService.getSlides().subscribe((slidesData: SlideData[]) => {
       this.slides = slidesData;
@@ -105,7 +106,7 @@ export class WelcomeComponent {
 
   isInternalRoute(route: string): boolean {
     return route.startsWith('/') && !route.startsWith('http');
-}
+  }
 
   openModal(lab: any): void {
     this.selectedLab = lab;
@@ -118,6 +119,11 @@ export class WelcomeComponent {
 
   handleCancel(): void {
     this.isModalVisible = false;
+  }
+
+  irEcosoistema(): void {
+    // Redirigir a la página de ecosistema
+    this.router.navigate(['/ecosistema']);
   }
 
 }

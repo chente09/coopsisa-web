@@ -85,9 +85,9 @@
             <h1 class="display-4 mb-4">Nuestro Ecosistema</h1>
         </div>
         <div class="d-flex flex-row overflow-auto">
-            <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;">
-                <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
-                    <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
+            <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;" (click)="irEcosoistema()">
+                <nz-card nzHoverable style="width: 200px" [nzCover]="coverTemplate">
+                    
                 </nz-card>
                 <ng-template #coverTemplate>
                     <img [alt]="item.title" [src]="item.image" />

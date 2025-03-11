@@ -66,7 +66,7 @@
                         </nz-form-item>
 
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>    
+                            <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzErrorTip]="lastNameErrorTpl">
                                 <nz-input-group [nzPrefixIcon]="'user'">
                                     <input nz-input formControlName="lastName" id="lastName"
@@ -74,7 +74,8 @@
                                 </nz-input-group>
                             </nz-form-control>
                             <ng-template #lastNameErrorTpl>
-                                <div *ngIf="contactForm.get('lastName')?.touched && contactForm.get('lastName')?.invalid">
+                                <div
+                                    *ngIf="contactForm.get('lastName')?.touched && contactForm.get('lastName')?.invalid">
                                     <p>El apellido es obligatorio (mínimo 3 caracteres).</p>
                                 </div>
                             </ng-template>
@@ -103,7 +104,10 @@
                             </nz-form-control>
                         </nz-form-item>
 
-                        <button class="submit-button" [disabled]="contactForm.invalid">Enviar</button>
+                        <button nz-button [nzType]="'primary'" [disabled]="isSubmitting"
+                            (click)="onCollaboratorSubmit()">
+                            {{ isSubmitting ? 'Enviando...' : 'Enviar' }}
+                        </button>
                     </form>
                 </nz-card>
             </div>
@@ -116,58 +120,73 @@
                     </button>
                     <h2>Colabora con Nosotros</h2>
                     <form nz-form [formGroup]="collaboratorForm" (ngSubmit)="onCollaboratorSubmit()">
+                        <!-- Nombre -->
                         <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
-                            <nz-form-control [nzSpan]="18">
+                            <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['name'].invalid && collaboratorForm.controls['name'].touched">
                                 <nz-input-group [nzPrefixIcon]="'user'">
-                                    <input nz-input formControlName="name" id="name"
-                                        placeholder="Ingresa tu nombre completo" />
+                                    <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre completo" />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
-
+            
+                        <!-- Apellido -->
                         <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>
-                            <nz-form-control [nzSpan]="18">
+                            <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['lastName'].invalid && collaboratorForm.controls['lastName'].touched">
                                 <nz-input-group [nzPrefixIcon]="'user'">
-                                    <input nz-input formControlName="lastName" id="lastName"
-                                        placeholder="Ingresa tu apellido" />
+                                    <input nz-input formControlName="lastName" id="lastName" placeholder="Ingresa tu apellido" />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
-
+            
+                        <!-- Correo -->
                         <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
-                            <nz-form-control [nzSpan]="18">
+                            <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['email'].invalid && collaboratorForm.controls['email'].touched">
                                 <nz-input-group [nzPrefixIcon]="'mail'">
-                                    <input nz-input formControlName="email" id="email"
-                                        placeholder="Ingresa tu correo" />
+                                    <input nz-input formControlName="email" id="email" placeholder="Ingresa tu correo" />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
-
+            
+                        <!-- Teléfono -->
                         <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="phone">Teléfono</nz-form-label>
-                            <nz-form-control [nzSpan]="18">
+                            <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['phone'].invalid && collaboratorForm.controls['phone'].touched">
                                 <nz-input-group [nzPrefixIcon]="'phone'">
-                                    <input nz-input formControlName="phone" id="phone"
-                                        placeholder="Ingresa tu número de teléfono" />
+                                    <input nz-input formControlName="phone" id="phone" placeholder="Ingresa tu número de teléfono" />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
-
+            
+                        <!-- Motivo -->
                         <nz-form-item>
                             <nz-form-label [nzSpan]="6" nzFor="skills">Motivo</nz-form-label>
-                            <nz-form-control [nzSpan]="18">
-                                <textarea nz-input formControlName="skills" id="skills"
-                                    placeholder="Describe tus habilidades"></textarea>
+                            <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['skills'].invalid && collaboratorForm.controls['skills'].touched">
+                                <textarea nz-input formControlName="skills" id="skills" placeholder="Describe tus habilidades"></textarea>
                             </nz-form-control>
                         </nz-form-item>
 
-                        <button class="submit-button" [disabled]="collaboratorForm.invalid">Enviar</button>
+                        <!-- Adjuntar documento -->
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="6" nzFor="skills">Adjuntar</nz-form-label>
+                            <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['skills'].invalid && collaboratorForm.controls['skills'].touched">
+                                <nz-upload nzListType="text" nzAccept="application/pdf" [nzShowUploadList]="true"
+                                    [(nzFileList)]="pdfFileList" (nzChange)="onPDFSelected($event)">
+                                    <div class="upload-button"><i nz-icon nzType="upload"></i> Subir Adjunto</div>
+                                </nz-upload>
+                            </nz-form-control>
+                        </nz-form-item>
+                        
+                        <!-- Botón de envío -->
+                        <button nz-button [nzType]="'primary'" [disabled]="isSubmitting" type="submit">
+                            {{ isSubmitting ? 'Enviando...' : 'Enviar' }}
+                        </button>
                     </form>
                 </nz-card>
             </div>
+            
         </nz-card>
     </div>
 </div>

@@ -4,8 +4,8 @@
     </div>
     <div class="d-flex flex-row overflow-auto">
         <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;" (click)="openModal(item)">
-            <nz-card nzHoverable style="width: 240px" [nzCover]="coverTemplate">
-                <nz-card-meta [nzTitle]="item.title" [nzDescription]="item.description"></nz-card-meta>
+            <nz-card nzHoverable style="width: 200px" [nzCover]="coverTemplate">
+                <nz-card-meta ></nz-card-meta>
             </nz-card>
             <ng-template #coverTemplate>
                 <img [alt]="item.title" [src]="item.image" />
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="container-fluid py-5">
+<!-- <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
         <h1 class="display-5 mb-5">Publicaciones</h1>
         <p style="font-size: 19px;">Aquí encontrarás una selección de nuestras publicaciones</p>
@@ -35,5 +35,5 @@
             </nz-col>
         </nz-row>
     </div>
-</div>
+</div> -->
 

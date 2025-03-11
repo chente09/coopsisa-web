@@ -11,7 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 export class WppComponent {
 
   redirectToWhatsApp(): void {
-    const phoneNumber = '5930983875666'; // Reemplaza con el número de WhatsApp (código de país + número)
+    const phoneNumber = '5930996141063'; // Reemplaza con el número de WhatsApp (código de país + número)
     const message = encodeURIComponent('¡Hola! Me gustaría obtener más información.'); // Mensaje inicial
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank'); // Abre WhatsApp en una nueva pestaña
