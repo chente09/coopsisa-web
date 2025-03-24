@@ -5,7 +5,7 @@
     width: 100%;
     object-fit: cover;
     transition: transform 0.2s ease-in-out;
-    display: block; /* Evita problemas en Safari con imágenes inline */
+    vertical-align: bottom;
 }
 
 @supports not (object-fit: cover) {
@@ -107,7 +107,8 @@
 /* Evita saltos de pantalla en iOS con vh */
 @supports (-webkit-touch-callout: none) {
     .carousel {
-        min-height: 100dvh; /* Alternativa a 100vh para iOS */
+        min-height: auto; /* Evita forzar altura en iOS */
+        overflow: hidden; /* Asegura que no haya espacios extra */
     }
 }
 /******** Estilo de las tarjetas Servicios ********/
