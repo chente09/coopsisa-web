@@ -458,7 +458,7 @@ nz-collapse-panel:hover {
 /* Personalización de los indicadores */
 .carousel-indicators {
     position: absolute;
-    bottom: -25px;
+    bottom: -30px;
     /* Bajamos un poco los indicadores */
     display: flex;
     justify-content: center;
@@ -472,7 +472,7 @@ nz-collapse-panel:hover {
     /* Hacemos los indicadores más alargados */
     height: 8px;
     /* Grosor de los indicadores */
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: #ef615f;
     /* Color semi-transparente */
     border: none;
     border-radius: 5px;

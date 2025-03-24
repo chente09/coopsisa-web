@@ -33,12 +33,10 @@
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
         </button>
     </div>
     <!-- reseñas -->
@@ -84,15 +82,17 @@
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
             <h1 class="display-4 mb-4">Nuestro Ecosistema</h1>
         </div>
-        <div class="d-flex flex-row overflow-auto">
-            <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;" (click)="irEcosoistema()">
-                <nz-card nzHoverable style="width: 200px" [nzCover]="coverTemplate">
-                    
-                </nz-card>
-                <ng-template #coverTemplate>
-                    <img [alt]="item.title" [src]="item.image" />
-                </ng-template>
+        <div class="scroll-wrapper">
+            <button class="scroll-btn left" (click)="scrollLeft()">&#10094;</button>
+            <div class="d-flex flex-row overflow-auto" #scrollContainer>
+                <div *ngFor="let item of ecosystemItems" class="me-3" style="flex: 0 0 auto;" (click)="irEcosoistema()">
+                    <nz-card nzHoverable style="width: 200px" [nzCover]="coverTemplate"></nz-card>
+                    <ng-template #coverTemplate>
+                        <img [alt]="item.title" [src]="item.image" />
+                    </ng-template>
+                </div>
             </div>
+            <button class="scroll-btn right" (click)="scrollRight()">&#10095;</button>
         </div>
     </div>
 </nz-spin>

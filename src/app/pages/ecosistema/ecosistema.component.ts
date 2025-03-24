@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -28,6 +28,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 export class EcosistemaComponent {
   items: EcosystemData[] = [];
   downloadItems: EcosystemItem[] = [];
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
 
   ngOnInit(): void {
@@ -51,6 +52,13 @@ export class EcosistemaComponent {
     private cdr: ChangeDetectorRef,
     private fileService: FilesService,
   ) { }
+  scrollLeft() {
+    this.scrollContainer.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
+  }
+
+  scrollRight() {
+    this.scrollContainer.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
+  }
   openModal(item: { title: string; description: string; }): void {
     this.modal.create({
       nzTitle: item.title,

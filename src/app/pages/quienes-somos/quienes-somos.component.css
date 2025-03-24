@@ -161,7 +161,7 @@
     padding: 20px 0;
     display: flex;
     /* Usar flex para permitir alineación horizontal */
-    scrollbar-width: none;
+    scrollbar-color: #f2918f #f1f1f1;
 }
 
 
@@ -394,8 +394,7 @@
 /* Personalización de los indicadores */
 .carousel-indicators {
     position: absolute;
-    bottom: -25px;
-    /* Bajamos un poco los indicadores */
+    bottom: -30px;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -405,11 +404,8 @@
 /* Estilo de cada botón indicador */
 .carousel-indicators button {
     width: 40px;
-    /* Hacemos los indicadores más alargados */
     height: 8px;
-    /* Grosor de los indicadores */
-    background-color: rgba(255, 255, 255, 0.5);
-    /* Color semi-transparente */
+    background-color: #ef615f;
     border: none;
     border-radius: 5px;
     transition: all 0.3s ease-in-out;

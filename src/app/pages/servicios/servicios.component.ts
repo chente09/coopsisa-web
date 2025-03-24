@@ -58,7 +58,7 @@ export class ServiciosComponent implements OnInit {
   ngOnInit(): void {
     this.carruselService.getSlides('lab-carrusel').subscribe({
       next: (data) => {
-        this.labCarruselSlides = data;
+        this.labCarruselSlides = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener los carruseles de lab-carrusel:', error)
@@ -66,7 +66,7 @@ export class ServiciosComponent implements OnInit {
 
     this.carruselService.getSlides('escuelas').subscribe({
       next: (data) => {
-        this.escuelasSlides = data;
+        this.escuelasSlides = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener los carruseles de escuelas:', error)
@@ -74,7 +74,7 @@ export class ServiciosComponent implements OnInit {
 
     this.carruselService.getSlides('neg-solid').subscribe({
       next: (data) => {
-        this.negocios = data;
+        this.negocios = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener los carruseles de escuelas:', error)
@@ -82,7 +82,7 @@ export class ServiciosComponent implements OnInit {
 
     this.laboratorioService.getLaboratorios('laboratorios').subscribe({
       next: (data) => {
-        this.laboratorios = data;
+        this.laboratorios = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener los laboratorios:', error)
@@ -90,7 +90,7 @@ export class ServiciosComponent implements OnInit {
 
     this.laboratorioService.getLaboratorios('schol-tj').subscribe({
       next: (data) => {
-        this.escuelas = data;
+        this.escuelas = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener las escuelas:', error)

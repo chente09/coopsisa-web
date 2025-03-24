@@ -10,6 +10,7 @@ export interface Laboratorio {
   descripcion: string;
   icono: string;
   image: string;
+  order: number;
 }
 
 @Injectable({   

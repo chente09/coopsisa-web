@@ -9,6 +9,7 @@ export interface CarruselData {
   description: string;
   image: string;
   text: string;
+  order: number;
 }
 
 @Injectable({

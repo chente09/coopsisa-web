@@ -567,7 +567,7 @@
                         <p>No hay eventos creados.</p>
                     </div>
                     <hr class="divider">
-                    <h4>Configuración de Carruseles</h4>
+                    <h4>Configuración de Carrusel</h4>
                     <p>Agrega, edita o elimina carruseles que se muestran en la sección de Carrusel.</p>
                     <p>Se recomienda usar un solo tamaño de imágenes el ancho de 1200px y alto de 600px. Estas medidas
                         deberán ser mantenidas en todas las imágenes para una buena presentación. </p>
@@ -583,6 +583,13 @@
                                 <nz-form-control>
                                     <input nz-input [(ngModel)]="newCarrusel.text" name="text"
                                         placeholder="Ingresa el texto que se mostrará en el carrusel" required />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newCarrusel.order" name="order"
+                                        placeholder="Ingresa el número de orden" required />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item>
@@ -611,6 +618,7 @@
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let carrusel of carruseles" [nzSpan]="6" class="slide-column">
                                 <nz-card [nzTitle]="carrusel.text" class="custom-slide" [nzBordered]="true">
+                                    <p>Orden: {{ carrusel.order }}</p>
                                     <img [src]="carrusel.image" alt="Imagen del carrusel" class="slide-image" />
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <button type="button"
@@ -840,6 +848,13 @@
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newLaboratorio.order" name="order"
+                                        placeholder="Ingresa el orden del laboratorio" required />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
                                 <nz-form-control>
                                     <textarea nz-input [(ngModel)]="newLaboratorio.descripcion" name="descripcion"
@@ -853,12 +868,12 @@
                                         placeholder="Ejemplo: bi bi-laboratory" required />
                                 </nz-form-control>
                             </nz-form-item>
-                            <nz-form-item>
+                            <!-- <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
                                 <nz-form-control>
                                     <input type="file" (change)="onLaboratorioFileChange($event)" />
                                 </nz-form-control>
-                            </nz-form-item>
+                            </nz-form-item> -->
                             <div class="button-container">
                                 <button nz-button nzType="primary" [disabled]="isSubmitting">
                                     {{ editingLaboratorioId ? 'Actualizar' : 'Guardar' }}
@@ -873,14 +888,15 @@
                     <hr class="divider" />
                     <!-- Lista de Laboratorios -->
                     <div *ngIf="laboratorios.length > 0" class="laboratorios-list-container">
-                        <h3 class="section-title">Laboratorios Creados</h3>
+                        <h3 class="section-title">Laboratorios o Escuelas Creadas</h3>
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let laboratorio of laboratorios" [nzSpan]="6" class="laboratorio-column">
                                 <nz-card [nzTitle]="laboratorio.titulo" class="custom-laboratorio" [nzBordered]="true">
                                     <div class="icon">
                                         <p>Icono: <i nz-icon [nzType]="laboratorio.icono" [nzTheme]="'outline'"></i></p>
                                     </div>
-                                    <img [src]="laboratorio.image" alt="Imagen del laboratorio" class="slide-image" />
+                                    <p>Orden: {{ laboratorio.order }}</p>
+                                    <!-- <img [src]="laboratorio.image" alt="Imagen del laboratorio" class="slide-image" /> -->
                                     <p class="laboratorio-description">{{ laboratorio.descripcion }}</p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <button type="button"
@@ -923,7 +939,13 @@
                                         placeholder="Ingresa el texto que se mostrará en el carrusel" required />
                                 </nz-form-control>
                             </nz-form-item>
-
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newCarrusel.order" name="order"
+                                        placeholder="Ingresa el orden en el que se mostrará el carrusel" required />
+                                </nz-form-control>
+                            </nz-form-item>
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="false">Descripción</nz-form-label>
                                 <nz-form-control>
@@ -960,6 +982,7 @@
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let carrusel of carruseles" [nzSpan]="6" class="slide-column">
                                 <nz-card [nzTitle]="carrusel.text" class="custom-slide" [nzBordered]="true">
+                                    <p>Orden: {{ carrusel.order }}</p>
                                     <img [src]="carrusel.image" alt="Imagen del carrusel" class="slide-image" />
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <button type="button"

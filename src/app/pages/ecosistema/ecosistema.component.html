@@ -2,17 +2,22 @@
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" >
         <h1 class="display-5 mb-5">Nuestro Ecosistema</h1>
     </div>
-    <div class="d-flex flex-row overflow-auto">
-        <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;" (click)="openModal(item)">
-            <nz-card nzHoverable style="width: 200px" [nzCover]="coverTemplate">
-                <nz-card-meta ></nz-card-meta>
-            </nz-card>
-            <ng-template #coverTemplate>
-                <img [alt]="item.title" [src]="item.image" />
-            </ng-template>
+    <div class="scroll-wrapper">
+        <button class="scroll-btn left" (click)="scrollLeft()">&#10094;</button>
+        <div class="d-flex flex-row overflow-auto" #scrollContainer>
+            <div *ngFor="let item of items" class="me-3" style="flex: 0 0 auto;" (click)="openModal(item)">
+                <nz-card nzHoverable style="width: 200px" [nzCover]="coverTemplate">
+                    <nz-card-meta></nz-card-meta>
+                </nz-card>
+                <ng-template #coverTemplate>
+                    <img [alt]="item.title" [src]="item.image" />
+                </ng-template>
+            </div>
         </div>
+        <button class="scroll-btn right" (click)="scrollRight()">&#10095;</button>
     </div>
 </div>
+
 
 <!-- <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">

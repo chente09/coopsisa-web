@@ -73,6 +73,23 @@
     transform: translateY(-3px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 40px;
+    display: flex; /* Asegura flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.carousel-control-prev span,
+.carousel-control-next span {
+    font-size: 45px;
+}
+
+.carousel-control-next-icon{
+    font-size: 45px;
+}
 
 /* Evitar zoom en botones en iPhone */
 @media screen and (max-width: 768px) {
@@ -136,6 +153,33 @@
 .container-fluid .me-3 {
     display: inline-block;
     /* Asegura que cada tarjeta esté alineada horizontalmente */
+}
+/* ********* */
+.scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ef615fca;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.scroll-btn.left { left: 10px; }
+.scroll-btn.right { right: 10px; }
+
+.scroll-btn:hover {
+    background: #ef615f;
 }
 /******** Video *********/
 .video-section {

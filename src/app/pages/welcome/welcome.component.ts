@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -15,7 +15,6 @@ import { TarjetaService, TarjetaData } from '../../services/tarjetas/tarjeta.ser
 import { LaboratorioService, Laboratorio } from '../../services/laboratorio/laboratorio.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -29,7 +28,7 @@ import { forkJoin } from 'rxjs';
     NzButtonModule,
     NzCollapseModule,
     NzListModule,
-    NzSpinModule
+    NzSpinModule,
   ],
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css'],
@@ -44,6 +43,7 @@ export class WelcomeComponent {
   laboratorios: Laboratorio[] = [];
   selectedCollectionlab: string = 'laboratorios';
   isLoading = true;
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -124,6 +124,14 @@ export class WelcomeComponent {
   irEcosoistema(): void {
     // Redirigir a la página de ecosistema
     this.router.navigate(['/ecosistema']);
+  }
+
+  scrollLeft() {
+    this.scrollContainer.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
+  }
+
+  scrollRight() {
+    this.scrollContainer.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
   }
 
 }

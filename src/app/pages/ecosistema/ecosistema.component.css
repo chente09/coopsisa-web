@@ -19,7 +19,6 @@ p:hover {
     /* Habilita el desplazamiento horizontal */
     -ms-overflow-style: none;
     /* Para Internet Explorer 10+ */
-    scrollbar-width: none;
 }
 
 .container-fluid .overflow-auto::-webkit-scrollbar {
@@ -43,7 +42,7 @@ p:hover {
     border-radius: 8px 8px 0 0;
     padding: 16px;
     text-align: center;
-    background-color: #4975c6c4;
+    background-color: #ef615fca;
 }
 
 .ant-modal-title {
@@ -66,6 +65,34 @@ p:hover {
 
 .ant-modal-footer {
     display: none; 
+}
+
+/* ********* */
+.scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ef615fca;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.scroll-btn.left { left: 10px; }
+.scroll-btn.right { right: 10px; }
+
+.scroll-btn:hover {
+    background: #ef615f;
 }
 
 /* ****** Descargas ****** */

@@ -111,7 +111,8 @@ export class CPanelComponent {
     titulo: '',
     descripcion: '',
     icono: '',
-    image: ''
+    image: '',
+    order: 0
   };
   editingLaboratorioId: string | null = null;
   selectedLaboratorioFile: File | null = null;
@@ -138,7 +139,8 @@ export class CPanelComponent {
   newCarrusel: CarruselData = {
     image: '',
     text: '',
-    description: ''
+    description: '',
+    order: 0
   };
   // ******* 📌 Admin Members ********
   members$: Observable<MemberData[]> = new Observable();
@@ -182,7 +184,6 @@ export class CPanelComponent {
     private equipoService: EquipoService,
     private cdr: ChangeDetectorRef,
     private fileService: FilesService,
-    private formularioService: FormularioService
   ) {
 
   }
@@ -354,7 +355,8 @@ export class CPanelComponent {
           image: imageUrl!,
           text: this.newSlide.text!,
           buttonText: this.newSlide.buttonText!,
-          route: this.newSlide.route!
+          route: this.newSlide.route!,
+          order: this.newSlide.order!
         });
         this.message.success('Slide actualizado correctamente.');
       } else {
@@ -735,7 +737,8 @@ export class CPanelComponent {
         image: imageUrl,
         titulo: this.newLaboratorio.titulo!,
         descripcion: this.newLaboratorio.descripcion!,
-        icono: this.newLaboratorio.icono!
+        icono: this.newLaboratorio.icono!,
+        order: this.newLaboratorio.order!
       };
 
       if (this.editingLaboratorioId) {
@@ -761,7 +764,8 @@ export class CPanelComponent {
       titulo: laboratorio.titulo,
       descripcion: laboratorio.descripcion,
       icono: laboratorio.icono,
-      image: laboratorio.image
+      image: laboratorio.image,
+      order: laboratorio.order
     };
   }
   // ✅ Cancelar la edición y resetear el formulario
@@ -782,7 +786,7 @@ export class CPanelComponent {
   }
   // ✅ Resetear el formulario
   private resetLaboratorioForm(): void {
-    this.newLaboratorio = { titulo: '', descripcion: '', icono: '', image: '' };
+    this.newLaboratorio = { titulo: '', descripcion: '', icono: '', image: '', order: 0 };
     this.editingLaboratorioId = null;
     this.selectedLaboratorioFile = null;
   }
@@ -995,6 +999,7 @@ export class CPanelComponent {
             image: imageUrl!,
             text: this.newCarrusel.text!,
             description: this.newCarrusel.description!,
+            order: this.newCarrusel.order!
           },
           this.selectedCollection
         );
@@ -1006,6 +1011,7 @@ export class CPanelComponent {
             image: imageUrl!,
             text: this.newCarrusel.text!,
             description: this.newCarrusel.description!,
+            order: this.newCarrusel.order!
           },
           this.selectedCollection
         );
@@ -1027,7 +1033,8 @@ export class CPanelComponent {
     this.newCarrusel = {
       image: carrusel.image,
       text: carrusel.text,
-      description: carrusel.description
+      description: carrusel.description,
+      order: carrusel.order
     };
   }
   // 🟢 Cancelar edición
@@ -1049,7 +1056,7 @@ export class CPanelComponent {
   }
   // 🟢 Resetear formulario
   private resetCarruselForm() {
-    this.newCarrusel = { image: '', text: '', description: '' };
+    this.newCarrusel = { image: '', text: '', description: '', order: 0 };
     this.editingCarruselId = null;
     this.fileToUpload = null;
   }

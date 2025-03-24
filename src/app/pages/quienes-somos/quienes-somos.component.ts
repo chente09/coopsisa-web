@@ -82,12 +82,13 @@ export class QuienesSomosComponent {
       console.error("Error al obtener los datos de Timeline:", error);
     });
     // Obtener los datos del servicio CarruselesService
-    this.carruselService.getSlides('job-foment').subscribe(
-      (data) => {
-        this.slides = data;
+    this.carruselService.getSlides('job-foment').subscribe({
+      next: (data) => {
+        this.slides = data.sort((a, b) => a.order - b.order);
       },
-      (error) => console.error('Error al obtener los carruseles:', error)
-    );
+      error: (error) => console.error('Error al obtener los carruseles:', error)
+    });
+    
     // Obtener miembros
     this.loadMembers();
 
