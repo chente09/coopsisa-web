@@ -45,8 +45,7 @@
               "src/styles.css",
               "node_modules/font-awesome/css/font-awesome.min.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -62,7 +61,9 @@
                   "maximumError": "12kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/",
+              "deployUrl": "/"
             },
             "development": {
               "optimization": false,

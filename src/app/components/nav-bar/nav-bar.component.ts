@@ -4,6 +4,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LogoService } from '../../services/logo/logo.service';
+import { TranslationService } from '../../services/translation/translation.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -25,6 +26,8 @@ export class NavBarComponent {
   constructor(
     private logoService: LogoService,
     private cdr: ChangeDetectorRef,
+    private translationService: TranslationService
+
   ) { }
 
   menuItems = [
@@ -61,7 +64,11 @@ export class NavBarComponent {
   
   async ngOnInit(): Promise<void> {
     this.updateMenuState(); 
-    this.loadNavbarLogo();    
+    this.loadNavbarLogo();   
+    this.translationService.language$.subscribe(lang => {
+      this.currentLanguage = lang;
+      console.log('Idioma actual:', lang);
+    }); 
   }
 
   private loadNavbarLogo() {
@@ -97,11 +104,11 @@ export class NavBarComponent {
 
   changeLanguage() {
     // Alternar idioma
-    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
-    console.log(`Idioma cambiado a: ${this.currentLanguage}`);
+    const newLang = this.currentLanguage === 'es' ? 'en' : 'es';
+    this.translationService.setLanguage(newLang);
   
-    // Obtener el nuevo conjunto de etiquetas de menú
-    const updatedMenu = this.currentLanguage === 'en' ? this.menuItemsEn : [
+    // Asignar directamente el nuevo conjunto de menú en lugar de modificar uno existente
+    this.menuItems = this.currentLanguage === 'en' ? this.menuItemsEn : [
       { label: 'Inicio', icon: 'home', route: 'welcome' },
       { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
       { label: 'Servicios', icon: 'appstore', route: '/servicios' },
@@ -125,24 +132,10 @@ export class NavBarComponent {
       }
     ];
   
-    // Mantener la referencia del array y solo actualizar los labels
-    this.menuItems.forEach((item, index) => {
-      item.label = updatedMenu[index].label;
-      if (item.children) {
-        item.children.forEach((child, childIndex) => {
-          child.label = updatedMenu[index].children![childIndex].label;
-          if (child.children) {
-            child.children.forEach((subChild, subChildIndex) => {
-              subChild.label = updatedMenu[index].children![childIndex].children![subChildIndex].label;
-            });
-          }
-        });
-      }
-    });
-  
-    // Forzar la actualización de la vista
+    // Forzar actualización de la vista
     this.cdr.detectChanges();
   }
+  
   
 
 

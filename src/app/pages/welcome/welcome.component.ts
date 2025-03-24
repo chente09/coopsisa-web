@@ -32,7 +32,7 @@ import { forkJoin } from 'rxjs';
     NzSpinModule
   ],
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.css'],
 })
 export class WelcomeComponent {
   isModalVisible = false;
@@ -65,7 +65,7 @@ export class WelcomeComponent {
 
     // Llamamos al servicio para obtener los slides cuando el componente se inicializa
     this.slideService.getSlides().subscribe((slidesData: SlideData[]) => {
-      this.slides = slidesData;
+      this.slides = slidesData.sort((a, b) => a.order - b.order);
       this.cdr.detectChanges();
       this.isLoading = false;
     });

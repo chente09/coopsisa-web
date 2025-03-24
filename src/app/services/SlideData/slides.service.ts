@@ -10,6 +10,7 @@ export interface SlideData {
   text: string;
   buttonText: string;
   route: string;
+  order: number;
 }
 
 @Injectable({

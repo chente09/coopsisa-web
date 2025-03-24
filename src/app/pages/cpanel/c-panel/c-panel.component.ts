@@ -363,7 +363,8 @@ export class CPanelComponent {
           image: imageUrl!,
           text: this.newSlide.text!,
           buttonText: this.newSlide.buttonText!,
-          route: this.newSlide.route!
+          route: this.newSlide.route!,
+          order: this.newSlide.order!
         });
         this.message.success('Slide agregado correctamente.');
       }

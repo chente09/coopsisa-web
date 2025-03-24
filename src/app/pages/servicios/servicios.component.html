@@ -27,18 +27,19 @@
     </div>
 
     <!-- Modal -->
-    <nz-modal [(nzVisible)]="isModalVisibleLab" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
+    <nz-modal [(nzVisible)]="isModalVisibleLab" [nzTitle]="selectedLab?.titulo || ''" nzClassName="custom-modal"
         [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterLab">
         <ng-container *nzModalContent>
-            <div class="custom-modal-content">
-                <p>{{ selectedLab?.descripcion }}</p>
+            <div class="custom-modal-content" *ngIf="selectedLab">
+                <p>{{ selectedLab.descripcion }}</p>
             </div>
         </ng-container>
     </nz-modal>
+
     <ng-template #modalFooterLab>
         <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
             (click)="handleOk()">
-            <span>Mas información</span>
+            <span>Más información</span>
         </button>
     </ng-template>
 </div>
@@ -106,18 +107,20 @@
         </div>
 
         <!-- Modal -->
-        <nz-modal [(nzVisible)]="isModalVisibleEscuela" nzTitle="{{ selectedLab?.titulo }}" nzClassName="custom-modal"
-            [nzClosable]="true" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooterEscuela">
+        <nz-modal [(nzVisible)]="isModalVisibleEscuela" [nzTitle]="selectedEscuela?.titulo || ''"
+            nzClassName="custom-modal" [nzClosable]="true" (nzOnCancel)="handleCancel()"
+            [nzFooter]="modalFooterEscuela">
             <ng-container *nzModalContent>
-                <div class="custom-modal-content">
-                    <p>{{ selectedLab?.descripcion }}</p>
+                <div class="custom-modal-content" *ngIf="selectedEscuela">
+                    <p>{{ selectedEscuela.descripcion }}</p>
                 </div>
             </ng-container>
         </nz-modal>
+
         <ng-template #modalFooterEscuela>
             <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
                 (click)="handleEsc()">
-                <span>Mas información</span>
+                <span>Más información</span>
             </button>
         </ng-template>
     </div>
@@ -184,8 +187,7 @@
                 </div>
                 <!-- Slides -->
                 <div class="carousel-inner">
-                    <div class="carousel-item" *ngFor="let slide of negocios; let i = index"
-                        [class.active]="i === 0">
+                    <div class="carousel-item" *ngFor="let slide of negocios; let i = index" [class.active]="i === 0">
                         <img [src]="slide.image" class="d-block w-100" alt="Imagen del carrusel" />
                         <div class="carousel-caption d-block d-md-block">
                             <h5>{{ slide.text }}</h5>

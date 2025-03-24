@@ -1,10 +1,34 @@
 
 /* Estilo general del carrusel */
 .carousel-item img {
-    height: max-content;
+    height: auto;
+    max-height: 90vh; /* Limita la altura máxima */
     width: 100%;
     object-fit: cover;
-    transition: transform 0.1s ease-in-out;
+    -webkit-backface-visibility: hidden; /* Soluciona problemas de renderizado en Safari */
+    backface-visibility: hidden; /* Define la propiedad estándar para compatibilidad */
+    transform: translateZ(0); /* Mejora el rendimiento de animaciones en iOS */
+}
+
+/* Corrección para el viewport en iOS */
+@supports (-webkit-touch-callout: none) {
+    .carousel-item img {
+        height: 50vh; /* Altura más manejable para iOS */
+    }
+}
+
+/* Aumenta el área táctil de los controles para dispositivos móviles */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 15%; /* Área más grande para tocar */
+    opacity: 0.9;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-size: 100% 100%;
 }
 
 .carousel-item img:hover {
@@ -82,6 +106,30 @@
     .carousel-caption .btn {
         padding: 0.2rem 0.5rem; /* Botón más compacto */
         font-size: 0.875rem;
+    }
+}
+
+/* iPhone específico (retina y pantallas pequeñas) */
+@media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
+    .carousel-item img {
+        height: 40vh !important;
+    }
+    
+    .carousel-caption {
+        bottom: 10%;
+        padding: 0.5rem;
+    }
+    
+    .carousel-caption .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* iPhone en orientación horizontal */
+@media only screen and (max-device-width: 812px) and (orientation: landscape) {
+    .carousel-item img {
+        height: 60vh !important;
     }
 }
 /******** Estilo de las tarjetas Servicios ********/

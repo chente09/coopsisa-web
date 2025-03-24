@@ -213,6 +213,13 @@
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newSlide.order" name="order" placeholder="Ej: 1"
+                                        required />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
                                 <nz-form-control>
                                     <input type="file" (change)="onSlideFileChange($event)" />
@@ -238,6 +245,7 @@
                                     <img [src]="slide.image" alt="Imagen del slide" class="slide-image" />
                                     <p class="slide-description">Botón: {{ slide.buttonText }} | Ruta: {{ slide.route }}
                                     </p>
+                                    <p class="slide-description">Orden: {{ slide.order }}</p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <!-- Botón de Editar -->
                                         <button type="button"
