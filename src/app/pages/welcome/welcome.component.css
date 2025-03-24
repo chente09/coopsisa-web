@@ -1,34 +1,21 @@
 
 /* Estilo general del carrusel */
 .carousel-item img {
-    height: auto;
-    max-height: 90vh; /* Limita la altura máxima */
+    height: auto; /* Cambiado de max-content a auto */
     width: 100%;
     object-fit: cover;
-    -webkit-backface-visibility: hidden; /* Soluciona problemas de renderizado en Safari */
-    backface-visibility: hidden; /* Define la propiedad estándar para compatibilidad */
-    transform: translateZ(0); /* Mejora el rendimiento de animaciones en iOS */
+    transition: transform 0.2s ease-in-out;
+    display: block; /* Evita problemas en Safari con imágenes inline */
 }
 
-/* Corrección para el viewport en iOS */
-@supports (-webkit-touch-callout: none) {
-    .carousel-item img {
-        height: 50vh; /* Altura más manejable para iOS */
+@supports not (object-fit: cover) {
+    .carousel-item {
+        background-size: cover;
+        background-position: center;
     }
-}
-
-/* Aumenta el área táctil de los controles para dispositivos móviles */
-.carousel-control-prev,
-.carousel-control-next {
-    width: 15%; /* Área más grande para tocar */
-    opacity: 0.9;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-size: 100% 100%;
+    .carousel-item img {
+        display: none; /* Oculta la imagen si el navegador no soporta object-fit */
+    }
 }
 
 .carousel-item img:hover {
@@ -87,11 +74,19 @@
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
 
+/* Evitar zoom en botones en iPhone */
+@media screen and (max-width: 768px) {
+    .carousel-caption .btn {
+        font-size: 1rem;
+    }
+}
+
 /* Adaptabilidad */
 @media (max-width: 768px) {
     .carousel-item img {
-        height: max-content;
+        height: auto; /* Mejor ajuste para móviles */
     }
+
     .carousel-caption {
         background: linear-gradient(to bottom, rgba(239, 98, 95, 1), rgba(0, 0, 0, 0.3)); /* Fondo más oscuro para mejor legibilidad */
         padding: 0.2rem;
@@ -109,27 +104,10 @@
     }
 }
 
-/* iPhone específico (retina y pantallas pequeñas) */
-@media only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
-    .carousel-item img {
-        height: 40vh !important;
-    }
-    
-    .carousel-caption {
-        bottom: 10%;
-        padding: 0.5rem;
-    }
-    
-    .carousel-caption .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* iPhone en orientación horizontal */
-@media only screen and (max-device-width: 812px) and (orientation: landscape) {
-    .carousel-item img {
-        height: 60vh !important;
+/* Evita saltos de pantalla en iOS con vh */
+@supports (-webkit-touch-callout: none) {
+    .carousel {
+        min-height: 100dvh; /* Alternativa a 100vh para iOS */
     }
 }
 /******** Estilo de las tarjetas Servicios ********/
