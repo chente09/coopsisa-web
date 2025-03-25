@@ -27,48 +27,35 @@ export class NavBarComponent {
     private logoService: LogoService,
     private cdr: ChangeDetectorRef,
     private translationService: TranslationService
-
-  ) { }
+  ) { 
+    this.menuItems = [
+      { label: 'Inicio', icon: 'home', route: 'welcome' },
+      { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
+      { label: 'Servicios', icon: 'appstore', route: '/servicios' },
+      { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
+      { label: 'Contacto', icon: 'phone', route: '/contacto' }
+    ];
+  }
 
   menuItems = [
     { label: 'Inicio', icon: 'home', route: 'welcome' },
     { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
     { label: 'Servicios', icon: 'appstore', route: '/servicios' },
     { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
-    { label: 'Contacto', icon: 'phone', route: '/contacto' },
-    {
-      label: 'Submenu',
-      icon: 'setting',
-      route: '',
-      children: [
-        { label: 'Option 1', route: '/option1' },
-        { label: 'Option 2', route: '/option2' },
-        {
-          label: 'Subsubmenu',
-          children: [
-            { label: 'Option 3', route: '/option3' },
-            { label: 'Option 4', route: '/option4' }
-          ]
-        }
-      ]
-    }
+    { label: 'Contacto', icon: 'phone', route: '/contacto' }
   ];
 
   menuItemsEn = [
     { label: 'Home', icon: 'home', route: 'welcome' },
-    { label: 'About CoopSisa', icon: 'team', route: '/about-us' },
-    { label: 'Services', icon: 'appstore', route: '/services' },
-    { label: 'Ecosystem', icon: 'branches', route: '/ecosystem' },
-    { label: 'Contact', icon: 'phone', route: '/contact' },
+    { label: 'About CoopSisa', icon: 'team', route: '/quienes-somos' },
+    { label: 'Services', icon: 'appstore', route: '/servicios' },
+    { label: 'Ecosystem', icon: 'branches', route: '/ecosistema' },
+    { label: 'Contact', icon: 'phone', route: '/contacto' },
   ];
   
   async ngOnInit(): Promise<void> {
     this.updateMenuState(); 
-    this.loadNavbarLogo();   
-    this.translationService.language$.subscribe(lang => {
-      this.currentLanguage = lang;
-      console.log('Idioma actual:', lang);
-    }); 
+    this.loadNavbarLogo();
   }
 
   private loadNavbarLogo() {
@@ -104,32 +91,18 @@ export class NavBarComponent {
 
   changeLanguage() {
     // Alternar idioma
-    const newLang = this.currentLanguage === 'es' ? 'en' : 'es';
-    this.translationService.setLanguage(newLang);
+    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
+    
+    // Actualizar mediante el servicio compartido
+    this.translationService.setLanguage(this.currentLanguage);
   
-    // Asignar directamente el nuevo conjunto de menú en lugar de modificar uno existente
+    // Actualizar menú
     this.menuItems = this.currentLanguage === 'en' ? this.menuItemsEn : [
       { label: 'Inicio', icon: 'home', route: 'welcome' },
       { label: 'Sobre CoopSisa', icon: 'team', route: '/quienes-somos' },
       { label: 'Servicios', icon: 'appstore', route: '/servicios' },
       { label: 'Ecosistema', icon: 'branches', route: '/ecosistema' },
-      { label: 'Contacto', icon: 'phone', route: '/contacto' },
-      {
-        label: 'Submenu',
-        icon: 'setting',
-        route: '',
-        children: [
-          { label: 'Opción 1', route: '/option1' },
-          { label: 'Opción 2', route: '/option2' },
-          {
-            label: 'Subsubmenu',
-            children: [
-              { label: 'Opción 3', route: '/option3' },
-              { label: 'Opción 4', route: '/option4' }
-            ]
-          }
-        ]
-      }
+      { label: 'Contacto', icon: 'phone', route: '/contacto' }
     ];
   
     // Forzar actualización de la vista

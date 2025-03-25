@@ -15,6 +15,8 @@ import { TarjetaService, TarjetaData } from '../../services/tarjetas/tarjeta.ser
 import { LaboratorioService, Laboratorio } from '../../services/laboratorio/laboratorio.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { TranslationService } from '../../services/translation/translation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -45,6 +47,9 @@ export class WelcomeComponent {
   isLoading = true;
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
+  currentLanguage = 'es';
+  private languageSubscription!: Subscription;
+  
   constructor(
     private sanitizer: DomSanitizer,
     private slideService: SlidesService,
@@ -53,7 +58,8 @@ export class WelcomeComponent {
     private tarjetaService: TarjetaService,
     private laboratorioService: LaboratorioService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private translationService: TranslationService
   ) { }
 
   // Método para sanitizar la URL del video
@@ -62,6 +68,12 @@ export class WelcomeComponent {
   }
 
   ngOnInit(): void {
+    this.languageSubscription = this.translationService.currentLanguage$.subscribe(
+      lang => {
+        this.currentLanguage = lang;
+        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+      }
+    );
 
     // Llamamos al servicio para obtener los slides cuando el componente se inicializa
     this.slideService.getSlides().subscribe((slidesData: SlideData[]) => {
@@ -102,6 +114,13 @@ export class WelcomeComponent {
         console.error('Error al obtener los laboratorios:', error);
       }
     });
+  }
+
+  ngOnDestroy() {
+    // Importante: siempre desuscribirse para evitar memory leaks
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   isInternalRoute(route: string): boolean {

@@ -9,7 +9,9 @@
 
             <!-- Enlaces rápidos -->
             <div class="col-md-4 mb-4 text-center">
-                <h5 class="mb-3">Enlaces rápidos</h5>
+                <h5 class="mb-3">
+                    {{ currentLanguage === 'es' ? 'Enlaces rápidos' : 'Quick Links' }}
+                </h5>
                 <ul class="list-unstyled">
                     <li *ngFor="let ruta of rutas">
                         <a [routerLink]="ruta.route" class="text-link">
@@ -21,7 +23,9 @@
 
             <!-- Redes sociales -->
             <div class="col-md-4 mb-0 text-center text-md-end">
-                <h5 class="mb-3">Síguenos</h5>
+                <h5 class="mb-3">
+                    {{ currentLanguage === 'es' ? 'Síguenos' : 'Follow Us' }}
+                </h5>
                 <div class="d-flex justify-content-center justify-content-md-end gap-3">
                     <a href="https://www.facebook.com/share/1574P8K1FG/?mibextid=wwXIfr" target="_blank"
                         class="social-icon">
@@ -41,7 +45,7 @@
         <hr class="border-light">
         <div class="text-center">
             <a href="https://server113.tecnoweb.net:2096/cpsess7646461987/3rdparty/roundcube/?_task=mail&_mbox=INBOX" target="_blank" class="cpanel-login">
-                <p class="mb-0">&copy; 2025 COOPSISA. Todos los derechos reservados.</p>
+                <p class="mb-0">&copy; 2025 COOPSISA. {{ currentLanguage === 'es' ? 'Todos los derechos reservados' : 'All rights reserved' }}</p>
             </a>
         </div>
     </div>

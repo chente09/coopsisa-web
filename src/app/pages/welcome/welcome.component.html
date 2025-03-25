@@ -42,7 +42,9 @@
     <!-- reseñas -->
     <div class="container-fluid py-5">
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
-            <h1 class="display-4 mb-4">Servicios</h1>
+            <h1 class="display-4 mb-4">
+                {{ currentLanguage === 'es' ? 'Servicios' : 'Services' }}
+            </h1>
         </div>
         <div class="servicios-bg">
             <div class="container">
@@ -65,7 +67,9 @@
     <!-- Sección de Noticias con Video Prominente -->
     <div class="container-fluid video-section">
         <div class="text-center mx-auto wow fadeInUp" *ngFor="let video of videos" data-wow-delay="0.1s">
-            <h1 class="display-4 mb-4">Últimas Noticias</h1>
+            <h1 class="display-4 mb-4">
+                {{ currentLanguage === 'es' ? 'Últimas Noticias' : 'Latest News' }}
+            </h1>
             <p class="lead">{{ video.description}}</p>
         </div>
 
@@ -80,7 +84,9 @@
     <!-- tarjetas -->
     <div class="container-fluid py-5">
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
-            <h1 class="display-4 mb-4">Nuestro Ecosistema</h1>
+            <h1 class="display-4 mb-4">
+                {{ currentLanguage === 'es' ? 'Nuestro Ecosistema' : 'Our Ecosystem' }}
+            </h1>
         </div>
         <div class="scroll-wrapper">
             <button class="scroll-btn left" (click)="scrollLeft()">&#10094;</button>

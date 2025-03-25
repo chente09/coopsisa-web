@@ -10,7 +10,7 @@
 
     <ul nz-menu [hidden]="isCollapsed" [class.collapsed]="isCollapsed" style="font-size: 20px;">
         <ng-container *ngFor="let item of menuItems">
-            <li *ngIf="!item.children" nz-menu-item>
+            <li  nz-menu-item>
                 <nz-icon [nzType]="item.icon" style="font-size: 18px;"></nz-icon>
                 <a [routerLink]="item.route" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
                     {{ item.label }}
