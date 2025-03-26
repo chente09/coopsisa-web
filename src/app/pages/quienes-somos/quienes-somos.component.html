@@ -15,7 +15,7 @@
     </div>
 
     <nz-card [nzBordered]="true" style="margin-bottom: 16px; ">
-        <h2 class="custom-title">Nuestra evolución como COOPSISA </h2>
+        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Nuestra evolución como COOPSISA' : 'Our Evolution as COOPSISA' }}</h2>
         <hr>
         <div nz-flex class="timeline-container">
             <div *ngFor="let event of timelineEvents" class="timeline-item">
@@ -27,7 +27,7 @@
     </nz-card>
 
     <nz-card class="card-texto">
-        <h2 class="custom-title">Nuestro trabajo fomenta</h2>
+        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Nuestro trabajo fomenta' : 'Our Job Fomenta' }}</h2>
         <hr>
         <div class="carousel-container">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -51,19 +51,17 @@
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                     data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
                 </button>
             </div>
         </div>
     </nz-card>
 
     <nz-card class="card-texto" [nzBordered]="true">
-        <h2 class="custom-title">Así nos organizamos </h2>
+        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Así nos organizamos' : 'How We Organize' }}</h2>
         <hr>
         <div class="directory-container">
             <div class="column left">
@@ -94,7 +92,7 @@
 </div>
 <div class="quienes-somos">
     <nz-card [nzBordered]="true">
-        <h2 class="custom-title">Nuestros Socios</h2>
+        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Nuestros Socios' : 'Our Partners' }}</h2>
         <hr>
         <div class="equipo">
             <div nz-row [nzGutter]="16" nzJustify="center" class="tarjetas-scroll">
@@ -116,33 +114,33 @@
 
 <div class="transparencia-resultados">
     <nz-card [nzBordered]="true">
-        <h2 class="custom-title">Líneas de Acción y Resultados</h2>
+        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Líneas de Acción y Resultados' : 'Action Lines and Results' }}</h2>
         <hr>
         <nz-collapse class="hover-effect hover-1">
-            <h4 class="section-title">Asistencia Técnica</h4>
-            <p class="section-description">Brindamos apoyo especializado para mejorar sus procesos productivos, administrativos y comerciales, promoviendo prácticas sostenibles y eficientes.</p>
+            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Asistencia Técnica' : 'Technical Assistance' }}</h4>
+            <p class="section-description">{{ currentLanguage === 'es' ? 'Brindamos apoyo especializado para mejorar sus procesos productivos, administrativos y comerciales, promoviendo prácticas sostenibles y eficientes.' : 'We provide specialized support to improve your production, administrative and commercial processes, promoting sustainable and efficient practices.' }} </p>
             
         </nz-collapse>
         <br>
         <nz-collapse class="hover-effect hover-2"> 
-            <h4 class="section-title">Fortalecimiento de Capacidades </h4>
-            <p class="section-description">Desarrollamos programas de formación y capacitación para potenciar habilidades técnicas, organizativas y de liderazgo, fomentando la autonomía y el crecimiento sostenible.</p>
+            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Fortalecimiento de Capacidades' : 'Capacity Building' }}</h4>
+            <p class="section-description">{{ currentLanguage === 'es' ? 'Desarrollamos programas de formación y capacitación para potenciar habilidades técnicas, organizativas y de liderazgo, fomentando la autonomía y el crecimiento sostenible.' : 'We develop training and capacity-building programs to empower technical, organizational, and leadership skills, fostering autonomy and sustainable growth.' }}</p>
             
         </nz-collapse>
         <br>
         <nz-collapse class="hover-effect hover-3">
-            <h4 class="section-title">Acceso a Financiamiento</h4>
-            <p class="section-description">Identificación de oportunidades de financiamiento, el desarrollo de propuestas de proyectos y la gestión de consultorías especializadas para facilitar el acceso a recursos económicos.</p>
+            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Acceso a Financiamiento' : 'Access to Financing' }}</h4>
+            <p class="section-description">{{ currentLanguage === 'es' ? 'Identificación de oportunidades de financiamiento, el desarrollo de propuestas de proyectos y la gestión de consultorías especializadas para facilitar el acceso a recursos económicos.' : 'We identify financing opportunities, develop project proposals, and manage specialized consultations to facilitate access to economic resources.' }}</p>
             
         </nz-collapse>
         <nz-collapse class="hover-effect hover-4">
-            <h4 class="section-title">Gestión del Conocimiento</h4>
-            <p class="section-description">Promovemos la investigación, el intercambio de experiencias y la sistematización de buenas prácticas para generar aprendizajes colectivos y fortalecer la toma de decisiones estratégicas.</p>
+            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Gestión del Conocimiento' : 'Knowledge Management' }}</h4>
+            <p class="section-description">{{ currentLanguage === 'es' ? 'Promovemos la investigación, el intercambio de experiencias y la sistematización de buenas prácticas para generar aprendizajes colectivos y fortalecer la toma de decisiones estratégicas.' : 'We promote research, exchange of experiences, and the systematization of good practices to generate collective learning and strengthen strategic decision-making.' }}</p>
             
         </nz-collapse>
         <nz-collapse class="hover-effect hover-5">
-            <h4 class="section-title">Nuestro Aporte al Desarrollo</h4>
-            <p class="section-description">Los resultados obtenidos reflejan el impacto positivo de nuestras estrategias en el fortalecimiento de la comunidad y el desarrollo sostenible. Estos avances han contribuido a la consolidación de un modelo cooperativo más sólido, equitativo y sostenible.</p>
+            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Nuestro Aporte al Desarrollo' : 'Our Contribution to Development' }}</h4>
+            <p class="section-description">{{ currentLanguage === 'es' ? 'Los resultados obtenidos reflejan el impacto positivo de nuestras estrategias en el fortalecimiento de la comunidad y el desarrollo sostenible. Estos avances han contribuido a la consolidación de un modelo cooperativo más sólido, equitativo y sostenible.' : 'The results obtained reflect the positive impact of our strategies on community strengthening and sustainable development. These advances have contributed to the consolidation of a stronger, more equitable, and sustainable cooperative model.' }}</p>
             <!-- <nz-collapse-panel nzHeader="Reporte financiero 2024" [nzActive]="false" class="custom-collapse-panel">
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
                     src="https://heyzine.com/flip-book/b0c3dffbc9.html"

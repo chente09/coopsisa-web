@@ -8,19 +8,19 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CarruselesService } from '../../services/carruseles/carruseles.service';
 import { LaboratorioService } from '../../services/laboratorio/laboratorio.service';
+import { TranslationService } from '../../services/translation/translation.service';
+import { Subscription } from 'rxjs';
 
 interface Laboratorio {
   titulo: string;
   descripcion: string;
   icono: string;
-  // Agrega más propiedades según necesites
 }
 
 interface Escuela {
   titulo: string;
   descripcion: string;
   icono: string;
-  // Agrega más propiedades según necesites
 }
 
 @Component({
@@ -49,13 +49,24 @@ export class ServiciosComponent implements OnInit {
   escuelas: Escuela[] = [];
   negocios: any[] = [];
 
+  currentLanguage = 'es';
+  private languageSubscription!: Subscription;
+
   constructor(
     private carruselService: CarruselesService,
     private laboratorioService: LaboratorioService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translationService: TranslationService
   ) { }
 
   ngOnInit(): void {
+    this.languageSubscription = this.translationService.currentLanguage$.subscribe(
+      lang => {
+        this.currentLanguage = lang;
+        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+      }
+    );
+
     this.carruselService.getSlides('lab-carrusel').subscribe({
       next: (data) => {
         this.labCarruselSlides = data.sort((a, b) => a.order - b.order);
@@ -97,6 +108,13 @@ export class ServiciosComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    // Importante: siempre desuscribirse para evitar memory leaks
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+  
   openModalLab(lab: Laboratorio): void {
     console.log('Abriendo modal de laboratorio:', lab);
     this.selectedLab = lab;

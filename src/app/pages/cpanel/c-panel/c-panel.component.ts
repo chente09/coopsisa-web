@@ -25,13 +25,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsersService } from '../../../services/users/users.service';
 import { Router } from '@angular/router';
-import { EMPTY, map } from 'rxjs';
 
 
 import { LogoService, Logo } from '../../../services/logo/logo.service';
 import { SlidesService, SlideData } from '../../../services/SlideData/slides.service';
 import { EcosystemService, EcosystemData } from '../../../services/ecosystem/ecosystem.service';
-import { VideoService, VideoData } from '../../../services/video/video.service';
+import { VideoService } from '../../../services/video/video.service';
 import { TarjetaService, TarjetaData } from '../../../services/tarjetas/tarjeta.service';
 import { LaboratorioService, Laboratorio } from '../../../services/laboratorio/laboratorio.service';
 import { NosotrosService, Nosotros } from '../../../services/nosotros/nosotros.service';
@@ -41,7 +40,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { MembersService, MemberData } from '../../../services/member/members.service';
 import { EquipoService, EquipoData } from '../../../services/equipo/equipo.service';
 import { FilesService, EcosystemItem } from '../../../services/files/files.service';
-import { FormularioService, Formulario } from '../../../services/formulario/formulario.service';
+import { Formulario } from '../../../services/formulario/formulario.service';
 
 @Component({
   selector: 'app-c-panel',
@@ -58,7 +57,6 @@ import { FormularioService, Formulario } from '../../../services/formulario/form
     NzUploadModule,
     NzSpinModule,
     NzSelectModule,
-    NzMessageModule,
     NzPopconfirmModule,
     NzDividerModule,
     NzTableModule,

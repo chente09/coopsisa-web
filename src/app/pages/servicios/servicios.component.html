@@ -1,6 +1,6 @@
 <div class="container-fluid py-5">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
-        <h1 class="display-4 mb-4">Laboratorios de Innovación</h1>
+        <h1 class="display-4 mb-4">{{ currentLanguage === 'es' ? 'Laboratorios de Innovación' : 'Innovation Labs' }}</h1>
         <ng-container *ngFor="let carrusel of labCarruselSlides">
             <nz-card *ngIf="carrusel.description && carrusel.description.trim() !== ''" [nzBordered]="false"
                 class="dynamic-card">
@@ -19,7 +19,7 @@
                         <nz-icon [nzType]="lab.icono" nzTheme="outline"
                             style="font-size: 40px; color: #ef615fcc;"></nz-icon>
                         <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
-                        <button class="btn btn-primary mt-3" (click)="openModalLab(lab)">Más información</button>
+                        <button class="btn btn-primary mt-3" (click)="openModalLab(lab)">{{ currentLanguage === 'es' ? 'Más Información' : 'More Information' }}</button>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
     <ng-template #modalFooterLab>
         <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
             (click)="handleOk()">
-            <span>Más información</span>
+            <span>{{ currentLanguage === 'es' ? 'Más información' : 'More information' }}</span>
         </button>
     </ng-template>
 </div>
@@ -67,12 +67,10 @@
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
     </div>
@@ -80,7 +78,7 @@
 <div class="container-fluid py-5">
     <div class="container-fluid py-5">
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
-            <h1 class="display-4 mb-4">Escuelas de Formación</h1>
+            <h1 class="display-4 mb-4">{{ currentLanguage === 'es' ? 'Escuelas de Formación' : 'Training Schools' }}</h1>
             <ng-container *ngFor="let carrusel of escuelasSlides">
                 <nz-card *ngIf="carrusel.description && carrusel.description.trim() !== ''" [nzBordered]="false"
                     class="dynamic-card">
@@ -98,8 +96,8 @@
                             <nz-icon [nzType]="lab.icono" nzTheme="outline"
                                 style="font-size: 40px; color: #ef615fcc;"></nz-icon>
                             <h5 class="card-title mt-3">{{ lab.titulo }}</h5>
-                            <button class="btn btn-primary mt-3" (click)="openModalEscuela(lab)">Más
-                                información</button>
+                            <button class="btn btn-primary mt-3" (click)="openModalEscuela(lab)">
+                                {{ currentLanguage === 'es' ? 'Más Información' : 'More Information' }}</button>
                         </div>
                     </div>
                 </div>
@@ -120,7 +118,7 @@
         <ng-template #modalFooterEscuela>
             <button nz-button style="background-color: #3994C7; color: white; border-radius: 15px 15px;"
                 (click)="handleEsc()">
-                <span>Más información</span>
+                <span>{{ currentLanguage === 'es' ? 'Más Información' : 'More Information' }}</span>
             </button>
         </ng-template>
     </div>
@@ -149,12 +147,10 @@
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators2"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators2"
                     data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
                 </button>
             </div>
         </div>
@@ -163,7 +159,7 @@
 <div class="container-fluid py-5">
     <div class="container-fluid py-5">
         <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
-            <h1 class="display-4 mb-4">Centro de Negocios Solidarios</h1>
+            <h1 class="display-4 mb-4">{{ currentLanguage === 'es' ? 'Centro de Negocios Solidarios' : 'Solidary Business Center' }}</h1>
             <ng-container *ngFor="let carrusel of negocios">
                 <nz-card *ngIf="carrusel.description && carrusel.description.trim() !== ''" [nzBordered]="false"
                     class="dynamic-card">
@@ -198,12 +194,10 @@
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators3"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators3"
                     data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
                 </button>
             </div>
         </div>

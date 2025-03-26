@@ -9,6 +9,8 @@ import { EcosystemService, EcosystemData } from '../../services/ecosystem/ecosys
 import { ChangeDetectorRef } from '@angular/core';
 import { FilesService, EcosystemItem } from '../../services/files/files.service';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { TranslationService } from '../../services/translation/translation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ecosistema',
@@ -29,9 +31,16 @@ export class EcosistemaComponent {
   items: EcosystemData[] = [];
   downloadItems: EcosystemItem[] = [];
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
-
+  currentLanguage = 'es';
+  private languageSubscription!: Subscription;
 
   ngOnInit(): void {
+    this.languageSubscription = this.translationService.currentLanguage$.subscribe(
+      lang => {
+        this.currentLanguage = lang;
+        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+      }
+    );
     this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
       {
         this.items = itemsData;
@@ -43,7 +52,13 @@ export class EcosistemaComponent {
       this.downloadItems = items;
       this.cdr.detectChanges();
     });
-
+  }
+  
+  ngOnDestroy() {
+    // Importante: siempre desuscribirse para evitar memory leaks
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   constructor(
@@ -51,6 +66,7 @@ export class EcosistemaComponent {
     private ecosystemService: EcosystemService,
     private cdr: ChangeDetectorRef,
     private fileService: FilesService,
+    private translationService: TranslationService
   ) { }
   scrollLeft() {
     this.scrollContainer.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });

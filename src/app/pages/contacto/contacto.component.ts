@@ -10,6 +10,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormularioService, Formulario } from '../../services/formulario/formulario.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { TranslationService } from '../../services/translation/translation.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-contacto',
@@ -37,10 +40,14 @@ export class ContactoComponent  {
   pdfFileList: NzUploadFile[] = [];
   isSubmitting = false;
 
+  currentLanguage = 'es';
+  private languageSubscription!: Subscription;
+
   constructor(
     private fb: FormBuilder, 
     private formularioService: FormularioService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private translationService: TranslationService
   ) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -57,7 +64,21 @@ export class ContactoComponent  {
       skills: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
-  
+
+  ngOnInit(): void {
+    this.languageSubscription = this.translationService.currentLanguage$.subscribe(
+      lang => {
+        this.currentLanguage = lang;
+        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+      }
+    );
+  }
+  ngOnDestroy() {
+    // Importante: siempre desuscribirse para evitar memory leaks
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
 
   selectForm(type: string): void {
     this.selectedForm = type;

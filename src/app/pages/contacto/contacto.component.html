@@ -1,7 +1,7 @@
 <div class="contact-container">
     <!-- Ubicación en Google Maps -->
     <div class="maps-section">
-        <h2>Encuentra nuestra ubicación</h2>
+        <h2>{{ currentLanguage === 'es' ? 'Encuentra nuestra ubicación' : 'Find our location' }}</h2>
         <div id="map">
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.792416104027!2d-78.48374772522935!3d-0.2064651353987612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59bd01d61ddeb%3A0x93e05ba26475e57a!2scoop%20SISA!5e0!3m2!1ses-419!2sec!4v1737955146211!5m2!1ses-419!2sec"
@@ -13,7 +13,7 @@
 
     <!-- Redes sociales -->
     <div class="social-section">
-        <h2>Síguenos</h2>
+        <h2>{{ currentLanguage === 'es' ? 'Síguenos' : 'Follow Us' }}</h2>
         <div class="social-icons">
             <a href="https://www.facebook.com/share/1574P8K1FG/?mibextid=wwXIfr" target="_blank" class="social-icon">
                 <i class="fab fa-facebook"></i>
@@ -37,10 +37,11 @@
 
             <!-- Selección de formulario -->
             <div *ngIf="!selectedForm" class="form-selection">
-                <button nz-button (click)="selectForm('consulta')" [nzSize]="'large'">¿Tienes una
-                    consulta?</button>
+                <button nz-button (click)="selectForm('consulta')" [nzSize]="'large'">
+                    {{ currentLanguage === 'es' ? '¿Tienes una consulta?' : 'Do you have a question?' }}
+                </button>
                 <button nz-button (click)="selectForm('colaborador')" [nzSize]="'large'">
-                    Colabora con nosotros</button>
+                    {{ currentLanguage === 'es' ? 'Colabora con nosotros' : 'Collaborate with Us' }}</button>
             </div>
 
             <!-- Formulario de consulta -->
@@ -49,10 +50,10 @@
                     <button nzType="text" class="close-button" (click)="closeForm()" aria-label="Cerrar formulario">
                         <i nz-icon nzType="close" nzTheme="outline"></i>
                     </button>
-                    <h2>¿Cómo podemos ayudarte?</h2>
+                    <h2>{{ currentLanguage === 'es' ? '¿Cómo podemos ayudarte?' : 'How can we help you?' }}</h2>
                     <form nz-form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="name">{{ currentLanguage === 'es' ? 'Nombre' : 'Name' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzErrorTip]="nameErrorTpl">
                                 <nz-input-group [nzPrefixIcon]="'user'">
                                     <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre" />
@@ -60,13 +61,13 @@
                             </nz-form-control>
                             <ng-template #nameErrorTpl>
                                 <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
-                                    <p>El nombre es obligatorio (mínimo 3 caracteres).</p>
+                                    <p>{{ currentLanguage === 'es' ? 'El nombre es obligatorio (mínimo 3 caracteres).' : 'The name is required (minimum 3 characters).' }}</p>
                                 </div>
                             </ng-template>
                         </nz-form-item>
 
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="lastName">{{ currentLanguage === 'es' ? 'Apellido' : 'Last Name' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzErrorTip]="lastNameErrorTpl">
                                 <nz-input-group [nzPrefixIcon]="'user'">
                                     <input nz-input formControlName="lastName" id="lastName"
@@ -76,13 +77,13 @@
                             <ng-template #lastNameErrorTpl>
                                 <div
                                     *ngIf="contactForm.get('lastName')?.touched && contactForm.get('lastName')?.invalid">
-                                    <p>El apellido es obligatorio (mínimo 3 caracteres).</p>
+                                    <p>{{ currentLanguage === 'es' ? 'El apellido es obligatorio (mínimo 3 caracteres).' : 'The last name is required (minimum 3 characters).' }}</p>
                                 </div>
                             </ng-template>
                         </nz-form-item>
 
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="email">{{ currentLanguage === 'es' ? 'Correo' : 'Email' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzErrorTip]="emailErrorTpl">
                                 <nz-input-group [nzPrefixIcon]="'mail'">
                                     <input nz-input formControlName="email" id="email"
@@ -91,13 +92,13 @@
                             </nz-form-control>
                             <ng-template #emailErrorTpl>
                                 <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
-                                    <p>El correo es obligatorio y debe ser válido.</p>
+                                    <p>{{ currentLanguage === 'es' ? 'El correo es obligatorio.' : 'The email is required.' }}</p>
                                 </div>
                             </ng-template>
                         </nz-form-item>
 
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="message">Mensaje</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="message">{{ currentLanguage === 'es' ? 'Mensaje' : 'Message' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18">
                                 <textarea nz-input formControlName="message" id="message"
                                     placeholder="Escribe tu mensaje"></textarea>
@@ -118,11 +119,11 @@
                     <button nzType="text" class="close-button" (click)="closeForm()" aria-label="Cerrar formulario">
                         <i nz-icon nzType="close" nzTheme="outline"></i>
                     </button>
-                    <h2>Colabora con Nosotros</h2>
+                    <h2>{{ currentLanguage === 'es' ? 'Colabora con Nosotros' : 'Collaborate with Us' }}</h2>
                     <form nz-form [formGroup]="collaboratorForm" (ngSubmit)="onCollaboratorSubmit()">
                         <!-- Nombre -->
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="name">Nombre</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="name">{{ currentLanguage === 'es' ? 'Nombre' : 'Name' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['name'].invalid && collaboratorForm.controls['name'].touched">
                                 <nz-input-group [nzPrefixIcon]="'user'">
                                     <input nz-input formControlName="name" id="name" placeholder="Ingresa tu nombre completo" />
@@ -132,7 +133,7 @@
             
                         <!-- Apellido -->
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="lastName">Apellido</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="lastName">{{ currentLanguage === 'es' ? 'Apellido' : 'Last Name' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['lastName'].invalid && collaboratorForm.controls['lastName'].touched">
                                 <nz-input-group [nzPrefixIcon]="'user'">
                                     <input nz-input formControlName="lastName" id="lastName" placeholder="Ingresa tu apellido" />
@@ -142,7 +143,7 @@
             
                         <!-- Correo -->
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="email">Correo</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="email">{{ currentLanguage === 'es' ? 'Correo' : 'Email' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['email'].invalid && collaboratorForm.controls['email'].touched">
                                 <nz-input-group [nzPrefixIcon]="'mail'">
                                     <input nz-input formControlName="email" id="email" placeholder="Ingresa tu correo" />
@@ -152,7 +153,7 @@
             
                         <!-- Teléfono -->
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="phone">Teléfono</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="phone">{{ currentLanguage === 'es' ? 'Teléfono' : 'Phone' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['phone'].invalid && collaboratorForm.controls['phone'].touched">
                                 <nz-input-group [nzPrefixIcon]="'phone'">
                                     <input nz-input formControlName="phone" id="phone" placeholder="Ingresa tu número de teléfono" />
@@ -162,7 +163,7 @@
             
                         <!-- Motivo -->
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="skills">Motivo</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="skills">{{ currentLanguage === 'es' ? 'Motivo' : 'Reason' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['skills'].invalid && collaboratorForm.controls['skills'].touched">
                                 <textarea nz-input formControlName="skills" id="skills" placeholder="Describe tus habilidades"></textarea>
                             </nz-form-control>
@@ -170,11 +171,11 @@
 
                         <!-- Adjuntar documento -->
                         <nz-form-item>
-                            <nz-form-label [nzSpan]="6" nzFor="skills">Adjuntar</nz-form-label>
+                            <nz-form-label [nzSpan]="6" nzFor="skills">{{ currentLanguage === 'es' ? 'Adjuntar' : 'Attach' }}</nz-form-label>
                             <nz-form-control [nzSpan]="18" [nzHasFeedback]="collaboratorForm.controls['skills'].invalid && collaboratorForm.controls['skills'].touched">
                                 <nz-upload nzListType="text" nzAccept="application/pdf" [nzShowUploadList]="true"
                                     [(nzFileList)]="pdfFileList" (nzChange)="onPDFSelected($event)">
-                                    <div class="upload-button"><i nz-icon nzType="upload"></i> Subir Adjunto</div>
+                                    <div class="upload-button"><i nz-icon nzType="upload"></i> {{ currentLanguage === 'es' ? 'Subir Adjunto' : 'Upload Attachment' }}</div>
                                 </nz-upload>
                             </nz-form-control>
                         </nz-form-item>

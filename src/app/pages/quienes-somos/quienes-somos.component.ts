@@ -15,6 +15,8 @@ import { TimelineEvent, TimelineService } from '../../services/timeline/timeline
 import { CarruselesService, CarruselData } from '../../services/carruseles/carruseles.service';
 import { MembersService, MemberData } from '../../services/member/members.service';
 import { EquipoService, EquipoData } from '../../services/equipo/equipo.service';
+import { TranslationService } from '../../services/translation/translation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-quienes-somos',
@@ -43,17 +45,28 @@ export class QuienesSomosComponent {
   membersRight: MemberData[] = [];
   equipo: EquipoData[] = [];
 
+  currentLanguage = 'es';
+  private languageSubscription!: Subscription;
+
   constructor(
     private nosotrosService: NosotrosService,
     private timelineService: TimelineService,
     private carruselService: CarruselesService,
     private cdr: ChangeDetectorRef,
     private membersService: MembersService,
-    private equipoService: EquipoService
+    private equipoService: EquipoService,
+    private translationService: TranslationService
   ) { }
 
 
   ngOnInit(): void {
+    this.languageSubscription = this.translationService.currentLanguage$.subscribe(
+      lang => {
+        this.currentLanguage = lang;
+        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+      }
+    );
+
     // Obtener los datos del servicio NosotrosService
     this.nosotrosService.getNosotros().subscribe(data => {
       console.log(data); // Verifica que los datos sean correctos
@@ -97,6 +110,13 @@ export class QuienesSomosComponent {
       this.equipo = data;
       this.cdr.detectChanges();
     });
+  }
+
+  ngOnDestroy() {
+    // Importante: siempre desuscribirse para evitar memory leaks
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   loadMembers() {
