@@ -60,7 +60,7 @@ export class FormulariosComponent implements OnInit {
 
 
   goToCPanel() {
-    this.router.navigate(['/cpanel']);
+    this.router.navigate(['/administracion']);
   }
 
   copiarCorreo(email: string) {

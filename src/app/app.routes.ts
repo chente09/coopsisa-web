@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'quienes-somos', component: QuienesSomosComponent },
   { path: 'servicios', component: ServiciosComponent },
   { path: 'cpanel-login', component: CpanelLoginComponent },
-  { path: 'cpanel', component: CPanelComponent, ...canActivate(redirectUnauthorizedToLogin) }, 
+  { path: 'administracion', component: CPanelComponent, ...canActivate(redirectUnauthorizedToLogin) }, 
   { path: 'formularios', component: FormulariosComponent, ...canActivate(redirectUnauthorizedToLogin) },
 ];
 

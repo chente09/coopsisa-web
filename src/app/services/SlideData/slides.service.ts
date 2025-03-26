@@ -17,22 +17,19 @@ export interface SlideData {
   providedIn: 'root'
 })
 export class SlidesService {
-
-  private collectionName = 'slides';
-
   constructor(private firestore: Firestore, private storage: Storage) { }
 
   // Método para subir una imagen a Firebase Storage
-  async uploadImage(file: File): Promise<string> {
-    const filePath = `${this.collectionName}/${file.name}`;
+  async uploadImage(file: File, collectionName: string): Promise<string> {
+    const filePath = `${collectionName}/${file.name}`;
     const fileRef = ref(this.storage, filePath);
     await uploadBytes(fileRef, file);
     return getDownloadURL(fileRef);
   }
 
   // Método para guardar un slide en Firestore
-  async saveSlide(slideData: SlideData): Promise<void> {
-    const slidesRef = collection(this.firestore, this.collectionName);
+  async saveSlide(slideData: SlideData, collectionName: string): Promise<void> {
+    const slidesRef = collection(this.firestore, collectionName);
     try {
       await addDoc(slidesRef, slideData);
       console.log('Slide guardado correctamente en Firestore:', slideData);
@@ -43,21 +40,20 @@ export class SlidesService {
   }
 
   // Método para obtener todos los slides almacenados en Firestore
-  getSlides(): Observable<SlideData[]> {
-    const slidesRef = collection(this.firestore, this.collectionName);
+  getSlides(collectionName: string): Observable<SlideData[]> {
+    const slidesRef = collection(this.firestore, collectionName);
     return collectionData(slidesRef, { idField: 'id' }) as Observable<SlideData[]>;
   }
 
   // Método para actualizar un slide en Firestore
-  async updateSlide(slideId: string, updatedData: Partial<SlideData>): Promise<void> {
-    const slideDocRef = doc(this.firestore, `${this.collectionName}/${slideId}`);
+  async updateSlide(slideId: string, updatedData: Partial<SlideData>, collectionName: string): Promise<void> {
+    const slideDocRef = doc(this.firestore, `${collectionName}/${slideId}`);
     await updateDoc(slideDocRef, updatedData);
   }
 
   // Método para eliminar un slide de Firestore
-  async deleteSlide(slideId: string): Promise<void> {
-    const slideDocRef = doc(this.firestore, `${this.collectionName}/${slideId}`);
+  async deleteSlide(slideId: string, collectionName: string): Promise<void> {
+    const slideDocRef = doc(this.firestore, `${collectionName}/${slideId}`);
     await deleteDoc(slideDocRef);
   }
-
 }

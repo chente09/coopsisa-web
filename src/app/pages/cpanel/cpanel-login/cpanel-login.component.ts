@@ -50,7 +50,7 @@ export class CpanelLoginComponent {
     this.userService.login({ email, password })
       .then(() => {
         this.message.success("Inicio de sesión exitoso. Redirigiendo...");
-        this.router.navigate(['/cpanel']);
+        this.router.navigate(['/administracion']);
       })
       .catch(() => {
         this.message.error("Correo o contraseña incorrectos. Intente nuevamente.");

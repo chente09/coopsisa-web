@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
       .subscribe((event: NavigationEnd) => {
         // Oculta el layout si la ruta actual es '/cpanel' o '/formularios' o alguna de sus subrutas
         this.showLayout = !(
-          event.url.startsWith('/cpanel') || event.url.startsWith('/formularios')
+          event.url.startsWith('/administracion') || event.url.startsWith('/formularios')
         );
       });
   }

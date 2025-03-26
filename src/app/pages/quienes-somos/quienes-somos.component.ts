@@ -64,46 +64,16 @@ export class QuienesSomosComponent {
   ngOnInit(): void {
     this.languageSubscription = this.translationService.currentLanguage$.subscribe({
       next: (lang) => {
-        console.log("Nuevo idioma recibido:", lang);
         this.currentLanguage = lang;
+        this.loadNosotros();
+        this.loadTimeline();
         this.loadSlides();
-        console.log("Idioma después del cambio:", this.currentLanguage);
-        this.cdr.detectChanges(); // Forzar la actualización
-      }
-    });
-
-    // Obtener los datos del servicio NosotrosService
-    this.nosotrosService.getNosotros().subscribe({
-      next: (data) => {
-        this.cards = data.sort((a, b) => a.order - b.order);
+        this.loadMembers();
+        this.loadEquipo();
         this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error("Error al obtener los datos de Nosotros:");
       }
     });
 
-    // Obtener los datos del servicio TimelineService
-    this.timelineService.getTimelineEvents().subscribe({
-      next: (data) => {
-        this.timelineEvents = data.sort((a, b) => parseInt(a.year, 10) - parseInt(b.year, 10));
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error("Error al obtener los datos de Timeline:");
-      }
-    });
-
-    // Obtener los datos del servicio CarruselesService
-
-    // Obtener miembros
-    this.loadMembers();
-
-    // Obtener miembros del equipo
-    this.equipoService.getEquipoMembers().subscribe(data => {
-      this.equipo = data;
-      this.cdr.detectChanges();
-    });
   }
 
   ngOnDestroy() {
@@ -113,17 +83,28 @@ export class QuienesSomosComponent {
     }
   }
 
-  loadMembers() {
-    this.membersService.getMembers().subscribe(members => {
-      this.membersLeft = members
-        .filter(m => m.group === 'left')
-        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+  // Versión mejorada del método loadMembers()
+  loadMembers(): void {
 
-      this.membersRight = members
-        .filter(m => m.group === 'right')
-        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
+    const collectionName = this.currentLanguage === 'es' ? 'members' : `members-${this.currentLanguage}`;
 
-      this.cdr.detectChanges(); // Detectar cambios en la vista
+    this.membersService.getMembers(collectionName).subscribe({
+      next: (members) => {
+        this.membersLeft = members
+          .filter(m => m.group === 'left')
+          .sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
+
+        this.membersRight = members
+          .filter(m => m.group === 'right')
+          .sort((a, b) => a.order - b.order);
+
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar miembros:', error);
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -133,8 +114,42 @@ export class QuienesSomosComponent {
     this.carruselService.getSlides(collectionName).subscribe({
       next: (data) => {
         this.slides = data.sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener los carruseles:', error)
+    });
+  }
+
+  loadNosotros(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'nosotros' : 'nosotros-en';
+
+    this.nosotrosService.getNosotros(collectionName).subscribe({
+      next: (data) => {
+        this.cards = data.sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los carruseles:', error)
+    });
+  }
+
+  loadTimeline(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'timelineEvents' : 'timelineEvents-en';
+
+    this.timelineService.getTimelineEvents(collectionName).subscribe({
+      next: (data) => {
+        this.timelineEvents = data.sort((a, b) => parseInt(a.year, 10) - parseInt(b.year, 10));
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los carruseles:', error)
+    });
+  }
+
+  loadEquipo(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'equipo' : 'equipo-en';
+
+    this.equipoService.getEquipoMembers(collectionName).subscribe(data => {
+      this.equipo = data;
+      this.cdr.detectChanges();
     });
   }
 

@@ -15,41 +15,39 @@ export interface MemberData {
   providedIn: 'root'
 })
 export class MembersService {
-  
-  private collectionName = 'members'; // Nombre de la colección en Firestore
-
   constructor(private firestore: Firestore) {}
 
   // Obtener referencia a la colección de Firestore
-  private getCollectionReference() {
-    return collection(this.firestore, this.collectionName);
+  private getCollectionReference(collectionName: string = 'members') {
+    return collection(this.firestore, collectionName);
   }
 
-  // Obtener todos los miembros almacenados en Firestore
-  getMembers(): Observable<MemberData[]> {
-    return collectionData(this.getCollectionReference(), { idField: 'id' }) as Observable<MemberData[]>;
+  // Obtener todos los miembros de una colección específica
+  getMembers(collectionName: string = 'members'): Observable<MemberData[]> {
+    return collectionData(this.getCollectionReference(collectionName), { idField: 'id' }) as Observable<MemberData[]>;
   }
 
-  // Guardar un nuevo miembro en Firestore
-  async saveMember(member: MemberData): Promise<void> {
+  // Guardar un nuevo miembro en una colección específica
+  async saveMember(member: MemberData, collectionName: string = 'members'): Promise<void> {
     try {
-      await addDoc(this.getCollectionReference(), member);
-      console.log(`Miembro guardado correctamente en Firestore`);
+      const collectionRef = this.getCollectionReference(collectionName);
+      await addDoc(collectionRef, member);
+      console.log(`Miembro guardado correctamente en la colección ${collectionName}`);
     } catch (error) {
-      console.error('Error al guardar miembro en Firestore:', error);
+      console.error(`Error al guardar miembro en la colección ${collectionName}:`, error);
       throw error;
     }
   }
 
-  // Actualizar un miembro en Firestore
-  async updateMember(memberId: string, updatedData: Partial<MemberData>): Promise<void> {
-    const memberDocRef = doc(this.firestore, `${this.collectionName}/${memberId}`);
+  // Actualizar un miembro en una colección específica
+  async updateMember(memberId: string, updatedData: Partial<MemberData>, collectionName: string = 'members'): Promise<void> {
+    const memberDocRef = doc(this.firestore, `${collectionName}/${memberId}`);
     await updateDoc(memberDocRef, updatedData);
   }
 
-  // Eliminar un miembro de Firestore
-  async deleteMember(memberId: string): Promise<void> {
-    const memberDocRef = doc(this.firestore, `${this.collectionName}/${memberId}`);
+  // Eliminar un miembro de una colección específica
+  async deleteMember(memberId: string, collectionName: string = 'members'): Promise<void> {
+    const memberDocRef = doc(this.firestore, `${collectionName}/${memberId}`);
     await deleteDoc(memberDocRef);
   }
 }

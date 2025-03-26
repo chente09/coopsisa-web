@@ -15,22 +15,19 @@ export interface TarjetaData {
   providedIn: 'root'
 })
 export class TarjetaService {
-
-  private collectionName = 'tarjetas';
-
   constructor(private firestore: Firestore, private storage: Storage) { }
 
   // Método para subir una imagen a Firebase Storage
-  async uploadImage(file: File): Promise<string> {
-    const filePath = `${this.collectionName}/${file.name}`;
+  async uploadImage(file: File, collectionName: string): Promise<string> {
+    const filePath = `${collectionName}/${file.name}`;
     const fileRef = ref(this.storage, filePath);
     await uploadBytes(fileRef, file);
     return getDownloadURL(fileRef);
   }
 
   // Método para guardar una nueva tarjeta
-  async saveTarjeta(itemData: TarjetaData): Promise<void> {
-    const tarjetasRef = collection(this.firestore, this.collectionName);
+  async saveTarjeta(itemData: TarjetaData, collectionName: string): Promise<void> {
+    const tarjetasRef = collection(this.firestore, collectionName);
     try {
       await addDoc(tarjetasRef, itemData);
       console.log('Tarjeta guardada correctamente en Firestore:', itemData);
@@ -41,20 +38,20 @@ export class TarjetaService {
   }
 
   // Método para obtener todas las tarjetas
-  getTarjetas(): Observable<TarjetaData[]> {
-    const tarjetasRef = collection(this.firestore, this.collectionName);
+  getTarjetas(collectionName: string): Observable<TarjetaData[]> {
+    const tarjetasRef = collection(this.firestore, collectionName);
     return collectionData(tarjetasRef, { idField: 'id' }) as Observable<TarjetaData[]>;
   }
 
   // Método para actualizar una tarjeta en Firestore
-  async updateTarjeta(itemId: string, updatedData: Partial<TarjetaData>): Promise<void> {
-    const itemDocRef = doc(this.firestore, `${this.collectionName}/${itemId}`);
+  async updateTarjeta(itemId: string, updatedData: Partial<TarjetaData>, collectionName: string): Promise<void> {
+    const itemDocRef = doc(this.firestore, `${collectionName}/${itemId}`);
     await updateDoc(itemDocRef, updatedData);
   }
 
   // Método para eliminar una tarjeta en Firestore
-  async deleteTarjeta(itemId: string): Promise<void> {
-    const itemDocRef = doc(this.firestore, `${this.collectionName}/${itemId}`);
+  async deleteTarjeta(itemId: string, collectionName: string): Promise<void> {
+    const itemDocRef = doc(this.firestore, `${collectionName}/${itemId}`);
     await deleteDoc(itemDocRef);
   }
 }

@@ -17,33 +17,31 @@ export interface Nosotros {
   providedIn: 'root'
 })
 export class NosotrosService {
-  private collectionName = 'nosotros';
-
   constructor(private firestore: Firestore, private storage: Storage) { }
 
   // ✅ Método para subir una imagen a Firebase Storage
-  async uploadImage(file: File): Promise<string> {
-    const filePath = `${this.collectionName}/${file.name}`;
+  async uploadImage(file: File, collectionName: string): Promise<string> {
+    const filePath = `${collectionName}/${file.name}`;
     const fileRef = ref(this.storage, filePath);
     await uploadBytes(fileRef, file);
     return getDownloadURL(fileRef);
   }
 
-  // ✅ Método para guardar un nuevo elemento en "Nosotros"
-  async saveNosotros(nosotros: Nosotros): Promise<void> {
-    const nosotrosRef = collection(this.firestore, this.collectionName);
+  // ✅ Método para guardar un nuevo elemento en una colección específica
+  async saveNosotros(nosotros: Nosotros, collectionName: string): Promise<void> {
+    const nosotrosRef = collection(this.firestore, collectionName);
     try {
       await addDoc(nosotrosRef, nosotros);
-      console.log('Elemento guardado correctamente:', nosotros);
+      console.log(`Elemento guardado correctamente en ${collectionName}:`, nosotros);
     } catch (error) {
-      console.error('Error al guardar el elemento:', error);
+      console.error(`Error al guardar el elemento en ${collectionName}:`, error);
       throw error;
     }
   }
 
-  // ✅ Método para obtener todos los elementos de "Nosotros" desde Firestore
-  getNosotros(): Observable<Nosotros[]> {
-    const nosotrosRef = collection(this.firestore, this.collectionName);
+  // ✅ Método para obtener todos los elementos de una colección específica
+  getNosotros(collectionName: string): Observable<Nosotros[]> {
+    const nosotrosRef = collection(this.firestore, collectionName);
   
     return collectionData(nosotrosRef, { idField: 'id' }).pipe(
       map((nosotrosList: any[]) =>
@@ -61,15 +59,15 @@ export class NosotrosService {
     );
   }
 
-  // ✅ Método para actualizar un elemento de "Nosotros"
-  async updateNosotros(nosotrosId: string, updatedData: Partial<Nosotros>): Promise<void> {
-    const nosotrosDocRef = doc(this.firestore, `${this.collectionName}/${nosotrosId}`);
+  // ✅ Método para actualizar un elemento en una colección específica
+  async updateNosotros(collectionName: string, nosotrosId: string, updatedData: Partial<Nosotros>): Promise<void> {
+    const nosotrosDocRef = doc(this.firestore, `${collectionName}/${nosotrosId}`);
     await updateDoc(nosotrosDocRef, updatedData);
   }
 
-  // ✅ Método para eliminar un elemento de "Nosotros"
-  async deleteNosotros(nosotrosId: string): Promise<void> {
-    const nosotrosDocRef = doc(this.firestore, `${this.collectionName}/${nosotrosId}`);
+  // ✅ Método para eliminar un elemento de una colección específica
+  async deleteNosotros(collectionName: string, nosotrosId: string): Promise<void> {
+    const nosotrosDocRef = doc(this.firestore, `${collectionName}/${nosotrosId}`);
     await deleteDoc(nosotrosDocRef);
   }
 }

@@ -63,48 +63,69 @@ export class ServiciosComponent implements OnInit {
     this.languageSubscription = this.translationService.currentLanguage$.subscribe(
       lang => {
         this.currentLanguage = lang;
-        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+        this.loadLaboratorios();
+        this.loadEscuelas();
+        this.loadSlideLab();
+        this.loadSlideEscuela();
+        this.loadSlideNegocio();
+        this.cdr.detectChanges();
       }
     );
+  }
 
-    this.carruselService.getSlides('lab-carrusel').subscribe({
-      next: (data) => {
-        this.labCarruselSlides = data.sort((a, b) => a.order - b.order);
-        this.cdr.detectChanges();
-      },
-      error: (error) => console.error('Error al obtener los carruseles de lab-carrusel:', error)
-    });
 
-    this.carruselService.getSlides('escuelas').subscribe({
-      next: (data) => {
-        this.escuelasSlides = data.sort((a, b) => a.order - b.order);
-        this.cdr.detectChanges();
-      },
-      error: (error) => console.error('Error al obtener los carruseles de escuelas:', error)
-    });
-
-    this.carruselService.getSlides('neg-solid').subscribe({
-      next: (data) => {
-        this.negocios = data.sort((a, b) => a.order - b.order);
-        this.cdr.detectChanges();
-      },
-      error: (error) => console.error('Error al obtener los carruseles de escuelas:', error)
-    });
-
-    this.laboratorioService.getLaboratorios('laboratorios').subscribe({
+  loadLaboratorios(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'laboratorios' : `laboratorios-en`;
+    this.laboratorioService.getLaboratorios(collectionName).subscribe({
       next: (data) => {
         this.laboratorios = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener los laboratorios:', error)
     });
+  }
 
-    this.laboratorioService.getLaboratorios('schol-tj').subscribe({
+  loadEscuelas(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'schol-tj' : `schol-tj-en`;
+    this.laboratorioService.getLaboratorios(collectionName).subscribe({
       next: (data) => {
         this.escuelas = data.sort((a, b) => a.order - b.order);
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error al obtener las escuelas:', error)
+    });
+  }
+
+  loadSlideLab(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'lab-carrusel' : `lab-carrusel-en`;
+    this.carruselService.getSlides(collectionName).subscribe({
+      next: (data) => {
+        this.labCarruselSlides = data.sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los carruseles de lab-carrusel:', error)
+    });
+  }
+
+  loadSlideEscuela(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'escuelas' : `escuelas-en`;
+    this.carruselService.getSlides(collectionName).subscribe({
+      next: (data) => {
+        this.escuelasSlides = data.sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los carruseles de escuela-carrusel:', error)
+    });
+  }
+
+  loadSlideNegocio(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'neg-solid' : `neg-solid-en`;
+    this.carruselService.getSlides(collectionName).subscribe({
+      next: (data) => {
+        this.negocios = data.sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los carruseles de negocio-carrusel:', error)
     });
   }
 

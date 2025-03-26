@@ -38,15 +38,10 @@ export class EcosistemaComponent {
     this.languageSubscription = this.translationService.currentLanguage$.subscribe(
       lang => {
         this.currentLanguage = lang;
-        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
-      }
-    );
-    this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
-      {
-        this.items = itemsData;
+        this.loadEcosystemData();
         this.cdr.detectChanges();
       }
-    });
+    );
 
     this.fileService.getEcosystemItems().subscribe((items: EcosystemItem[]) => {
       this.downloadItems = items;
@@ -59,6 +54,17 @@ export class EcosistemaComponent {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+  }
+
+  loadEcosystemData(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'ecosystem' : `ecosystem-en`;
+    this.ecosystemService.getEcosystemItems(collectionName).subscribe({
+      next: (data) => {
+        this.items = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los elementos del ecosistema:', error)
+    });
   }
 
   constructor(

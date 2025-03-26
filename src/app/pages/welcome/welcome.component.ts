@@ -71,22 +71,12 @@ export class WelcomeComponent {
     this.languageSubscription = this.translationService.currentLanguage$.subscribe(
       lang => {
         this.currentLanguage = lang;
-        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+        this.loadEcosystemData();
+        this.loadSlides();
+        this.loadTarjetas();
+        this.cdr.detectChanges();
       }
     );
-
-    // Llamamos al servicio para obtener los slides cuando el componente se inicializa
-    this.slideService.getSlides().subscribe((slidesData: SlideData[]) => {
-      this.slides = slidesData.sort((a, b) => a.order - b.order);
-      this.cdr.detectChanges();
-      this.isLoading = false;
-    });
-
-    // Llamamos al servicio para obtener los items de la ecosistema cuando el componente se inicializa
-    this.ecosystemService.getEcosystemItems().subscribe((itemsData: EcosystemData[]) => {
-      this.ecosystemItems = itemsData;
-      this.cdr.detectChanges();
-    })
 
     // Cargar videos
     this.videoService.getVideos().subscribe((videosData: VideoData[]) => {
@@ -95,12 +85,6 @@ export class WelcomeComponent {
         url: video.url,
         description: video.description // ✅ Ahora sí incluye la descripción
       }));
-      this.cdr.detectChanges();
-    });
-
-    // Cargar tarjetas
-    this.tarjetaService.getTarjetas().subscribe((tarjetasData: TarjetaData[]) => {
-      this.tarjetas = tarjetasData;
       this.cdr.detectChanges();
     });
 
@@ -121,6 +105,34 @@ export class WelcomeComponent {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+  }
+
+  loadEcosystemData(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'ecosystem' : `ecosystem-en`;
+    this.ecosystemService.getEcosystemItems(collectionName).subscribe({
+      next: (data) => {
+        this.ecosystemItems = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => console.error('Error al obtener los elementos del ecosistema:', error)
+    });
+  }
+
+  loadSlides(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'slides' : `slides-en`;
+    this.slideService.getSlides( collectionName).subscribe((slidesData: SlideData[]) => {
+      this.slides = slidesData.sort((a, b) => a.order - b.order);
+      this.cdr.detectChanges();
+      this.isLoading = false;
+    });
+  }
+
+  loadTarjetas(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'tarjetas' : `tarjetas-en`;
+    this.tarjetaService.getTarjetas(collectionName).subscribe((tarjetasData: TarjetaData[]) => {
+      this.tarjetas = tarjetasData;
+      this.cdr.detectChanges();
+    });
   }
 
   isInternalRoute(route: string): boolean {

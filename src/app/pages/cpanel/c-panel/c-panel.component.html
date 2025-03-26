@@ -192,6 +192,16 @@
                         <h2 class="form-title">{{ editingSlideId ? 'Editar Slide' : 'Crear Slide' }}</h2>
                         <form (ngSubmit)="submitSlide()" class="admin-form">
                             <nz-form-item>
+                                <nz-form-label>Colección</nz-form-label>
+                                <nz-form-control>
+                                    <nz-select [(ngModel)]="currentCollectionSlidesP"
+                                        (ngModelChange)="changeSlideCollection($event)" style="width: 200px">
+                                        <nz-option *ngFor="let option of collectionOptionsSlides"
+                                            [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Texto</nz-form-label>
                                 <nz-form-control>
                                     <input nz-input [(ngModel)]="newSlide.text" name="text"
@@ -284,6 +294,16 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editingItemId2 ? 'Editar Tarjeta' : 'Crear Tarjeta' }}</h2>
                         <form (ngSubmit)="submitTarjeta()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label>Colección</nz-form-label>
+                                <nz-form-control>
+                                    <nz-select [(ngModel)]="currentCollectionTarjetas"
+                                        (ngModelChange)="changeTarjetaCollection($event)" style="width: 200px">
+                                        <nz-option *ngFor="let option of collectionOptionsTarjetas"
+                                            [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Título</nz-form-label>
                                 <nz-form-control>
@@ -417,6 +437,18 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editingNosotrosId ? 'Editar Tarjeta' : 'Crear Tarjeta' }}</h2>
                         <form (ngSubmit)="submitNosotros()" class="admin-form">
+                            <div class="collection-selector">
+                                <nz-form-item>
+                                    <nz-form-label>Seleccionar Colección</nz-form-label>
+                                    <nz-form-control>
+                                        <nz-select [(ngModel)]="currentCollection"
+                                            (ngModelChange)="onCollectionChange($event)" name="collection">
+                                            <nz-option *ngFor="let option of collectionOptions" [nzValue]="option.value"
+                                                [nzLabel]="option.label"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
 
                             <!-- Campo de Título -->
                             <nz-form-item>
@@ -467,8 +499,8 @@
                     </div>
                     <hr class="divider" />
                     <!-- Lista de Secciones "Nosotros" -->
-                    <div *ngIf="nosotrosList.length > 0" class="nosotros-list-container">
-                        <h3 class="section-title">Secciones de Nosotros</h3>
+                    <div class="nosotros-list-container">
+                        <h3 class="section-title">Secciones de - {{ currentCollection }}</h3>
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let nosotros of nosotrosList" [nzSpan]="6" class="nosotros-column">
                                 <nz-card [nzTitle]="nosotros.title" class="custom-nosotros" [nzBordered]="true">
@@ -496,7 +528,7 @@
                         </nz-row>
                     </div>
                     <div *ngIf="nosotrosList.length === 0" class="no-nosotros-message">
-                        <p>No hay secciones creadas.</p>
+                        <p>No hay secciones creadas en {{currentCollection}}. </p>
                     </div>
                     <hr class="divider" />
                     <h4>Administración de Línea de Tiempo</h4>
@@ -507,7 +539,12 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editingEventId ? 'Editar Evento' : 'Crear Evento' }}</h2>
                         <form (ngSubmit)="submitTimelineEvent()" class="admin-form">
-
+                            <nz-select [(ngModel)]="currentCollectionTimeline"
+                                (ngModelChange)="changeTimelineCollection($event)">
+                                <nz-option *ngFor="let option of collectionOptionsTimeline" [nzValue]="option.value"
+                                    [nzLabel]="option.label">
+                                </nz-option>
+                            </nz-select>
                             <!-- Campo de Año -->
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Año</nz-form-label>
@@ -539,8 +576,8 @@
                     </div>
                     <hr class="divider" />
                     <!-- Lista de Eventos -->
-                    <div *ngIf="timelineEvents.length > 0" class="timeline-list-container">
-                        <h3 class="section-title">Eventos de la Línea de Tiempo</h3>
+                    <div class="timeline-list-container">
+                        <h3 class="section-title">Eventos de {{ currentCollectionTimeline }}</h3>
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let event of timelineEvents" [nzSpan]="6" class="timeline-column">
                                 <nz-card [nzTitle]="event.year" class="custom-timeline" [nzBordered]="true">
@@ -565,7 +602,7 @@
                         </nz-row>
                     </div>
                     <div *ngIf="timelineEvents.length === 0" class="no-events-message">
-                        <p>No hay eventos creados.</p>
+                        <p>No hay eventos creados en {{currentCollectionTimeline}}. </p>
                     </div>
                     <hr class="divider">
                     <h4>Configuración de Carrusel</h4>
@@ -653,6 +690,12 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editingMemberId ? 'Editar Miembro' : 'Crear Miembro' }}</h2>
                         <form (ngSubmit)="saveMember()" class="admin-form">
+                            <select [(ngModel)]="currentCollectionMembers"
+                                (ngModelChange)="onCollectionChangeMembers($event)">
+                                <option *ngFor="let option of collectionOptionsMembers" [value]="option.value">
+                                    {{option.label}}
+                                </option>
+                            </select>
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Rol</nz-form-label>
                                 <nz-form-control>
@@ -754,6 +797,13 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editandoMiembroId ? 'Editar Miembro' : 'Agregar Miembro' }}</h2>
                         <form (ngSubmit)="enviarMiembro()" class="admin-form">
+                            <select [(ngModel)]="currentCollectionEquipo"
+                                (ngModelChange)="cambiarColeccionEquipo($event)">
+                                <option *ngFor="let option of collectionOptionsEquipo" [value]="option.value">
+                                    {{option.label}}
+                                </option>
+                            </select>
+
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Nombre</nz-form-label>
                                 <nz-form-control>
@@ -791,7 +841,8 @@
                     <hr class="divider" />
                     <!-- Lista de Miembros del Equipo -->
                     <div *ngIf="equipo.length > 0" class="equipo-list-container">
-                        <h3 class="section-title">Miembros del Equipo</h3>
+                        <h3 class="section-title">Miembros del Equipo ({{ currentCollectionEquipo }})</h3>
+
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let miembro of equipo" [nzSpan]="6" class="miembro-column">
                                 <nz-card [nzTitle]="miembro.nombre" class="custom-miembro" [nzBordered]="true">
@@ -799,14 +850,12 @@
                                     <p class="miembro-description">Cargo: {{ miembro.cargo }}</p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <!-- Botón de Editar -->
-                                        <button type="button"
-                                            class="btn btn-outline-info btn-sm d-flex align-items-center"
+                                        <button nz-button nzType="default" nzSize="small"
                                             (click)="iniciarEdicion(miembro)">
                                             <i nz-icon nzType="edit" nzTheme="outline"></i> Editar
                                         </button>
                                         <!-- Botón de Eliminar -->
-                                        <button type="button"
-                                            class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                                        <button nz-button nzType="default" nzSize="small" nzDanger
                                             (click)="eliminarMiembro(miembro.id!)">
                                             <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar
                                         </button>
@@ -838,7 +887,9 @@
                         <!-- Dropdown para seleccionar la colección de laboratorios -->
                         <select [(ngModel)]="selectedCollectionlab" (change)="selectCollectionLab($event)">
                             <option value="laboratorios">Laboratorios</option>
+                            <option value="laboratorios-en">Laboratorios (Inglés)</option>
                             <option value="schol-tj">Escuelas</option>
+                            <option value="schol-tj-en">Escuelas (Inglés)</option>
                         </select>
                         <!-- Formulario de laboratorio -->
                         <form (ngSubmit)="submitLaboratorio()" class="admin-form">
@@ -870,12 +921,12 @@
                                         placeholder="Ejemplo: bi bi-laboratory" required />
                                 </nz-form-control>
                             </nz-form-item>
-                            <!-- <nz-form-item>
+                            <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Imagen</nz-form-label>
                                 <nz-form-control>
                                     <input type="file" (change)="onLaboratorioFileChange($event)" />
                                 </nz-form-control>
-                            </nz-form-item> -->
+                            </nz-form-item>
                             <div class="button-container">
                                 <button nz-button nzType="primary" [disabled]="isSubmitting">
                                     {{ editingLaboratorioId ? 'Actualizar' : 'Guardar' }}
@@ -930,8 +981,11 @@
                         <h2 class="form-title">{{ editingCarruselId ? 'Editar Carrusel' : 'Crear Carrusel' }}</h2>
                         <select (change)="selectCollection($event)">
                             <option value="lab-carrusel">Laboratorios</option>
+                            <option value="lab-carrusel-en">Laboratorios (Inglés)</option>
                             <option value="escuelas">Escuelas</option>
+                            <option value="escuelas-en">Escuelas (Inglés)</option>
                             <option value="neg-solid">Negocios Solidarios</option>
+                            <option value="neg-solid-en">Negocios Solidarios (Inglés)</option>
                         </select>
                         <form (ngSubmit)="saveCarrusel()" class="admin-form">
                             <nz-form-item>
@@ -1015,6 +1069,16 @@
                     <div class="form-container">
                         <h2 class="form-title">{{ editingItemId ? 'Editar Item' : 'Crear Item' }}</h2>
                         <form (ngSubmit)="submitItem()" class="admin-form">
+                            <nz-form-item>
+                                <nz-form-label>Colección</nz-form-label>
+                                <nz-form-control>
+                                    <nz-select [(ngModel)]="currentCollectionEcosystem"
+                                        (ngModelChange)="changeEcosystemCollection($event)" style="width: 200px">
+                                        <nz-option *ngFor="let option of collectionOptionsEcosystem"
+                                            [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
                             <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Título</nz-form-label>
                                 <nz-form-control>

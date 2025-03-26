@@ -41,6 +41,7 @@ import { MembersService, MemberData } from '../../../services/member/members.ser
 import { EquipoService, EquipoData } from '../../../services/equipo/equipo.service';
 import { FilesService, EcosystemItem } from '../../../services/files/files.service';
 import { Formulario } from '../../../services/formulario/formulario.service';
+import { collection } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-c-panel',
@@ -87,11 +88,23 @@ export class CPanelComponent {
   editingSlideId: string | null = null;
   selectedSlideFile: File | null = null;
   isSubmitting: boolean = false;
+  currentCollectionSlidesP = 'slides';
+  collectionOptionsSlides = [
+    { value: 'slides', label: 'Español (Principal)' },
+    { value: 'slides-en', label: 'Inglés' },
+  ]
   // ******* 📌 Admin Ecosystem ********
   ecosystemItems: EcosystemData[] = [];
   newItem: EcosystemData = { title: '', description: '', image: '' };
   editingItemId: string | null = null;
   selectedItemFile: File | null = null;
+  currentCollectionEcosystem = 'nosotros'; 
+  // Array de opciones de colección
+  collectionOptionsEcosystem = [
+    { value: 'ecosystem', label: 'Español (Principal)' },
+    { value: 'ecosystem-en', label: 'Inglés' },
+  ];
+
   // ******* 📌 Admin Video ********
   selectedVideoFile: File | null = null;
   videoDescription: string = '';
@@ -103,6 +116,12 @@ export class CPanelComponent {
   newItem2: TarjetaData = { titulo: '', ruta: '', imagen: '' };
   editingItemId2: string | null = null;
   selectedItemFile2: File | null = null;
+  currentCollectionTarjetas = 'tarjetas';
+  // Array de opciones de colección
+  collectionOptionsTarjetas = [
+    { value: 'tarjetas', label: 'Español (Principal)' },
+    { value: 'tarjetas-en', label: 'Inglés' },
+  ]
   // ******* 📌 Admin Laboratorio ********
   laboratorios: Laboratorio[] = [];
   newLaboratorio: Partial<Laboratorio> = {
@@ -126,10 +145,25 @@ export class CPanelComponent {
   };
   editingNosotrosId: string | null = null;
   selectedNosotrosFile: File | null = null;
+  currentCollection = 'nosotros'; 
+  // Array de opciones de colección
+  collectionOptions = [
+    { value: 'nosotros', label: 'Español (Principal)' },
+    { value: 'nosotros-en', label: 'Inglés' },
+    // Puedes agregar más colecciones según necesites
+  ];
+
   // ******* 📌 Admin TimeLine ********
   timelineEvents: TimelineEvent[] = [];
   newEvent: TimelineEvent = { year: '', description: '' };
   editingEventId: string | null | undefined = null;
+  currentCollectionTimeline = 'timelineEvents'; // Colección por defecto
+  isLoading = false;
+  collectionOptionsTimeline = [
+    { value: 'timelineEvents', label: 'Español (Principal)' },
+    { value: 'timelineEvents-en', label: 'Inglés' },
+    // Puedes agregar más colecciones según necesites
+  ];
   // ******* 📌 Admin Carrusel ********
   selectedCollection: string = ''; // Colección seleccionada
   fileToUpload: File | null = null; // Archivo de imagen a subir
@@ -147,11 +181,24 @@ export class CPanelComponent {
   membersRight: MemberData[] = [];
   editingMemberId: string | null = null;
   newMember: MemberData = { role: '', order: 0, icon: '', group: 'left' };
+  // Configuración para múltiples colecciones
+  currentCollectionMembers = 'members'; // Colección por defecto
+  collectionOptionsMembers = [
+    { value: 'members', label: 'Español (Principal)' },
+    { value: 'members-en', label: 'Inglés' },
+  ];
   // ******* 📌 Admin Equipo ********
   equipo: EquipoData[] = [];
   nuevoMiembro: Partial<EquipoData> = { nombre: '', cargo: '', foto: '' };
   editandoMiembroId: string | null = null;
   archivoSeleccionado: File | null = null;
+  // Configuración para múltiples colecciones
+  currentCollectionEquipo = 'equipo'; // Colección por defecto
+  collectionOptionsEquipo = [
+    { value: 'equipo', label: 'Español (Principal)' },
+    { value: 'equipo-en', label: 'Inglés' },
+    // Agrega más colecciones según necesites
+  ];
   // ******* 📌 Admin Files ********
   ecosystemDocuments: EcosystemItem[] = [];
   newdocument: EcosystemItem = { title: '', description: '', imageUrl: '', fileUrl: '' };
@@ -197,24 +244,14 @@ export class CPanelComponent {
     this.logoService.getFooterLogos().subscribe(logos => this.footerLogos = logos);
 
     // Cargar slides al iniciar
-    this.slideService.getSlides().subscribe(slides => {
-      this.slides = slides;
-    });
+    this.loadSlides();
 
     this.equipoService.getEquipoMembers().subscribe(data => {
       this.equipo = data;
       this.cdr.detectChanges();
     });
 
-    this.membersService.getMembers().subscribe(members => {
-      this.membersLeft = members
-        .filter(m => m.group === 'left')
-        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
-      this.membersRight = members
-        .filter(m => m.group === 'right')
-        .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
-      this.cdr.detectChanges(); // Detectar cambios en la vista
-    });
+    this.loadMembers();
 
     this.fileService.getEcosystemItems().subscribe((items: EcosystemItem[]) => {
       this.ecosystemDocuments = items;
@@ -228,8 +265,8 @@ export class CPanelComponent {
     this.getNosotros();
     this.getTimelineEvents();
     this.loadCarruseles();
-    
-    
+
+
   }
 
   // 📌 Verificar si el usuario está logueado
@@ -320,86 +357,143 @@ export class CPanelComponent {
     }
   }
   // ******* 📌 Admin Slides ********
+  // Cambiar colección
+  changeSlideCollection(collection: string): void {
+    this.currentCollectionSlidesP = collection;
+    this.loadSlides();
+    this.resetSlideForm();
+  }
+
+  loadSlides(): void {
+    this.isLoading = true;
+    this.slideService.getSlides(this.currentCollectionSlidesP).subscribe({
+      next: (slides) => {
+        this.slides = slides.sort((a, b) => a.order - b.order);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar slides:', error);
+        this.isLoading = false;
+        this.message.error('Error al cargar slides');
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   // Manejar la selección de archivos
-  onSlideFileChange(event: any) {
+  onSlideFileChange(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedSlideFile = event.target.files[0];
+      // Vista previa de la imagen
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.newSlide.image = e.target.result;
+      };
+      if (this.selectedSlideFile) {
+        reader.readAsDataURL(this.selectedSlideFile);
+      }
     }
   }
-  async submitSlide() {
-    if (!this.newSlide.text || !this.newSlide.buttonText || !this.newSlide.route) {
-      this.message.warning('Por favor, completa todos los campos.');
-      return;
-    }
-
-    // Validar que haya imagen si es un nuevo slide
-    if (!this.editingSlideId && !this.selectedSlideFile) {
-      this.message.warning('Debes seleccionar una imagen.');
-      return;
-    }
+  async submitSlide(): Promise<void> {
+    if (!this.validateSlideForm()) return;
 
     this.isSubmitting = true;
 
     try {
-      let imageUrl = this.newSlide.image;
-
-      // Si hay una nueva imagen seleccionada, súbela
-      if (this.selectedSlideFile) {
-        imageUrl = await this.slideService.uploadImage(this.selectedSlideFile);
-      }
+      const imageUrl = await this.processSlideImage();
+      const slideData = this.createSlideData(imageUrl);
 
       if (this.editingSlideId) {
-        // Editar slide existente
-        await this.slideService.updateSlide(this.editingSlideId, {
-          image: imageUrl!,
-          text: this.newSlide.text!,
-          buttonText: this.newSlide.buttonText!,
-          route: this.newSlide.route!,
-          order: this.newSlide.order!
-        });
-        this.message.success('Slide actualizado correctamente.');
+        await this.updateExistingSlide(slideData);
       } else {
-        // Crear un nuevo slide
-        await this.slideService.saveSlide({
-          image: imageUrl!,
-          text: this.newSlide.text!,
-          buttonText: this.newSlide.buttonText!,
-          route: this.newSlide.route!,
-          order: this.newSlide.order!
-        });
-        this.message.success('Slide agregado correctamente.');
+        await this.createNewSlide(slideData);
       }
 
-      // Resetear formulario
       this.resetSlideForm();
+      this.loadSlides();
     } catch (error) {
-      console.error('Error al guardar el slide:', error);
-      this.message.error('Error al guardar el slide.');
+      this.handleError(error);
     } finally {
       this.isSubmitting = false;
     }
   }
-  startEditSlide(slide: SlideData) {
-    this.editingSlideId = slide.id!;
-    this.newSlide = {
-      image: slide.image,
-      text: slide.text,
-      buttonText: slide.buttonText,
-      route: slide.route
+
+  // Métodos auxiliares
+  private validateSlideForm(): boolean {
+    if (!this.newSlide.text || !this.newSlide.buttonText || !this.newSlide.route) {
+      this.message.warning('Por favor, completa todos los campos.');
+      return false;
+    }
+    if (!this.editingSlideId && !this.selectedSlideFile) {
+      this.message.warning('Debes seleccionar una imagen.');
+      return false;
+    }
+    return true;
+  }
+
+  private async processSlideImage(): Promise<string> {
+    if (this.selectedSlideFile) {
+      return await this.slideService.uploadImage(
+        this.selectedSlideFile, 
+        this.currentCollectionSlidesP
+      );
+    }
+    return this.newSlide.image!;
+  }
+
+  private createSlideData(imageUrl: string): SlideData {
+    return {
+      image: imageUrl,
+      text: this.newSlide.text!,
+      buttonText: this.newSlide.buttonText!,
+      route: this.newSlide.route!,
+      order: this.newSlide.order || 0
     };
+  }
+
+  private async updateExistingSlide(slideData: SlideData): Promise<void> {
+    await this.slideService.updateSlide(
+      this.editingSlideId!,
+      slideData,
+      this.currentCollectionSlidesP
+    );
+    this.message.success('Slide actualizado correctamente.');
+  }
+
+  private async createNewSlide(slideData: SlideData): Promise<void> {
+    await this.slideService.saveSlide(
+      slideData,
+      this.currentCollectionSlidesP
+    );
+    this.message.success('Slide agregado correctamente.');
+  }
+
+  private handleError(error: any): void {
+    console.error('Error:', error);
+    this.message.error(error.message || 'Ocurrió un error');
+  }
+
+  startEditSlide(slide: SlideData): void {
+    this.editingSlideId = slide.id!;
+    this.newSlide = { ...slide };
   }
   cancelEditSlide() {
     this.resetSlideForm();
   }
-  async deleteSlide(slideId: string) {
-    if (confirm('¿Estás seguro de eliminar este slide?')) {
-      try {
-        await this.slideService.deleteSlide(slideId);
-        this.message.success('Slide eliminado correctamente.');
-      } catch (error) {
-        console.error('Error al eliminar el slide:', error);
-        this.message.error('Error al eliminar el slide.');
-      }
+  async deleteSlide(slideId: string): Promise<void> {
+    if (!confirm('¿Estás seguro de eliminar este slide?')) return;
+
+    try {
+      await this.slideService.deleteSlide(
+        slideId, 
+        this.currentCollectionSlidesP
+      );
+      this.message.success('Slide eliminado correctamente.');
+      this.loadSlides();
+    } catch (error) {
+      console.error('Error al eliminar slide:', error);
+      this.message.error('Error al eliminar el slide');
     }
   }
   private resetSlideForm() {
@@ -412,28 +506,45 @@ export class CPanelComponent {
       this.selectedSlideFile = event.file as any;
     }
   }
-  async updateSlide(slideId: string, updatedData: Partial<SlideData>) {
-    try {
-      await this.slideService.updateSlide(slideId, updatedData);
-      this.message.success('Slide actualizado correctamente.');
-      this.editingSlideId = null;
-    } catch (error) {
-      console.error('Error al actualizar el slide:', error);
-      this.message.error('Error al actualizar el slide.');
-    }
-  }
+  
 
   // ******* 📌 Admin Ecosystem ********
+  // Cambiar colección
+  changeEcosystemCollection(collection: string): void {
+    this.currentCollectionEcosystem = collection;
+    this.getEcosystemData();
+    this.resetForm(); // Limpiar formulario al cambiar colección
+  }
+
   // Obtener los elementos del ecosistema
   getEcosystemData(): void {
-    this.ecosystemService.getEcosystemItems().subscribe(data => {
-      this.ecosystemItems = data;
+    this.isLoading = true;
+    this.ecosystemService.getEcosystemItems(this.currentCollectionEcosystem).subscribe({
+      next: (data) => {
+        this.ecosystemItems = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar elementos:', error);
+        this.isLoading = false;
+        this.message.error('Error al cargar los elementos');
+        this.cdr.detectChanges();
+      }
     });
   }
   // Manejar la selección de archivos
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedItemFile = event.target.files[0];
+      // Mostrar vista previa si es una imagen
+      if (this.selectedItemFile && this.selectedItemFile.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.newItem.image = e.target.result;
+        };
+        reader.readAsDataURL(this.selectedItemFile);
+      }
     }
   }
   // Crear o editar un item del ecosistema
@@ -453,30 +564,39 @@ export class CPanelComponent {
     try {
       let imageUrl = this.newItem.image;
 
-      // Si hay una nueva imagen seleccionada, súbela
+      // Subir nueva imagen si se seleccionó
       if (this.selectedItemFile) {
-        imageUrl = await this.ecosystemService.uploadImage(this.selectedItemFile);
+        imageUrl = await this.ecosystemService.uploadImage(
+          this.selectedItemFile, 
+          this.currentCollectionEcosystem
+        );
       }
 
+      const itemData: EcosystemData = {
+        title: this.newItem.title,
+        description: this.newItem.description,
+        image: imageUrl
+      };
+
       if (this.editingItemId) {
-        // Editar item existente
-        await this.ecosystemService.updateEcosystemItem(this.editingItemId, {
-          image: imageUrl!,
-          title: this.newItem.title!,
-          description: this.newItem.description!
-        });
-        this.message.success('Elemento del ecosistema actualizado correctamente.');
+        // Actualizar item existente
+        await this.ecosystemService.updateEcosystemItem(
+          this.editingItemId,
+          itemData,
+          this.currentCollectionEcosystem
+        );
+        this.message.success('Elemento actualizado correctamente.');
       } else {
-        // Crear un nuevo item
-        await this.ecosystemService.saveEcosystemItem({
-          image: imageUrl!,
-          title: this.newItem.title!,
-          description: this.newItem.description!
-        });
-        this.message.success('Elemento del ecosistema agregado correctamente.');
+        // Crear nuevo item
+        await this.ecosystemService.saveEcosystemItem(
+          itemData,
+          this.currentCollectionEcosystem
+        );
+        this.message.success('Elemento agregado correctamente.');
       }
 
       this.resetForm();
+      this.getEcosystemData(); // Recargar la lista
     } catch (error) {
       console.error('Error al guardar el item:', error);
       this.message.error('Error al guardar el item.');
@@ -487,7 +607,7 @@ export class CPanelComponent {
   // Iniciar la edición de un item
   startEditItem(item: EcosystemData): void {
     this.editingItemId = item.id!;
-    this.newItem = { title: item.title, description: item.description, image: item.image };
+    this.newItem = { ...item };
   }
   // Cancelar la edición y resetear el formulario
   cancelEditItem(): void {
@@ -497,8 +617,12 @@ export class CPanelComponent {
   async deleteItem(itemId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este elemento del ecosistema?')) {
       try {
-        await this.ecosystemService.deleteEcosystemItem(itemId);
-        this.message.success('Elemento del ecosistema eliminado correctamente.');
+        await this.ecosystemService.deleteEcosystemItem(
+          itemId,
+          this.currentCollectionEcosystem
+        );
+        this.message.success('Elemento eliminado correctamente.');
+        this.getEcosystemData();
       } catch (error) {
         console.error('Error al eliminar el item:', error);
         this.message.error('Error al eliminar el item.');
@@ -510,6 +634,9 @@ export class CPanelComponent {
     this.newItem = { title: '', description: '', image: '' };
     this.editingItemId = null;
     this.selectedItemFile = null;
+    // Limpiar input de archivo
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   // ******* 📌 Admin Video ********
@@ -594,70 +721,121 @@ export class CPanelComponent {
   }
 
   // ******* 📌 Admin Tarjetas ********
+   // Cambiar colección
+   changeTarjetaCollection(collection: string): void {
+    this.currentCollectionTarjetas = collection;
+    this.getTarjetasData();
+    this.resetForm2();
+  }
+
   // Obtener las tarjetas
   getTarjetasData(): void {
-    this.tarjetaService.getTarjetas().subscribe(data => { // ✅ Llamada correcta al servicio
-      this.tarjetas = data;
+    this.isLoading = true;
+    this.tarjetaService.getTarjetas(this.currentCollectionTarjetas).subscribe({
+      next: (data) => {
+        this.tarjetas = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar tarjetas:', error);
+        this.isLoading = false;
+        this.message.error('Error al cargar las tarjetas');
+        this.cdr.detectChanges();
+      }
     });
   }
   // Manejar la selección de archivos
   onFileChange2(event: any): void {
     if (event.target.files.length > 0) {
-      this.selectedItemFile2 = event.target.files[0]; // ✅ Corrección: usar selectedItemFile2
+      this.selectedItemFile2 = event.target.files[0];
+      // Vista previa de la imagen
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.newItem2.imagen = e.target.result;
+      };
+      if (this.selectedItemFile2) {
+        reader.readAsDataURL(this.selectedItemFile2);
+      }
     }
   }
   // Crear o editar una tarjeta
   async submitTarjeta(): Promise<void> {
-    if (!this.newItem2.titulo || !this.newItem2.ruta) {
-      this.message.warning('Por favor, completa todos los campos.');
-      return;
-    }
-
-    if (!this.editingItemId2 && !this.selectedItemFile2) {
-      this.message.warning('Debes seleccionar una imagen.');
-      return;
-    }
+    if (!this.validateTarjetaForm()) return;
 
     this.isSubmitting = true;
 
     try {
-      let imageUrl = this.newItem2.imagen;
-
-      // Si hay una nueva imagen seleccionada, súbela
-      if (this.selectedItemFile2) {
-        imageUrl = await this.tarjetaService.uploadImage(this.selectedItemFile2); // ✅ Corrección: llamada correcta al servicio
-      }
+      const imageUrl = await this.processTarjetaImage();
+      const tarjetaData = this.createTarjetaData(imageUrl);
 
       if (this.editingItemId2) {
-        // Editar tarjeta existente
-        await this.tarjetaService.updateTarjeta(this.editingItemId2, {
-          imagen: imageUrl!,
-          titulo: this.newItem2.titulo!,
-          ruta: this.newItem2.ruta!
-        });
-        this.message.success('Tarjeta actualizada correctamente.');
+        await this.updateExistingTarjeta(tarjetaData);
       } else {
-        // Crear una nueva tarjeta
-        await this.tarjetaService.saveTarjeta({
-          imagen: imageUrl!,
-          titulo: this.newItem2.titulo!,
-          ruta: this.newItem2.ruta!
-        });
-        this.message.success('Tarjeta agregada correctamente.');
+        await this.createNewTarjeta(tarjetaData);
       }
 
       this.resetForm2();
+      this.getTarjetasData();
     } catch (error) {
-      console.error('Error al guardar la tarjeta:', error);
-      this.message.error('Error al guardar la tarjeta.');
+      this.handleError(error);
     } finally {
       this.isSubmitting = false;
     }
   }
+
+  // Métodos auxiliares
+  private validateTarjetaForm(): boolean {
+    if (!this.newItem2.titulo || !this.newItem2.ruta) {
+      this.message.warning('Por favor, completa todos los campos.');
+      return false;
+    }
+    if (!this.editingItemId2 && !this.selectedItemFile2) {
+      this.message.warning('Debes seleccionar una imagen.');
+      return false;
+    }
+    return true;
+  }
+
+  private async processTarjetaImage(): Promise<string> {
+    if (this.selectedItemFile2) {
+      return await this.tarjetaService.uploadImage(
+        this.selectedItemFile2, 
+        this.currentCollectionTarjetas
+      );
+    }
+    return this.newItem2.imagen!;
+  }
+
+  private createTarjetaData(imageUrl: string): TarjetaData {
+    return {
+      titulo: this.newItem2.titulo!,
+      ruta: this.newItem2.ruta!,
+      imagen: imageUrl
+    };
+  }
+
+  private async updateExistingTarjeta(tarjetaData: TarjetaData): Promise<void> {
+    await this.tarjetaService.updateTarjeta(
+      this.editingItemId2!,
+      tarjetaData,
+      this.currentCollectionTarjetas
+    );
+    this.message.success('Tarjeta actualizada correctamente.');
+  }
+
+  private async createNewTarjeta(tarjetaData: TarjetaData): Promise<void> {
+    await this.tarjetaService.saveTarjeta(
+      tarjetaData,
+      this.currentCollectionTarjetas
+    );
+    this.message.success('Tarjeta agregada correctamente.');
+  }
+
   // Iniciar la edición de una tarjeta
   startEditTarjeta(item: TarjetaData): void {
     this.editingItemId2 = item.id!;
-    this.newItem2 = { titulo: item.titulo, ruta: item.ruta, imagen: item.imagen };
+    this.newItem2 = { ...item };
   }
   // Cancelar la edición y resetear el formulario
   cancelEditTarjeta(): void {
@@ -665,14 +843,18 @@ export class CPanelComponent {
   }
   // Eliminar una tarjeta
   async deleteTarjetaItem(itemId: string): Promise<void> {
-    if (confirm('¿Estás seguro de eliminar esta tarjeta?')) {
-      try {
-        await this.tarjetaService.deleteTarjeta(itemId); // ✅ Corrección: llamada correcta al servicio
-        this.message.success('Tarjeta eliminada correctamente.');
-      } catch (error) {
-        console.error('Error al eliminar la tarjeta:', error);
-        this.message.error('Error al eliminar la tarjeta.');
-      }
+    if (!confirm('¿Estás seguro de eliminar esta tarjeta?')) return;
+
+    try {
+      await this.tarjetaService.deleteTarjeta(
+        itemId, 
+        this.currentCollectionTarjetas
+      );
+      this.message.success('Tarjeta eliminada correctamente.');
+      this.getTarjetasData();
+    } catch (error) {
+      console.error('Error al eliminar tarjeta:', error);
+      this.message.error('Error al eliminar la tarjeta');
     }
   }
   // Resetear el formulario
@@ -680,6 +862,9 @@ export class CPanelComponent {
     this.newItem2 = { titulo: '', ruta: '', imagen: '' };
     this.editingItemId2 = null;
     this.selectedItemFile2 = null;
+    // Limpiar input de archivo
+    const fileInput = document.getElementById('tarjetaFileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   // ******* 📌 Admin Laboratorios ********
@@ -791,12 +976,20 @@ export class CPanelComponent {
   }
 
   // ******* 📌 Admin Nosotros ********  
+  onCollectionChange(collection: string): void {
+    this.currentCollection = collection;
+    // Recargar los datos de la nueva colección
+    this.getNosotros();
+  }
+
   // ✅ Obtener los elementos de "Nosotros" desde Firestore  
+
   getNosotros(): void {
-    this.nosotrosService.getNosotros().subscribe(data => {
+    this.nosotrosService.getNosotros(this.currentCollection).subscribe(data => {
       this.nosotrosList = data;
     });
   }
+
   // ✅ Manejar la selección de archivos  
   onNosotrosFileChange(event: any): void {
     if (event.target.files.length > 0) {
@@ -822,11 +1015,11 @@ export class CPanelComponent {
 
       // Si hay una nueva imagen seleccionada, súbela a Firebase Storage
       if (this.selectedNosotrosFile) {
-        imageUrl = await this.nosotrosService.uploadImage(this.selectedNosotrosFile);
+        imageUrl = await this.nosotrosService.uploadImage(
+          this.selectedNosotrosFile,
+          this.currentCollection // Pasar el nombre de la colección
+        );
       }
-
-      // Asegurar que `order` tenga un valor predeterminado (por ejemplo, 0)
-      const orderValue = this.newNosotros.order !== undefined ? this.newNosotros.order : 0;
 
       const nosotrosData: Nosotros = {
         image: imageUrl!,
@@ -838,11 +1031,18 @@ export class CPanelComponent {
 
       if (this.editingNosotrosId) {
         // Editar elemento existente
-        await this.nosotrosService.updateNosotros(this.editingNosotrosId, nosotrosData);
+        await this.nosotrosService.updateNosotros(
+          this.currentCollection, // Nombre de la colección
+          this.editingNosotrosId,
+          nosotrosData
+        );
         this.message.success('Elemento actualizado correctamente.');
       } else {
         // Crear un nuevo elemento
-        await this.nosotrosService.saveNosotros(nosotrosData);
+        await this.nosotrosService.saveNosotros(
+          nosotrosData,
+          this.currentCollection // Nombre de la colección
+        );
         this.message.success('Elemento agregado correctamente.');
       }
 
@@ -873,7 +1073,10 @@ export class CPanelComponent {
   async deleteNosotros(nosotrosId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este elemento?')) {
       try {
-        await this.nosotrosService.deleteNosotros(nosotrosId);
+        await this.nosotrosService.deleteNosotros(
+          this.currentCollection  , // Nombre de la colección
+          nosotrosId
+        );
         this.message.success('Elemento eliminado correctamente.');
       } catch (error) {
         console.error('Error al eliminar el elemento:', error);
@@ -888,13 +1091,30 @@ export class CPanelComponent {
     this.selectedNosotrosFile = null;
   }
 
+
   // ******* 📌 Admin Timeline ********  
   // ✅ Obtener los eventos de la línea de tiempo
   getTimelineEvents(): void {
-    this.timelineService.getTimelineEvents().subscribe(data => {
-      this.timelineEvents = data;
+    this.isLoading = true;
+    this.timelineService.getTimelineEvents(this.currentCollectionTimeline).subscribe({
+      next: (data) => {
+        this.timelineEvents = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al obtener eventos:', error);
+        this.isLoading = false;
+        this.message.error('Error al cargar los eventos.');
+      }
     });
   }
+
+  // ✅ Cambiar colección
+  changeTimelineCollection(collection: string): void {
+    this.currentCollectionTimeline = collection;
+    this.getTimelineEvents();
+  }
+
   // ✅ Crear o editar un evento
   async submitTimelineEvent(): Promise<void> {
     if (!this.newEvent.year || !this.newEvent.description) {
@@ -907,11 +1127,18 @@ export class CPanelComponent {
     try {
       if (this.editingEventId) {
         // Editar el evento existente
-        await this.timelineService.updateTimelineEvent(this.editingEventId, this.newEvent);
+        await this.timelineService.updateTimelineEvent(
+          this.currentCollectionTimeline,
+          this.editingEventId,
+          this.newEvent
+        );
         this.message.success('Evento actualizado correctamente.');
       } else {
         // Crear un nuevo evento
-        await this.timelineService.saveTimelineEvent(this.newEvent);
+        await this.timelineService.saveTimelineEvent(
+          this.newEvent,
+          this.currentCollectionTimeline
+        );
         this.message.success('Evento agregado correctamente.');
       }
 
@@ -938,7 +1165,10 @@ export class CPanelComponent {
   async deleteEvent(eventId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este evento?')) {
       try {
-        await this.timelineService.deleteTimelineEvent(eventId);
+        await this.timelineService.deleteTimelineEvent(
+          this.currentCollectionTimeline,
+          eventId
+        );
         this.message.success('Evento eliminado correctamente.');
         this.getTimelineEvents();
       } catch (error) {
@@ -1076,7 +1306,7 @@ export class CPanelComponent {
   // ******* 📌 Admin Members ********
   // Cargar miembros desde Firebase
   loadMembers() {
-    this.membersService.getMembers().subscribe(members => {
+    this.membersService.getMembers(this.currentCollectionMembers).subscribe(members => {
       this.membersLeft = members
         .filter(m => m.group === 'left')
         .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
@@ -1086,25 +1316,39 @@ export class CPanelComponent {
       this.cdr.detectChanges(); // Detectar cambios en la vista
     });
   }
+
+  // Cambiar colección
+onCollectionChangeMembers(collection: string) {
+  this.currentCollectionMembers = collection;
+  this.loadMembers(); // Recargar miembros de la nueva colección
+}
+
   // Guardar o actualizar miembro
   async saveMember() {
     if (!this.newMember.role || !this.newMember.icon) {
       this.message.warning('Por favor, completa todos los campos.');
       return;
     }
-
     try {
       if (this.editingMemberId) {
         // Actualizar miembro existente
-        await this.membersService.updateMember(this.editingMemberId, {
-          role: this.newMember.role,
-          icon: this.newMember.icon,
-          group: this.newMember.group
-        });
+        await this.membersService.updateMember(
+          this.editingMemberId, 
+          {
+            role: this.newMember.role,
+            icon: this.newMember.icon,
+            group: this.newMember.group,
+            order: this.newMember.order
+          },
+          this.currentCollectionMembers // Usar la colección actual
+        );
         this.message.success('Miembro actualizado correctamente.');
       } else {
         // Guardar nuevo miembro
-        await this.membersService.saveMember(this.newMember);
+        await this.membersService.saveMember(
+          this.newMember, 
+          this.currentCollectionMembers // Usar la colección actual
+        );
         this.message.success('Miembro agregado correctamente.');
       }
       this.resetMemberForm();
@@ -1126,7 +1370,10 @@ export class CPanelComponent {
   async deleteMember(memberId: string) {
     if (confirm('¿Estás seguro de eliminar este miembro?')) {
       try {
-        await this.membersService.deleteMember(memberId);
+        await this.membersService.deleteMember(
+          memberId, 
+          this.currentCollectionMembers // Usar la colección actual
+        );
         this.message.success('Miembro eliminado correctamente.');
         this.loadMembers();
       } catch (error) {
@@ -1142,18 +1389,44 @@ export class CPanelComponent {
   }
 
   // ******* 📌 Admin Equipo ********
+
+  // Cambiar colección
+  cambiarColeccionEquipo(collection: string): void {
+    this.currentCollection = collection;
+    this.mostrarEquipo();
+  }
   // 📌 Obtener los miembros del equipo desde Firebase
   mostrarEquipo(): void {
-    this.equipoService.getEquipoMembers().subscribe(data => {
-      this.equipo = data;
-      this.cdr.detectChanges();
+    this.isLoading = true;
+    this.equipoService.getEquipoMembers(this.currentCollectionEquipo).subscribe({
+      next: (data) => {
+        this.equipo = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar equipo:', error);
+        this.isLoading = false;
+        this.message.error('Error al cargar el equipo');
+        this.cdr.detectChanges();
+      }
     });
   }
 
   // 📌 Manejar la selección de archivos
+  // Manejar selección de archivo
   onArchivoSeleccionado(event: any): void {
     if (event.target.files.length > 0) {
       this.archivoSeleccionado = event.target.files[0];
+      
+      // Mostrar vista previa si es una imagen
+      if (this.archivoSeleccionado && this.archivoSeleccionado.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.nuevoMiembro.foto = e.target.result;
+        };
+        reader.readAsDataURL(this.archivoSeleccionado);
+      }
     }
   }
   // 📌 Crear o editar un miembro del equipo
@@ -1173,30 +1446,36 @@ export class CPanelComponent {
     try {
       let fotoUrl = this.nuevoMiembro.foto;
 
-      // Si hay una nueva imagen seleccionada, súbela
+      // Subir nueva imagen si se seleccionó
       if (this.archivoSeleccionado) {
-        fotoUrl = await this.equipoService.uploadImage(this.archivoSeleccionado);
+        fotoUrl = await this.equipoService.uploadImage(this.archivoSeleccionado, this.currentCollectionEquipo);
       }
 
+      const miembroCompleto: EquipoData = {
+        nombre: this.nuevoMiembro.nombre!,
+        cargo: this.nuevoMiembro.cargo!,
+        foto: fotoUrl!
+      };
+
       if (this.editandoMiembroId) {
-        // Editar miembro existente
-        await this.equipoService.updateEquipoMember(this.editandoMiembroId, {
-          foto: fotoUrl!,
-          nombre: this.nuevoMiembro.nombre!,
-          cargo: this.nuevoMiembro.cargo!
-        });
-        this.message.success('Miembro del equipo actualizado correctamente.');
+        // Actualizar miembro existente
+        await this.equipoService.updateEquipoMember(
+          this.editandoMiembroId, 
+          miembroCompleto,
+          this.currentCollectionEquipo
+        );
+        this.message.success('Miembro actualizado correctamente.');
       } else {
-        // Crear un nuevo miembro
-        await this.equipoService.addEquipoMember({
-          foto: fotoUrl!,
-          nombre: this.nuevoMiembro.nombre!,
-          cargo: this.nuevoMiembro.cargo!
-        });
-        this.message.success('Miembro del equipo agregado correctamente.');
+        // Crear nuevo miembro
+        await this.equipoService.addEquipoMember(
+          miembroCompleto,
+          this.currentCollectionEquipo
+        );
+        this.message.success('Miembro agregado correctamente.');
       }
 
       this.reiniciarFormulario();
+      this.mostrarEquipo(); // Recargar la lista
     } catch (error) {
       console.error('Error al guardar el miembro:', error);
       this.message.error('Error al guardar el miembro.');
@@ -1217,8 +1496,12 @@ export class CPanelComponent {
   async eliminarMiembro(miembroId: string): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este miembro del equipo?')) {
       try {
-        await this.equipoService.deleteEquipoMember(miembroId);
-        this.message.success('Miembro del equipo eliminado correctamente.');
+        await this.equipoService.deleteEquipoMember(
+          miembroId, 
+          this.currentCollectionEquipo
+        );
+        this.message.success('Miembro eliminado correctamente.');
+        this.mostrarEquipo();
       } catch (error) {
         console.error('Error al eliminar el miembro:', error);
         this.message.error('Error al eliminar el miembro.');
@@ -1230,6 +1513,9 @@ export class CPanelComponent {
     this.nuevoMiembro = { nombre: '', cargo: '', foto: '' };
     this.editandoMiembroId = null;
     this.archivoSeleccionado = null;
+    // Limpiar input de archivo
+    const fileInput = document.getElementById('fotoInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   // ******* 📌 Admin Files ********
