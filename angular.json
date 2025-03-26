@@ -63,7 +63,11 @@
               ],
               "outputHashing": "all",
               "baseHref": "/",
-              "deployUrl": "/"
+              "deployUrl": "/",
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true
             },
             "development": {
               "optimization": false,

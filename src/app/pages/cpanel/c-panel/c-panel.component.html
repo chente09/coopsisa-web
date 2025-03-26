@@ -436,14 +436,14 @@
                                 </nz-form-control>
                             </nz-form-item>
 
-                            <!-- Campo de Subitems -->
-                            <!-- <nz-form-item>
-                                <nz-form-label [nzRequired]="true">Subelementos</nz-form-label>
+                            <!-- Campo de Orden -->
+                            <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input [(ngModel)]="newNosotros.subItems" name="subItems"
-                                        placeholder="Subelementos separados por coma" required />
+                                    <input nz-input [(ngModel)]="newNosotros.order" name="order"
+                                        placeholder="Ingresa el orden de la Tarjeta" required />
                                 </nz-form-control>
-                            </nz-form-item> -->
+                            </nz-form-item>
 
                             <!-- Campo de Imagen -->
                             <nz-form-item>
@@ -472,6 +472,7 @@
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let nosotros of nosotrosList" [nzSpan]="6" class="nosotros-column">
                                 <nz-card [nzTitle]="nosotros.title" class="custom-nosotros" [nzBordered]="true">
+                                    <p>Orden: {{ nosotros.order }}</p>
                                     <img [src]="nosotros.image" alt="Imagen de la sección" class="slide-image" />
                                     <p class="nosotros-description">{{ nosotros.text }}</p>
                                     <!-- <p><strong>Subelementos:</strong> {{ nosotros.subItems }}</p> -->
@@ -576,6 +577,7 @@
                         <select (change)="selectCollection($event)">
                             <option value="job-foment">Seleciona una la colección</option>
                             <option value="job-foment">Trabajo Fomenta</option>
+                            <option value="job-foment-en">Trabajo Fomenta (Inglés)</option>
                         </select>
                         <form (ngSubmit)="saveCarrusel()" class="admin-form">
                             <nz-form-item>

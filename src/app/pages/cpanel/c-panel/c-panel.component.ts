@@ -118,6 +118,7 @@ export class CPanelComponent {
   // ******* 📌 Admin Nosotros ********
   nosotrosList: Nosotros[] = [];
   newNosotros: Partial<Nosotros> = {
+    order: 0,
     title: '',
     text: '',
     image: '',
@@ -832,7 +833,7 @@ export class CPanelComponent {
         title: this.newNosotros.title!,
         text: this.newNosotros.text!,
         subItems: this.newNosotros.subItems!,
-        order: orderValue
+        order: this.newNosotros.order!
       };
 
       if (this.editingNosotrosId) {
@@ -860,7 +861,8 @@ export class CPanelComponent {
       title: nosotros.title,
       text: nosotros.text,
       image: nosotros.image,
-      subItems: nosotros.subItems
+      subItems: nosotros.subItems,
+      order: nosotros.order
     };
   }
   // ✅ Cancelar la edición y resetear el formulario  
@@ -881,7 +883,7 @@ export class CPanelComponent {
   }
   // ✅ Resetear el formulario  
   private resetNosotrosForm(): void {
-    this.newNosotros = { title: '', text: '', image: '', subItems: '' };
+    this.newNosotros = { title: '', text: '', image: '', subItems: '', order: 0 };
     this.editingNosotrosId = null;
     this.selectedNosotrosFile = null;
   }

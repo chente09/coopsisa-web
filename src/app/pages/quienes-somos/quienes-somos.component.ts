@@ -48,6 +48,8 @@ export class QuienesSomosComponent {
   currentLanguage = 'es';
   private languageSubscription!: Subscription;
 
+
+
   constructor(
     private nosotrosService: NosotrosService,
     private timelineService: TimelineService,
@@ -60,48 +62,40 @@ export class QuienesSomosComponent {
 
 
   ngOnInit(): void {
-    this.languageSubscription = this.translationService.currentLanguage$.subscribe(
-      lang => {
+    this.languageSubscription = this.translationService.currentLanguage$.subscribe({
+      next: (lang) => {
+        console.log("Nuevo idioma recibido:", lang);
         this.currentLanguage = lang;
-        // Aquí puedes agregar lógica adicional que necesites ejecutar cuando cambie el idioma
+        this.loadSlides();
+        console.log("Idioma después del cambio:", this.currentLanguage);
+        this.cdr.detectChanges(); // Forzar la actualización
       }
-    );
+    });
 
     // Obtener los datos del servicio NosotrosService
-    this.nosotrosService.getNosotros().subscribe(data => {
-      console.log(data); // Verifica que los datos sean correctos
-      this.cards = data.sort((a, b) => {
-        const order = [
-          '¿Quiénes somos?',
-          'Nuestros Principios',
-          'Nuestro Equipo',
-          'Nuestro Compromiso'
-        ];
-        return order.indexOf(a.title) - order.indexOf(b.title);
-      });
-      this.cdr.detectChanges();
-    }, error => {
-      console.error("Error al obtener los datos de Nosotros:", error);
+    this.nosotrosService.getNosotros().subscribe({
+      next: (data) => {
+        this.cards = data.sort((a, b) => a.order - b.order);
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error("Error al obtener los datos de Nosotros:");
+      }
     });
 
     // Obtener los datos del servicio TimelineService
-    this.timelineService.getTimelineEvents().subscribe(data => {
-      console.log(data); // Verifica que los datos sean correctos
-      this.timelineEvents = data.sort((a, b) => {
-        return parseInt(a.year, 10) - parseInt(b.year, 10);
-      });
-      this.cdr.detectChanges();
-    }, error => {
-      console.error("Error al obtener los datos de Timeline:", error);
-    });
-    // Obtener los datos del servicio CarruselesService
-    this.carruselService.getSlides('job-foment').subscribe({
+    this.timelineService.getTimelineEvents().subscribe({
       next: (data) => {
-        this.slides = data.sort((a, b) => a.order - b.order);
+        this.timelineEvents = data.sort((a, b) => parseInt(a.year, 10) - parseInt(b.year, 10));
+        this.cdr.detectChanges();
       },
-      error: (error) => console.error('Error al obtener los carruseles:', error)
+      error: (error) => {
+        console.error("Error al obtener los datos de Timeline:");
+      }
     });
-    
+
+    // Obtener los datos del servicio CarruselesService
+
     // Obtener miembros
     this.loadMembers();
 
@@ -124,12 +118,23 @@ export class QuienesSomosComponent {
       this.membersLeft = members
         .filter(m => m.group === 'left')
         .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
-  
+
       this.membersRight = members
         .filter(m => m.group === 'right')
         .sort((a, b) => Number(a.order) - Number(b.order)); // Convertir y ordenar
-  
+
       this.cdr.detectChanges(); // Detectar cambios en la vista
+    });
+  }
+
+  loadSlides(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'job-foment' : 'job-foment-en';
+
+    this.carruselService.getSlides(collectionName).subscribe({
+      next: (data) => {
+        this.slides = data.sort((a, b) => a.order - b.order);
+      },
+      error: (error) => console.error('Error al obtener los carruseles:', error)
     });
   }
 
