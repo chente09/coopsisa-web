@@ -978,10 +978,20 @@ export class CPanelComponent {
     this.resetLaboratorioForm();
   }
   // ✅ Eliminar un laboratorio
-  async deleteLaboratorio(laboratorioId: string): Promise<void> {
+  async deleteLaboratorio(laboratorio: Laboratorio): Promise<void> {
     if (confirm('¿Estás seguro de eliminar este laboratorio?')) {
       try {
-        await this.laboratorioService.deleteLaboratorio(laboratorioId);
+        // Verifica que selectedCollectionlab tenga un valor
+        if (!this.selectedCollectionlab) {
+          this.message.warning('Selecciona una colección primero');
+          return;
+        }
+  
+        await this.laboratorioService.deleteLaboratorio(laboratorio.id!, this.selectedCollectionlab);
+        
+        // Eliminar el laboratorio de la lista actual
+        this.laboratorios = this.laboratorios.filter(lab => lab.id !== laboratorio.id);
+        
         this.message.success('Laboratorio eliminado correctamente.');
       } catch (error) {
         console.error('Error al eliminar el laboratorio:', error);

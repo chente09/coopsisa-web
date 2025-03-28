@@ -61,9 +61,15 @@ export class LaboratorioService {
   }
 
   // ✅ Método para eliminar un laboratorio en Firestore
-  async deleteLaboratorio(laboratorioId: string): Promise<void> {
-    const laboratorioDocRef = doc(this.firestore, `${this.collectionName}/${laboratorioId}`);
-    await deleteDoc(laboratorioDocRef);
+  async deleteLaboratorio(laboratorioId: string, selectedCollectionlab: string): Promise<void> {
+    const laboratorioDocRef = doc(this.firestore, `${selectedCollectionlab}/${laboratorioId}`);
+    try {
+      await deleteDoc(laboratorioDocRef);
+      console.log(`Laboratorio eliminado de ${selectedCollectionlab}`);
+    } catch (error) {
+      console.error(`Error al eliminar el laboratorio de ${selectedCollectionlab}:`, error);
+      throw error;
+    }
   }
 }
 
