@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
@@ -56,7 +56,8 @@ export class ServiciosComponent implements OnInit {
     private carruselService: CarruselesService,
     private laboratorioService: LaboratorioService,
     private cdr: ChangeDetectorRef,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private modalService: NzModalService
   ) { }
 
   ngOnInit(): void {
@@ -137,14 +138,12 @@ export class ServiciosComponent implements OnInit {
   }
   
   openModalLab(lab: Laboratorio): void {
-    console.log('Abriendo modal de laboratorio:', lab);
     this.selectedLab = lab;
     this.isModalVisibleLab = true;
     this.cdr.detectChanges(); // Forzar detección de cambios
   }
   
   openModalEscuela(escuela: Escuela): void {
-    console.log('Abriendo modal de escuela:', escuela);
     this.selectedEscuela = escuela;
     this.isModalVisibleEscuela = true;
     this.cdr.detectChanges(); // Forzar detección de cambios
@@ -152,23 +151,51 @@ export class ServiciosComponent implements OnInit {
   
   handleOk(): void {
     this.isModalVisibleLab = false;
+    this.modalService.closeAll();
+    this.cdr.detectChanges();
+    
+    // Scroll luego de un breve retraso
     setTimeout(() => {
-      const section = document.getElementById("carouselExampleIndicators");
+      const section = document.getElementById('carouselExampleIndicators');
       if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+        section.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      } else {
+        console.error('Sección no encontrada');
+        // Depuración: listar todos los IDs
+        document.querySelectorAll('[id]').forEach(el => {
+          console.log('ID encontrado:', el.id);
+        });
       }
-    }, 400);
+    }, 300);
   }
   
   handleEsc(): void {
     this.isModalVisibleEscuela = false;
+    this.modalService.closeAll();
+    this.cdr.detectChanges();
+  
+    // Scroll después de un breve retraso
     setTimeout(() => {
-      const section = document.getElementById("carouselIndicators2");
+      const section = document.getElementById('carouselIndicators2');
       if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+        section.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      } else {
+        console.error('Sección no encontrada');
+        // Depuración: listar todos los IDs
+        document.querySelectorAll('[id]').forEach(el => {
+          console.log('ID encontrado:', el.id);
+        });
       }
-    }, 400);
+    }, 300);
   }
+  
+  
   
   handleCancel(): void {
     // Es mejor separar la lógica para tener más control
