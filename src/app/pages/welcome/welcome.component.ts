@@ -74,19 +74,10 @@ export class WelcomeComponent {
         this.loadEcosystemData();
         this.loadSlides();
         this.loadTarjetas();
+        this.loadVideos();
         this.cdr.detectChanges();
       }
     );
-
-    // Cargar videos
-    this.videoService.getVideos().subscribe((videosData: VideoData[]) => {
-      this.videos = videosData.map(video => ({
-        id: video.id,
-        url: video.url,
-        description: video.description // ✅ Ahora sí incluye la descripción
-      }));
-      this.cdr.detectChanges();
-    });
 
     // Cargar laboratorios de la colección seleccionada
     this.laboratorioService.getLaboratorios(this.selectedCollectionlab).subscribe({
@@ -130,7 +121,20 @@ export class WelcomeComponent {
   loadTarjetas(): void {
     const collectionName = this.currentLanguage === 'es' ? 'tarjetas' : `tarjetas-en`;
     this.tarjetaService.getTarjetas(collectionName).subscribe((tarjetasData: TarjetaData[]) => {
-      this.tarjetas = tarjetasData;
+      this.tarjetas = tarjetasData.sort((a, b) => a.order - b.order);
+      this.cdr.detectChanges();
+    });
+  }
+
+  loadVideos(): void {
+    const collectionName = this.currentLanguage === 'es' ? 'videos' : `videos-en`;
+    // Cargar videos
+    this.videoService.getVideos(collectionName).subscribe((videosData: VideoData[]) => {
+      this.videos = videosData.map(video => ({
+        id: video.id,
+        url: video.url,
+        description: video.description // ✅ Ahora sí incluye la descripción
+      }));
       this.cdr.detectChanges();
     });
   }

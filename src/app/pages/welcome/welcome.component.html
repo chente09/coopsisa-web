@@ -55,7 +55,8 @@
                             <div class="tarjeta-texto">
                                 <h4 class="mb-3">{{ tarjeta.titulo }}</h4>
                                 <a class="btn btn-sm boton-mas" [routerLink]="tarjeta.ruta">
-                                    <nz-icon [nzType]="'plus'" style="font-size: 18px;"></nz-icon> Saber Más
+                                    <nz-icon [nzType]="'plus'" style="font-size: 18px;"></nz-icon> {{
+                                    currentLanguage === 'es' ? 'Saber Más' : 'Learn More' }}
                                 </a>
                             </div>
                         </div>

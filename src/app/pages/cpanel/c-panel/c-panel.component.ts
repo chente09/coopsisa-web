@@ -98,7 +98,7 @@ export class CPanelComponent {
   newItem: EcosystemData = { title: '', description: '', image: '' };
   editingItemId: string | null = null;
   selectedItemFile: File | null = null;
-  currentCollectionEcosystem = 'nosotros'; 
+  currentCollectionEcosystem = 'nosotros';
   // Array de opciones de colección
   collectionOptionsEcosystem = [
     { value: 'ecosystem', label: 'Español (Principal)' },
@@ -111,9 +111,14 @@ export class CPanelComponent {
   uploadingVideo: boolean = false;
   videos: { id: string; url: string; name: string; description: string; }[] = [];
   uploadProgress: number = 0; // Estado de progreso
+  currentCollectionVideos = 'videos';
+  collectionOptionsVideos = [
+    { value: 'videos', label: 'Español (Principal)' },
+    { value: 'videos-en', label: 'Inglés' },
+  ]
   // ******* 📌 Admin Tarjeta ********
   tarjetas: TarjetaData[] = [];
-  newItem2: TarjetaData = { titulo: '', ruta: '', imagen: '' };
+  newItem2: TarjetaData = { titulo: '', ruta: '', imagen: '', order: 0 };
   editingItemId2: string | null = null;
   selectedItemFile2: File | null = null;
   currentCollectionTarjetas = 'tarjetas';
@@ -145,7 +150,7 @@ export class CPanelComponent {
   };
   editingNosotrosId: string | null = null;
   selectedNosotrosFile: File | null = null;
-  currentCollection = 'nosotros'; 
+  currentCollection = 'nosotros';
   // Array de opciones de colección
   collectionOptions = [
     { value: 'nosotros', label: 'Español (Principal)' },
@@ -435,7 +440,7 @@ export class CPanelComponent {
   private async processSlideImage(): Promise<string> {
     if (this.selectedSlideFile) {
       return await this.slideService.uploadImage(
-        this.selectedSlideFile, 
+        this.selectedSlideFile,
         this.currentCollectionSlidesP
       );
     }
@@ -486,7 +491,7 @@ export class CPanelComponent {
 
     try {
       await this.slideService.deleteSlide(
-        slideId, 
+        slideId,
         this.currentCollectionSlidesP
       );
       this.message.success('Slide eliminado correctamente.');
@@ -506,7 +511,7 @@ export class CPanelComponent {
       this.selectedSlideFile = event.file as any;
     }
   }
-  
+
 
   // ******* 📌 Admin Ecosystem ********
   // Cambiar colección
@@ -567,7 +572,7 @@ export class CPanelComponent {
       // Subir nueva imagen si se seleccionó
       if (this.selectedItemFile) {
         imageUrl = await this.ecosystemService.uploadImage(
-          this.selectedItemFile, 
+          this.selectedItemFile,
           this.currentCollectionEcosystem
         );
       }
@@ -641,7 +646,8 @@ export class CPanelComponent {
 
   // ******* 📌 Admin Video ********
   loadVideos() {
-    this.videoService.getVideos().subscribe(videos => {
+    // Modificado para usar la colección actual
+    this.videoService.getVideos(this.currentCollectionVideos).subscribe(videos => {
       this.videos = videos.map(video => ({
         id: video.id!,
         url: video.url,
@@ -681,8 +687,10 @@ export class CPanelComponent {
         }
       }, 500);
 
+      // Modificado para usar la colección actual
       const videoId = await this.videoService.saveVideo(
         this.selectedVideoFile,
+        this.currentCollectionVideos, // Nuevo parámetro de colección
         (progress) => {
           this.uploadProgress = progress; // Usa el progreso real si está disponible
         },
@@ -706,11 +714,17 @@ export class CPanelComponent {
       }, 1000);
     }
   }
+
   /** 📌 Eliminar un video */
   async deleteVideo(video: { id: string; url: string; name: string }) {
     if (confirm(`¿Estás seguro de eliminar este video?`)) {
       try {
-        await this.videoService.deleteVideo(video.id, video.name);
+        // Modificado para usar la colección actual
+        await this.videoService.deleteVideo(
+          video.id, 
+          video.name, 
+          this.currentCollectionVideos
+        );
         this.message.success('Video eliminado correctamente.');
         this.loadVideos(); // Recargar la lista
       } catch (error) {
@@ -720,9 +734,15 @@ export class CPanelComponent {
     }
   }
 
+  onCollectionChangeVideos(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.currentCollectionVideos = selectElement.value;
+    this.loadVideos(); // Recargar videos de la nueva colección
+  }
+
   // ******* 📌 Admin Tarjetas ********
-   // Cambiar colección
-   changeTarjetaCollection(collection: string): void {
+  // Cambiar colección
+  changeTarjetaCollection(collection: string): void {
     this.currentCollectionTarjetas = collection;
     this.getTarjetasData();
     this.resetForm2();
@@ -800,7 +820,7 @@ export class CPanelComponent {
   private async processTarjetaImage(): Promise<string> {
     if (this.selectedItemFile2) {
       return await this.tarjetaService.uploadImage(
-        this.selectedItemFile2, 
+        this.selectedItemFile2,
         this.currentCollectionTarjetas
       );
     }
@@ -811,7 +831,8 @@ export class CPanelComponent {
     return {
       titulo: this.newItem2.titulo!,
       ruta: this.newItem2.ruta!,
-      imagen: imageUrl
+      imagen: imageUrl,
+      order: this.newItem2.order!
     };
   }
 
@@ -847,7 +868,7 @@ export class CPanelComponent {
 
     try {
       await this.tarjetaService.deleteTarjeta(
-        itemId, 
+        itemId,
         this.currentCollectionTarjetas
       );
       this.message.success('Tarjeta eliminada correctamente.');
@@ -859,7 +880,7 @@ export class CPanelComponent {
   }
   // Resetear el formulario
   private resetForm2(): void {
-    this.newItem2 = { titulo: '', ruta: '', imagen: '' };
+    this.newItem2 = { titulo: '', ruta: '', imagen: '', order: 0 };
     this.editingItemId2 = null;
     this.selectedItemFile2 = null;
     // Limpiar input de archivo
@@ -1074,7 +1095,7 @@ export class CPanelComponent {
     if (confirm('¿Estás seguro de eliminar este elemento?')) {
       try {
         await this.nosotrosService.deleteNosotros(
-          this.currentCollection  , // Nombre de la colección
+          this.currentCollection, // Nombre de la colección
           nosotrosId
         );
         this.message.success('Elemento eliminado correctamente.');
@@ -1318,10 +1339,10 @@ export class CPanelComponent {
   }
 
   // Cambiar colección
-onCollectionChangeMembers(collection: string) {
-  this.currentCollectionMembers = collection;
-  this.loadMembers(); // Recargar miembros de la nueva colección
-}
+  onCollectionChangeMembers(collection: string) {
+    this.currentCollectionMembers = collection;
+    this.loadMembers(); // Recargar miembros de la nueva colección
+  }
 
   // Guardar o actualizar miembro
   async saveMember() {
@@ -1333,7 +1354,7 @@ onCollectionChangeMembers(collection: string) {
       if (this.editingMemberId) {
         // Actualizar miembro existente
         await this.membersService.updateMember(
-          this.editingMemberId, 
+          this.editingMemberId,
           {
             role: this.newMember.role,
             icon: this.newMember.icon,
@@ -1346,7 +1367,7 @@ onCollectionChangeMembers(collection: string) {
       } else {
         // Guardar nuevo miembro
         await this.membersService.saveMember(
-          this.newMember, 
+          this.newMember,
           this.currentCollectionMembers // Usar la colección actual
         );
         this.message.success('Miembro agregado correctamente.');
@@ -1371,7 +1392,7 @@ onCollectionChangeMembers(collection: string) {
     if (confirm('¿Estás seguro de eliminar este miembro?')) {
       try {
         await this.membersService.deleteMember(
-          memberId, 
+          memberId,
           this.currentCollectionMembers // Usar la colección actual
         );
         this.message.success('Miembro eliminado correctamente.');
@@ -1418,7 +1439,7 @@ onCollectionChangeMembers(collection: string) {
   onArchivoSeleccionado(event: any): void {
     if (event.target.files.length > 0) {
       this.archivoSeleccionado = event.target.files[0];
-      
+
       // Mostrar vista previa si es una imagen
       if (this.archivoSeleccionado && this.archivoSeleccionado.type.startsWith('image/')) {
         const reader = new FileReader();
@@ -1460,7 +1481,7 @@ onCollectionChangeMembers(collection: string) {
       if (this.editandoMiembroId) {
         // Actualizar miembro existente
         await this.equipoService.updateEquipoMember(
-          this.editandoMiembroId, 
+          this.editandoMiembroId,
           miembroCompleto,
           this.currentCollectionEquipo
         );
@@ -1497,7 +1518,7 @@ onCollectionChangeMembers(collection: string) {
     if (confirm('¿Estás seguro de eliminar este miembro del equipo?')) {
       try {
         await this.equipoService.deleteEquipoMember(
-          miembroId, 
+          miembroId,
           this.currentCollectionEquipo
         );
         this.message.success('Miembro eliminado correctamente.');

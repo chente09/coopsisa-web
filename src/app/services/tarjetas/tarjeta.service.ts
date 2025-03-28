@@ -9,6 +9,7 @@ export interface TarjetaData {
   titulo: string;
   imagen: string;
   ruta: string;
+  order: number;
 }
 
 @Injectable({

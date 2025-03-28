@@ -312,6 +312,13 @@
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item>
+                                <nz-form-label [nzRequired]="true">Orden</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="newItem2.order" name="order"
+                                        placeholder="Ingresa el orden de la tarjeta" required />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
                                 <nz-form-label [nzRequired]="true">Ruta</nz-form-label>
                                 <nz-form-control>
                                     <input nz-input [(ngModel)]="newItem2.ruta" name="ruta"
@@ -341,6 +348,7 @@
                         <nz-row [nzGutter]="16">
                             <nz-col *ngFor="let tarjeta of tarjetas" [nzSpan]="6" class="tarjeta-column">
                                 <nz-card [nzTitle]="tarjeta.titulo" class="custom-tarjeta" [nzBordered]="true">
+                                    <p>Orden: {{ tarjeta.order }}</p>
                                     <img [src]="tarjeta.imagen" alt="Imagen de la tarjeta" class="slide-image" />
                                     <p class="tarjeta-description">Ruta: {{ tarjeta.ruta }}</p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
@@ -376,6 +384,11 @@
                     <!-- Formulario para cargar un video -->
                     <div class="form-container">
                         <h2 class="form-title">Subir Video</h2>
+                        <select (change)="onCollectionChangeVideos($event)" [(ngModel)]="currentCollectionVideos">
+                            <option *ngFor="let option of collectionOptionsVideos" [value]="option.value">
+                                {{option.label}}
+                            </option>
+                        </select>
                         <nz-form-item>
                             <nz-form-label [nzRequired]="true">Descripción</nz-form-label>
                             <nz-form-control>
