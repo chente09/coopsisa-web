@@ -33,6 +33,8 @@
               "src/icon.ico",
               "src/icon.png",
               "src/_redirects",
+              "src/sitemap.xml",
+              "src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "src/assets/i18n/",
