@@ -7,9 +7,9 @@ import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { WppComponent } from "./components/wpp/wpp.component";
-import { UsersService } from './services/users/users.service';
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ScrollService } from './services/scroll/scroll.service';
 
 
 @Component({
@@ -31,7 +31,10 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements OnInit {
   showLayout = true; // Controla si se muestra el layout completo (navbar y footer)
 
-  constructor(private router: Router, private userService: UsersService) {}
+  constructor(
+    private router: Router, 
+    private scrollService: ScrollService
+  ) {}
 
   ngOnInit(): void {
     // Escucha cambios en la navegación para ocultar el layout en rutas específicas

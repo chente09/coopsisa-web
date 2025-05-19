@@ -6,3 +6,4 @@ import { enableProdMode } from '@angular/core';
 enableProdMode(); // 🔥 Activa el modo producción
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
+  
