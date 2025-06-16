@@ -1,22 +1,28 @@
 <div class="quienes-somos">
     <div *ngFor="let card of cards; let i = index" class="card-container card-item"
-        [ngClass]="{ 'reverse': i % 2 !== 0 }">
+        [ngClass]="{ reverse: i % 2 !== 0 }">
         <nz-card class="card-texto tarjetas1-content">
             <h2 class="custom-title">{{ card.title }}</h2>
-            <hr>
+            <hr />
             <p>{{ card.text }}</p>
-            <ul *ngIf="card.subItems && card.subItems.length > 0">
-            </ul>
+            <ul *ngIf="card.subItems && card.subItems.length > 0"></ul>
         </nz-card>
 
         <div class="card-image">
-            <img [src]="card.image" alt="{{ card.title }}">
+            <img [src]="card.image" alt="{{ card.title }}" />
         </div>
     </div>
 
-    <nz-card [nzBordered]="true" style="margin-bottom: 16px; ">
-        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Nuestra evolución como COOPSISA' : 'Our Evolution as COOPSISA' }}</h2>
-        <hr>
+    <nz-card [nzBordered]="true" style="margin-bottom: 16px">
+        <h2 class="custom-title">
+            {{
+            currentLanguage === "es"
+            ? "Nuestra evolución como COOPSISA"
+            : "Our Evolution as
+            COOPSISA"
+            }}
+        </h2>
+        <hr />
         <div nz-flex class="timeline-container">
             <div *ngFor="let event of timelineEvents" class="timeline-item">
                 <div class="timeline-content">
@@ -27,16 +33,19 @@
     </nz-card>
 
     <nz-card class="card-texto">
-        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Nuestro trabajo fomenta' : 'Our Job Fomenta' }}</h2>
-        <hr>
+        <h2 class="custom-title">
+            {{
+            currentLanguage === "es" ? "Nuestro trabajo fomenta" : "Our Job Fomenta"
+            }}
+        </h2>
+        <hr />
         <div class="carousel-container">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <!-- Indicadores -->
                 <div class="carousel-indicators">
                     <button *ngFor="let slide of slides; let i = index" type="button"
                         data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
-                        aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)">
-                    </button>
+                        aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)"></button>
                 </div>
                 <!-- Slides -->
                 <div class="carousel-inner">
@@ -61,8 +70,10 @@
     </nz-card>
 
     <nz-card class="card-texto" [nzBordered]="true">
-        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Así nos organizamos' : 'How We Organize' }}</h2>
-        <hr>
+        <h2 class="custom-title">
+            {{ currentLanguage === "es" ? "Así nos organizamos" : "How We Organize" }}
+        </h2>
+        <hr />
         <div class="directory-container">
             <div class="column left">
                 <div class="card" *ngFor="let member of membersLeft">
@@ -92,8 +103,10 @@
 </div>
 <div class="quienes-somos">
     <nz-card [nzBordered]="true">
-        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Nuestros Socios' : 'Our Partners' }}</h2>
-        <hr>
+        <h2 class="custom-title">
+            {{ currentLanguage === "es" ? "Nuestros Socios" : "Our Partners" }}
+        </h2>
+        <hr />
         <div class="equipo">
             <div nz-row [nzGutter]="16" nzJustify="center" class="tarjetas-scroll">
                 <div nz-col *ngFor="let miembro of equipo" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
@@ -114,39 +127,125 @@
 
 <div class="transparencia-resultados">
     <nz-card [nzBordered]="true">
-        <h2 class="custom-title">{{ currentLanguage === 'es' ? 'Líneas de Acción y Resultados' : 'Action Lines and Results' }}</h2>
-        <hr>
+        <h2 class="custom-title">
+            {{
+            currentLanguage === "es"
+            ? "Líneas de Acción y Resultados"
+            : "Action Lines and
+            Results"
+            }}
+        </h2>
+        <hr />
         <nz-collapse class="hover-effect hover-1">
-            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Asistencia Técnica' : 'Technical Assistance' }}</h4>
-            <p class="section-description">{{ currentLanguage === 'es' ? 'Brindamos apoyo especializado para mejorar sus procesos productivos, administrativos y comerciales, promoviendo prácticas sostenibles y eficientes.' : 'We provide specialized support to improve your production, administrative and commercial processes, promoting sustainable and efficient practices.' }} </p>
-            
+            <h4 class="section-title">
+                {{
+                currentLanguage === "es"
+                ? "Asistencia Técnica"
+                : "Technical Assistance"
+                }}
+            </h4>
+            <p class="section-description">
+                {{
+                currentLanguage === "es"
+                ? "Brindamos apoyo especializado para mejorar sus
+                procesos productivos, administrativos y comerciales, promoviendo prácticas sostenibles y eficientes."
+                : "We provide specialized support to improve your production, administrative and commercial processes,
+                promoting sustainable and efficient practices."
+                }}
+            </p>
         </nz-collapse>
-        <br>
-        <nz-collapse class="hover-effect hover-2"> 
-            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Fortalecimiento de Capacidades' : 'Capacity Building' }}</h4>
-            <p class="section-description">{{ currentLanguage === 'es' ? 'Desarrollamos programas de formación y capacitación para potenciar habilidades técnicas, organizativas y de liderazgo, fomentando la autonomía y el crecimiento sostenible.' : 'We develop training and capacity-building programs to empower technical, organizational, and leadership skills, fostering autonomy and sustainable growth.' }}</p>
-            
+        <br />
+        <nz-collapse class="hover-effect hover-2">
+            <h4 class="section-title">
+                {{
+                currentLanguage === "es"
+                ? "Fortalecimiento de Capacidades"
+                : "Capacity
+                Building"
+                }}
+            </h4>
+            <p class="section-description">
+                {{
+                currentLanguage === "es"
+                ? "Desarrollamos programas de formación y
+                capacitación para potenciar habilidades técnicas, organizativas y de liderazgo, fomentando la autonomía
+                y el crecimiento sostenible."
+                : "We develop training and capacity-building programs to empower
+                technical, organizational, and leadership skills, fostering autonomy and sustainable growth."
+                }}
+            </p>
         </nz-collapse>
-        <br>
+        <br />
         <nz-collapse class="hover-effect hover-3">
-            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Acceso a Financiamiento' : 'Access to Financing' }}</h4>
-            <p class="section-description">{{ currentLanguage === 'es' ? 'Identificación de oportunidades de financiamiento, el desarrollo de propuestas de proyectos y la gestión de consultorías especializadas para facilitar el acceso a recursos económicos.' : 'We identify financing opportunities, develop project proposals, and manage specialized consultations to facilitate access to economic resources.' }}</p>
-            
+            <h4 class="section-title">
+                {{
+                currentLanguage === "es"
+                ? "Acceso a Financiamiento"
+                : "Access to Financing"
+                }}
+            </h4>
+            <p class="section-description">
+                {{
+                currentLanguage === "es"
+                ? "Identificación de oportunidades de
+                financiamiento, el desarrollo de propuestas de proyectos y la gestión de consultorías especializadas
+                para facilitar el acceso a recursos económicos."
+                : "We identify financing opportunities, develop project
+                proposals, and manage specialized consultations to facilitate access to economic resources."
+                }}
+            </p>
         </nz-collapse>
         <nz-collapse class="hover-effect hover-4">
-            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Gestión del Conocimiento' : 'Knowledge Management' }}</h4>
-            <p class="section-description">{{ currentLanguage === 'es' ? 'Promovemos la investigación, el intercambio de experiencias y la sistematización de buenas prácticas para generar aprendizajes colectivos y fortalecer la toma de decisiones estratégicas.' : 'We promote research, exchange of experiences, and the systematization of good practices to generate collective learning and strengthen strategic decision-making.' }}</p>
-            
+            <h4 class="section-title">
+                {{
+                currentLanguage === "es"
+                ? "Gestión del Conocimiento"
+                : "Knowledge Management"
+                }}
+            </h4>
+            <p class="section-description">
+                {{
+                currentLanguage === "es"
+                ? "Promovemos la investigación, el intercambio de
+                experiencias y la sistematización de buenas prácticas para generar aprendizajes colectivos y fortalecer
+                la toma de decisiones estratégicas."
+                : "We promote research, exchange of experiences, and the
+                systematization of good practices to generate collective learning and strengthen strategic
+                decision-making."
+                }}
+            </p>
         </nz-collapse>
         <nz-collapse class="hover-effect hover-5">
-            <h4 class="section-title">{{ currentLanguage === 'es' ? 'Nuestro Aporte al Desarrollo' : 'Our Contribution to Development' }}</h4>
-            <p class="section-description">{{ currentLanguage === 'es' ? 'Los resultados obtenidos reflejan el impacto positivo de nuestras estrategias en el fortalecimiento de la comunidad y el desarrollo sostenible. Estos avances han contribuido a la consolidación de un modelo cooperativo más sólido, equitativo y sostenible.' : 'The results obtained reflect the positive impact of our strategies on community strengthening and sustainable development. These advances have contributed to the consolidation of a stronger, more equitable, and sustainable cooperative model.' }}</p>
-            <!-- <nz-collapse-panel nzHeader="Reporte financiero 2024" [nzActive]="false" class="custom-collapse-panel">
+            <h4 class="section-title">
+                {{
+                currentLanguage === "es"
+                ? "Nuestro Aporte al Desarrollo"
+                : "Our Contribution
+                to Development"
+                }}
+            </h4>
+            <p class="section-description">
+                {{
+                currentLanguage === "es"
+                ? "Los resultados obtenidos reflejan el impacto
+                positivo de nuestras estrategias en el fortalecimiento de la comunidad y el desarrollo sostenible. Estos
+                avances han contribuido a la consolidación de un modelo cooperativo más sólido, equitativo y
+                sostenible."
+                : "The results obtained reflect the positive impact of our strategies on community
+                strengthening and sustainable development. These advances have contributed to the consolidation of a
+                stronger, more equitable, and sustainable cooperative model."
+                }}
+            </p>
+            <nz-collapse-panel [nzHeader]="
+            currentLanguage === 'es'
+            ? 'Café de la Economía Social y Solidaria'
+            : 'Social and Solidarity Economy Coffee'
+        " [nzActive]="false" class="custom-collapse-panel">
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
-                    src="https://heyzine.com/flip-book/b0c3dffbc9.html"
-                    style="border: 1px solid lightgray; width: 100%; height: 550px;">
+                    src="https://heyzine.com/flip-book/694568930b.html"
+                    style="border: 1px solid lightgray; width: 100%; height: 500px">
                 </iframe>
-            </nz-collapse-panel> -->
+            </nz-collapse-panel>
         </nz-collapse>
     </nz-card>
 </div>
