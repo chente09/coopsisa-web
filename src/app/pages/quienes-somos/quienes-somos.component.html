@@ -220,32 +220,91 @@
                 {{
                 currentLanguage === "es"
                 ? "Nuestro Aporte al Desarrollo"
-                : "Our Contribution
-                to Development"
+                : "Our Contribution to Development"
                 }}
             </h4>
             <p class="section-description">
                 {{
                 currentLanguage === "es"
-                ? "Los resultados obtenidos reflejan el impacto
-                positivo de nuestras estrategias en el fortalecimiento de la comunidad y el desarrollo sostenible. Estos
-                avances han contribuido a la consolidación de un modelo cooperativo más sólido, equitativo y
-                sostenible."
-                : "The results obtained reflect the positive impact of our strategies on community
-                strengthening and sustainable development. These advances have contributed to the consolidation of a
-                stronger, more equitable, and sustainable cooperative model."
+                ? "Los resultados obtenidos reflejan el impacto positivo de nuestras estrategias en el fortalecimiento
+                de la comunidad y el desarrollo sostenible. Estos avances han contribuido a la consolidación de un
+                modelo cooperativo más sólido, equitativo y sostenible."
+                : "The results obtained reflect the positive impact of our strategies on community strengthening and
+                sustainable development. These advances have contributed to the consolidation of a stronger, more
+                equitable, and sustainable cooperative model."
                 }}
             </p>
-            <nz-collapse-panel [nzHeader]="
-            currentLanguage === 'es'
-            ? 'Café de la Economía Social y Solidaria'
-            : 'Social and Solidarity Economy Coffee'
-        " [nzActive]="false" class="custom-collapse-panel">
-                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
-                    src="https://heyzine.com/flip-book/694568930b.html"
-                    style="border: 1px solid lightgray; width: 100%; height: 500px">
-                </iframe>
+
+            <!-- Panel 1: Café de la Economía Social y Solidaria -->
+            <nz-collapse-panel
+                [nzHeader]="currentLanguage === 'es' ? 'Café de la Economía Social y Solidaria' : 'Social and Solidarity Economy Coffee'"
+                [nzActive]="false" class="custom-collapse-panel"
+                (nzActiveChange)="onPanelChange('cafe-economia', $event)">
+
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline" style="font-size: 48px; color: #ef615f;"></i>
+                    </div>
+                    <h4 style="margin-bottom: 12px; color: #262626;">
+                        {{ currentLanguage === 'es' ? 'Café de la Economía Social y Solidaria' : 'Social and Solidarity
+                        Economy Coffee' }}
+                    </h4>
+                    <p
+                        style="margin-bottom: 24px; color: #666; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        {{
+                        currentLanguage === 'es'
+                        ? 'Documento que presenta las reflexiones y propuestas desarrolladas en nuestro espacio de
+                        diálogo sobre economía social y solidaria.'
+                        : 'Document presenting the reflections and proposals developed in our dialogue space on social
+                        and solidarity economy.'
+                        }}
+                    </p>
+                    <button nz-button nzType="primary" nzSize="large" (click)="openPdf('cafe-economia')"
+                        style="background-color: #ef615f; border-color: #ef615f;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
+                        {{ currentLanguage === 'es' ? 'Ver Documento PDF' : 'View PDF Document' }}
+                    </button>
+                </div>
+            </nz-collapse-panel>
+
+            <!-- Panel 2: Coordinación de la I Cumbre de Profesionales -->
+            <nz-collapse-panel
+                [nzHeader]="currentLanguage === 'es' ? 'Coordinación de la I Cumbre de Profesionales' : 'Coordination of the I Summit of Professionals'"
+                [nzActive]="false" class="custom-collapse-panel"
+                (nzActiveChange)="onPanelChange('cumbre-profesionales', $event)">
+
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline" style="font-size: 48px; color: #ef615f;"></i>
+                    </div>
+                    <h4 style="margin-bottom: 12px; color: #262626;">
+                        {{ currentLanguage === 'es' ? 'Coordinación de la I Cumbre de Profesionales' : 'Coordination of
+                        the I Summit of Professionals' }}
+                    </h4>
+                    <p
+                        style="margin-bottom: 24px; color: #666; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        {{
+                        currentLanguage === 'es'
+                        ? 'Documento de coordinación y planificación de la Primera Cumbre de Profesionales, incluyendo
+                        objetivos, metodología y resultados esperados.'
+                        : 'Coordination and planning document for the First Summit of Professionals, including
+                        objectives, methodology and expected results.'
+                        }}
+                    </p>
+                    <button nz-button nzType="primary" nzSize="large" (click)="openPdf('cumbre-profesionales')"
+                        style="background-color: #ef615f; border-color: #ef615f;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
+                        {{ currentLanguage === 'es' ? 'Ver Documento PDF' : 'View PDF Document' }}
+                    </button>
+                </div>
             </nz-collapse-panel>
         </nz-collapse>
+
+        <!-- COMPONENTE VISOR PDF -->
+        <app-pdf-viewer *ngIf="selectedPdfData" [isVisible]="showPdfViewer" [pdfUrl]="selectedPdfData.url"
+            [title]="selectedPdfData.title" [author]="selectedPdfData.author"
+            [institution]="selectedPdfData.institution" (closeViewer)="closePdfViewer()">
+        </app-pdf-viewer>
+
     </nz-card>
 </div>

@@ -29,6 +29,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "ng-zorro-antd": "^19.0.2",
+    "ng2-pdf-viewer": "^10.4.0",
     "owl.carousel": "^2.3.4",
     "rxjs": "~7.8.0",
     "sitemap-generator": "^8.5.1",

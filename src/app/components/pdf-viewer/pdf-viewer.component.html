@@ -1,0 +1,89 @@
+<!-- VISOR PDF RESPONSIVO CON CLASES CSS -->
+<div *ngIf="isVisible" class="pdf-modal-overlay" (click)="onClose()">
+
+    <div class="pdf-modal-content" (click)="$event.stopPropagation()">
+
+        <!-- Header con controles -->
+        <div class="pdf-header">
+            <!-- Información del PDF -->
+            <div class="pdf-info">
+                <div class="pdf-icon">
+                    <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
+                </div>
+                <div class="pdf-details">
+                    <h3 class="pdf-title">{{ title }}</h3>
+                    <p *ngIf="author" class="pdf-author">Por: {{ author }}</p>
+                    <p *ngIf="institution" class="pdf-institution">{{ institution }}</p>
+                </div>
+            </div>
+
+            <!-- Controles -->
+            <div class="pdf-controls">
+                <!-- Grupo de zoom -->
+                <div class="pdf-zoom-group">
+                    <button (click)="zoomOut()" title="Reducir zoom" class="pdf-btn">
+                        <i nz-icon nzType="zoom-out" nzTheme="outline"></i>
+                    </button>
+
+                    <span class="pdf-zoom-level">
+                        {{ (currentZoom * 100) | number:'1.0-0' }}%
+                    </span>
+
+                    <button (click)="zoomIn()" title="Aumentar zoom" class="pdf-btn">
+                        <i nz-icon nzType="zoom-in" nzTheme="outline"></i>
+                    </button>
+
+                    <button (click)="resetZoom()" title="Zoom normal" class="pdf-btn">
+                        <i nz-icon nzType="border" nzTheme="outline"></i>
+                    </button>
+                </div>
+
+                <!-- Botones de acción -->
+                <button (click)="downloadPdf()" title="Descargar PDF" class="pdf-btn">
+                    <i nz-icon nzType="download" nzTheme="outline"></i>
+                </button>
+
+                <button (click)="openInNewTab()" title="Abrir en nueva pestaña" class="pdf-btn">
+                    <i nz-icon nzType="export" nzTheme="outline"></i>
+                </button>
+
+                <button (click)="onClose()" title="Cerrar visor" class="pdf-btn-close">
+                    <i nz-icon nzType="close" nzTheme="outline"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Área del PDF -->
+        <div class="pdf-content-area">
+
+            <!-- Loading -->
+            <div *ngIf="isLoading" class="pdf-loading">
+                <div class="pdf-loading-icon">
+                    <i nz-icon nzType="loading" nzSpin="true"></i>
+                </div>
+                <p>Cargando documento...</p>
+            </div>
+
+            <!-- Error -->
+            <div *ngIf="hasError" class="pdf-error">
+                <div class="pdf-error-icon">
+                    <i nz-icon nzType="exclamation-circle" nzTheme="fill"></i>
+                </div>
+                <h4>Error al cargar el documento</h4>
+                <p>{{ errorMessage }}</p>
+                <button (click)="onClose()" class="pdf-btn-close">
+                    Cerrar
+                </button>
+            </div>
+
+            <!-- Visor PDF -->
+            <div *ngIf="!hasError" class="pdf-viewer-container">
+                <pdf-viewer [src]="pdfUrl" [render-text]="true" [original-size]="false" [fit-to-page]="true"
+                    [zoom]="currentZoom" [show-all]="true" [autoresize]="true" [show-borders]="false"
+                    (after-load-complete)="onPdfLoad()" (error)="onPdfError($event)"
+                    style="display: block; width: 100%; height: 100%;">
+                </pdf-viewer>
+            </div>
+        </div>
+    </div>
+</div>

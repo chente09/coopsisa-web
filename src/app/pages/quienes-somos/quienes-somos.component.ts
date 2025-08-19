@@ -17,6 +17,10 @@ import { MembersService, MemberData } from '../../services/member/members.servic
 import { EquipoService, EquipoData } from '../../services/equipo/equipo.service';
 import { TranslationService } from '../../services/translation/translation.service';
 import { Subscription } from 'rxjs';
+import { PdfViewerComponent } from '../../components/pdf-viewer/pdf-viewer.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'app-quienes-somos',
@@ -31,7 +35,11 @@ import { Subscription } from 'rxjs';
     NzListModule,
     NzIconModule,
     RouterModule,
-    NzCollapseModule
+    NzCollapseModule,
+    PdfViewerComponent,
+    NzModalModule,
+    NzButtonModule,
+    NzToolTipModule
   ],
   templateUrl: './quienes-somos.component.html',
   styleUrl: './quienes-somos.component.css'
@@ -48,7 +56,31 @@ export class QuienesSomosComponent {
   currentLanguage = 'es';
   private languageSubscription!: Subscription;
 
+  showPdfViewer = false;
+  selectedPdfData: {
+    url: string;
+    title: string;
+    author: string;
+    institution: string;
+  } | null = null;
 
+
+  documents = [
+    {
+      id: 'cafe-economia',
+      url: '/documents/CafeEconomia.pdf',
+      title: 'Café de la Economía Social y Solidaria',
+      author: 'COOPSISA',
+      institution: 'Cooperativa de Servicios Integrales'
+    },
+    {
+      id: 'cumbre-profesionales',
+      url: '/documents/ICumbredeProfesionales.pdf',
+      title: 'Coordinación de la I Cumbre de Profesionales',
+      author: 'COOPSISA',
+      institution: 'Cooperativa de Servicios Integrales'
+    }
+  ];
 
   constructor(
     private nosotrosService: NosotrosService,
@@ -81,6 +113,28 @@ export class QuienesSomosComponent {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+  }
+
+  onPanelChange(documentId: string, isActive: boolean): void {
+    if (isActive) {
+      // Si el panel se está abriendo, abrir el PDF inmediatamente
+      this.openPdf(documentId);
+    }
+  }
+
+  // Método para abrir PDF específico
+  openPdf(documentId: string): void {
+    const document = this.documents.find(doc => doc.id === documentId);
+    if (document) {
+      this.selectedPdfData = document;
+      this.showPdfViewer = true;
+    }
+  }
+
+  // Método para cerrar el visor
+  closePdfViewer(): void {
+    this.showPdfViewer = false;
+    this.selectedPdfData = null;
   }
 
   // Versión mejorada del método loadMembers()
