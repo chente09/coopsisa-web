@@ -79,6 +79,20 @@ export class QuienesSomosComponent {
       title: 'Coordinación de la I Cumbre de Profesionales',
       author: 'COOPSISA',
       institution: 'Cooperativa de Servicios Integrales'
+    },
+    {
+      id: 'publicacion-la-delicia',
+      url: '/documents/PublicacionLaDelicia.pdf',
+      title: 'Publicación La Delicia',
+      author: 'COOPSISA',
+      institution: 'Cooperativa de Servicios Integrales'
+    },
+    {
+      id: 'publicacion-ruminahui',
+      url: '/documents/PublicacionRuminahui.pdf',
+      title: 'Publicación Rumiñahui',
+      author: 'COOPSISA',
+      institution: 'Cooperativa de Servicios Integrales'
     }
   ];
 

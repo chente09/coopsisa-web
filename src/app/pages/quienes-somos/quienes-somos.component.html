@@ -298,6 +298,63 @@
                     </button>
                 </div>
             </nz-collapse-panel>
+            <!-- Panel 3: Publicacion la Delicia -->
+            <nz-collapse-panel
+                [nzHeader]="currentLanguage === 'es' ? 'Publicación de la Delicia' : 'Publication of the Delicia'"
+                [nzActive]="false" class="custom-collapse-panel"
+                (nzActiveChange)="onPanelChange('publicacion-la-delicia', $event)">
+
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline" style="font-size: 48px; color: #ef615f;"></i>
+                    </div>
+                    <h4 style="margin-bottom: 12px; color: #262626;">
+                        {{ currentLanguage === 'es' ? 'Publicación de la Delicia' : 'Publication of the Delicia' }}
+                    </h4>
+                    <p
+                        style="margin-bottom: 24px; color: #666; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        {{
+                        currentLanguage === 'es'
+                        ? 'Documento de publicación de la Delicia, incluyendo objetivos, metodología y resultados
+                        esperados.'
+                        : 'Publication document for Delicia, including objectives, methodology and expected results.'
+                        }}
+                    </p>
+                    <button nz-button nzType="primary" nzSize="large" (click)="openPdf('publicacion-la-delicia')"
+                        style="background-color: #ef615f; border-color: #ef615f;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
+                        {{ currentLanguage === 'es' ? 'Ver Documento PDF' : 'View PDF Document' }}
+                    </button>
+                </div>
+            </nz-collapse-panel>
+            <!-- Panel 4: Publicacion Ruminahui -->
+            <nz-collapse-panel
+                [nzHeader]="currentLanguage === 'es' ? 'Publicación de Rumiñahui' : 'Publication of Rumiñahui'"
+                [nzActive]="false" class="custom-collapse-panel"
+                (nzActiveChange)="onPanelChange('publicacion-ruminahui', $event)">
+
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline" style="font-size: 48px; color: #ef615f;"></i>
+                    </div>
+                    <h4 style="margin-bottom: 12px; color: #262626;">
+                        {{ currentLanguage === 'es' ? 'Publicación de Rumiñahui' : 'Publication of Rumiñahui' }}
+                    </h4>
+                    <p
+                        style="margin-bottom: 24px; color: #666; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        {{
+                        currentLanguage === 'es'
+                        ? 'Documento de publicación de Rumiñahui, incluyendo objetivos, metodología y resultados esperados.'
+                        : 'Publication document for Rumiñahui, including objectives, methodology and expected results.'
+                        }}
+                    </p>
+                    <button nz-button nzType="primary" nzSize="large" (click)="openPdf('publicacion-ruminahui')"
+                        style="background-color: #ef615f; border-color: #ef615f;">
+                        <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
+                        {{ currentLanguage === 'es' ? 'Ver Documento PDF' : 'View PDF Document' }}
+                    </button>
+                </div>
+            </nz-collapse-panel>
         </nz-collapse>
 
         <!-- COMPONENTE VISOR PDF -->
